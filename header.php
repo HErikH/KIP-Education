@@ -280,7 +280,7 @@ $conn->close();
 }
 
 #countdown {
-    color: #2ecc71; /* Green color for the countdown text */
+    color: #f3ed17; /* Color for the countdown text */
     font-size: 20px;
     font-weight: bold;
 }
@@ -375,7 +375,7 @@ $conn->close();
     }
 
     .deposit-button {
-        background-color: #2ecc71; /* Green background for Deposit */
+        background-color: #f3ed17; /* Background for Deposit */
         color: white;
         padding: 10px 15px;
         border-radius: 5px;
@@ -392,7 +392,7 @@ $conn->close();
 }
 
     .deposit-button:hover {
-        background-color: #2ecc71; /* Keep the same color */
+        background-color: #f3ed17; /* Keep the same color */
         opacity: 0.85; /* Slight transparency effect on hover */
         color: white;
     }
@@ -606,7 +606,7 @@ $conn->close();
 }
 
 .deposit-button {
-    background-color: #2ecc71; /* Green background for Deposit */
+    background-color: #f3ed17; /* Background for Deposit */
     color: white;
     padding: 5px 10px;
     border-radius: 5px;

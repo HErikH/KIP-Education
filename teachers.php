@@ -562,7 +562,7 @@ body {
 
 /* Elegant button styling */
 .elegant-popup-button {
-    background-color: #2ecc71; /* Bright green */
+    background-color: #f3ed17; 
     color: #ffffff;
     padding: 15px 35px;
     font-size: 18px;

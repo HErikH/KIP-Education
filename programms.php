@@ -188,7 +188,7 @@ body {
 
 .card .price {
     font-size: 20px;
-    color: #2ecc71;
+    color: #f3ed17;
     margin-bottom: 40px;
     display: flex; 
     justify-content: center;
@@ -204,7 +204,7 @@ body {
 }
 
 .card p i {
-    color: #2ecc71;
+    color: #f3ed17;
     margin-right: 8px;
 }
 
@@ -348,7 +348,7 @@ body {
     position: relative;
 }
 .btn-confirm {
-    background-color: #2ecc71; /* Կանաչ ֆոն */
+    background-color: #f3ed17; /* Կանաչ ֆոն */
     color: white; /* Տեքստի սպիտակ գույն */
     padding: 12px 30px; /* Լավագույն padding */
     border-radius: 50px; /* Կլորացրած անկյուններ */
@@ -444,7 +444,7 @@ body {
 
 .card2 .price {
     font-size: 20px;
-    color: #2ecc71;
+    color: #f3ed17;
     margin-bottom: 40px;
     display: flex; 
     justify-content: center;
@@ -460,7 +460,7 @@ body {
 }
 
 .card2 p i {
-    color: #2ecc71;
+    color: #f3ed17;
     margin-right: 8px;
 }
 /* Mobile adjustments for card2 stacking */
@@ -527,7 +527,7 @@ include 'header.php';
                 ?>
                 <ul style="list-style-type: none; padding-left: 0; text-align: left;"> <!-- Added left alignment -->
                     <?php foreach ($infoLines as $line): ?>
-                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #2ecc71;">&#10003;</span> <?= $line ?></li>
+                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #f3ed17;">&#10003;</span> <?= $line ?></li>
                     <?php endforeach; ?>
                 </ul>
             </p>
@@ -572,7 +572,7 @@ include 'header.php';
                 ?>
                 <ul style="list-style-type: none; padding-left: 0; text-align: left;">
                     <?php foreach ($infoLines as $line): ?>
-                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #2ecc71;">&#10003;</span> <?= $line ?></li>
+                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #f3ed17;">&#10003;</span> <?= $line ?></li>
                     <?php endforeach; ?>
                 </ul>
             </p>
@@ -614,7 +614,7 @@ include 'header.php';
                 ?>
                 <ul style="list-style-type: none; padding-left: 0; text-align: left;">
                     <?php foreach ($infoLines as $line): ?>
-                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #2ecc71;">&#10003;</span> <?= $line ?></li>
+                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #f3ed17;">&#10003;</span> <?= $line ?></li>
                     <?php endforeach; ?>
                 </ul>
             </p>
@@ -656,7 +656,7 @@ include 'header.php';
                 ?>
                 <ul style="list-style-type: none; padding-left: 0; text-align: left;">
                     <?php foreach ($infoLines as $line): ?>
-                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #2ecc71;">&#10003;</span> <?= $line ?></li>
+                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #f3ed17;">&#10003;</span> <?= $line ?></li>
                     <?php endforeach; ?>
                 </ul>
             </p>
@@ -703,7 +703,7 @@ include 'header.php';
                 ?>
                 <ul style="list-style-type: none; padding-left: 0; text-align: left;">
                     <?php foreach ($infoLines as $line): ?>
-                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #2ecc71;">&#10003;</span> <?= $line ?></li>
+                        <li style="margin-bottom: 5px; text-transform: capitalize;"><span style="color: #f3ed17;">&#10003;</span> <?= $line ?></li>
                     <?php endforeach; ?>
                 </ul>
             </p>
@@ -798,7 +798,7 @@ include 'footer.php';
         <div class="form-check">
     <input class="form-check-input" type="radio" name="payment_method" id="balancePayment" value="balance" checked>
     <label class="form-check-label" for="balancePayment">
-        <i class="fas fa-wallet" style="margin-right: 10px; color: #2ecc71;"></i> Pay from Balance
+        <i class="fas fa-wallet" style="margin-right: 10px; color: #f3ed17;"></i> Pay from Balance
     </label>
 </div>
 <div class="form-check">
@@ -822,7 +822,7 @@ include 'footer.php';
 <div class="popup-overlay" id="thankYouPopup" style="display: none;">
     <div class="popup" style="text-align: center;">
         <span class="popup-close" id="closeThankYouPopup">&times;</span>
-        <h3 style="color: #2ecc71;">&#10003; Thank You!</h3> <!-- Checkmark and Title -->
+        <h3 style="color: #f3ed17;">&#10003; Thank You!</h3> <!-- Checkmark and Title -->
         <p id="thankYouMessage">Your purchase was successful!</p> <!-- Dynamic message -->
         <p id="packageGroup"></p> <!-- Package group will go here -->
         <p id="packageTitle"></p> <!-- Package title will go here -->
@@ -955,19 +955,19 @@ function showPopup(button) {
     if (priceMonth !== '0.00') {
         priceContainer.innerHTML = `
             <strong>PRICE MONTHLY:</strong>
-            <div style="font-size: 28px; font-weight: bold; color: #2ecc71;">
+            <div style="font-size: 28px; font-weight: bold; color: #f3ed17;">
                 ${priceMonth}<span style="font-size: 16px; vertical-align: super;">.00 AMD</span>
             </div>`;
     } else if (priceYear !== '0.00') {
         priceContainer.innerHTML = `
             <strong>PRICE YEARLY:</strong>
-            <div style="font-size: 28px; font-weight: bold; color: #2ecc71;">
+            <div style="font-size: 28px; font-weight: bold; color: #f3ed17;">
                 ${priceYear}<span style="font-size: 16px; vertical-align: super;">.00 AMD</span>
             </div>`;
     } else if (price !== '0.00') {
         priceContainer.innerHTML = `
             <strong>PRICE:</strong>
-            <div style="font-size: 28px; font-weight: bold; color: #2ecc71;">
+            <div style="font-size: 28px; font-weight: bold; color: #f3ed17;">
                 ${price}<span style="font-size: 16px; vertical-align: super;">.00 AMD</span>
             </div>`;
     }
@@ -978,7 +978,7 @@ function showPopup(button) {
     infoContainer.innerHTML = '';  // Clear previous items
     infoLines.forEach(line => {
         const listItem = document.createElement('li');
-        listItem.innerHTML = `<span style="color: #2ecc71;">&#10003;</span> ${line}`;
+        listItem.innerHTML = `<span style="color: #f3ed17;">&#10003;</span> ${line}`;
         infoContainer.appendChild(listItem);
     });
 

@@ -194,7 +194,7 @@ $stmt->close();
     .balance {
         font-size: 14px;
         color: #ffffff;
-        background-color: #2ecc71; /* Green background for balance */
+        background-color: #f3ed17; /* Background for balance */
         padding: 5px 10px;
         border-radius: 15px;
         font-weight: bold;

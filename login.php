@@ -253,7 +253,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             color: rgba(255, 255, 255, 0.8);
         }
         .click-here-btn {
-            background-color: #2ecc71;
+            background-color: #f3ed17;
             border: none;
             padding: 10px 25px;
             border-radius: 25px;

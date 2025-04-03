@@ -188,7 +188,7 @@ body {
 
 .click-here-btn {
     display: inline-block; /* Ցուցադրում ենք որպես inline-block */
-    background-color: #2ecc71; /* Կանաչ ֆոն */
+    background-color: #f3ed17; /* ֆոն */
     color: white; /* Թեքստի գույն */
     padding: 10px 25px; /* Տարածություն */
     border-radius: 25px; /* Կողքերը եզրագծել */
