@@ -83,6 +83,7 @@ include 'headerchild.php';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -100,21 +101,32 @@ include 'headerchild.php';
             margin: 0;
             padding: 0;
         }
+
+        /* Adding space for footer */
+            body::after {
+            content: "";
+            display: block;
+            height: 100px;
+        }
+
         .main-content {
             padding-top: 60px;
             text-align: center;
         }
+
         .quiz-title {
             font-size: 32px;
             font-weight: bold;
             margin-bottom: 10px;
             color: #ffffff;
         }
+
         .quiz-subtitle {
             font-size: 20px;
             color: #e0e0e0;
             margin-bottom: 30px;
         }
+
         .container-box {
             background-color: #ffffff;
             color: #333;
@@ -126,39 +138,48 @@ include 'headerchild.php';
             max-width: 400px;
             text-align: left;
         }
+
         .container-box h3 {
             color: #4b6cb7;
             text-align: center;
             font-size: 24px;
         }
+
         .form-group {
             margin-bottom: 15px;
         }
+
         .form-control {
             border-radius: 15px;
             font-size: 14px;
         }
+
         .intl-tel-input {
             width: 100%;
         }
+
         .btn-primary {
             background-color: #4b6cb7;
             border-color: #4b6cb7;
             border-radius: 15px;
         }
+
         .btn-primary:hover {
             background-color: #182848;
             border-color: #182848;
         }
+
         .toggle-text {
             margin-top: 15px;
             text-align: center;
             color: #4b6cb7;
             cursor: pointer;
         }
+
         .alert {
             margin-top: 20px;
         }
+
         .start-game-btn {
             margin-top: 20px;
             padding: 10px 20px;
@@ -166,14 +187,17 @@ include 'headerchild.php';
             border-radius: 15px;
             color: #fff;
         }
+
         .start-game-btn.active {
             background-color: #4b6cb7;
             border-color: #4b6cb7;
         }
+
         .start-game-btn.active:hover {
             background-color: #182848;
             border-color: #182848;
         }
+
         .start-game-btn.completed {
             background-color: grey;
             border-color: grey;
@@ -181,97 +205,107 @@ include 'headerchild.php';
         }
     </style>
 </head>
+
 <body>
 
     <!-- Main Content -->
     <div class="main-content">
-        <?php if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']): ?>
-            <div class="alert alert-success" role="alert" id="successAlert">
-                You have successfully registered, <?= htmlspecialchars($_SESSION['quiz_first_name']); ?>!
-            </div>
-            <?php unset($_SESSION['registration_success']); ?>
-        <?php elseif (isset($_SESSION['login_success']) && $_SESSION['login_success']): ?>
-            <div class="alert alert-success" role="alert" id="successAlert">
-                Welcome back, <?= htmlspecialchars($_SESSION['quiz_first_name']); ?>!
-            </div>
-            <?php unset($_SESSION['login_success']); ?>
+        <?php if ($isQuizCompleted): ?>
+        <button class="btn start-game-btn completed" disabled>
+            Completed
+        </button>
+        <?php else: ?>
+        <a href="quiz_game.php?id=<?= $quiz_id ?>" class="btn start-game-btn active">
+            <i class="fas fa-play"></i> Start Game
+        </a>
+        <?php endif; ?>
+        
+        <!-- <?php if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']): ?>
+        <div class="alert alert-success" role="alert" id="successAlert">
+            You have successfully registered,
+            <?= htmlspecialchars($_SESSION['quiz_first_name']); ?>!
+        </div>
+        <?php unset($_SESSION['registration_success']); ?>
+        <?php elseif (isset($_SESSION['login_success']) && $_SESSION['login_success']): ?> -->
+        <div class="alert alert-success" role="alert" id="successAlert">
+            Welcome back,
+            <?= htmlspecialchars($_SESSION['quiz_first_name']); ?>!
+        </div>
+        <?php unset($_SESSION['login_success']); ?>
         <?php elseif (isset($_SESSION['login_error'])): ?>
-            <div class="alert alert-danger" role="alert">
-                <?= htmlspecialchars($_SESSION['login_error']); ?>
-            </div>
-            <?php unset($_SESSION['login_error']); ?>
+        <div class="alert alert-danger" role="alert">
+            <?= htmlspecialchars($_SESSION['login_error']); ?>
+        </div>
+        <?php unset($_SESSION['login_error']); ?>
         <?php endif; ?>
 
         <?php if (!empty($quizTitle)): ?>
-            <div class="quiz-title"><?= htmlspecialchars($quizTitle) ?></div>
-            <div class="quiz-subtitle"><?= htmlspecialchars($quizSubtitle) ?></div>
+        <div class="quiz-title">
+            <?= htmlspecialchars($quizTitle) ?>
+        </div>
+        <div class="quiz-subtitle">
+            <?= htmlspecialchars($quizSubtitle) ?>
+        </div>
 
-            <!-- Start Game button for logged-in users -->
-            <?php if (isset($_SESSION['quiz_user_id'])): ?>
-               <?php if ($isQuizCompleted): ?>
-    <button class="btn start-game-btn completed" disabled>
-        Completed
-    </button>
-<?php else: ?>
-    <a href="quiz_game.php?id=<?= $quiz_id ?>" class="btn start-game-btn active">
-        <i class="fas fa-play"></i> Start Game
-    </a>
-<?php endif; ?>
-            <?php endif; ?>
+        <!-- Start Game button for logged-in users -->
+        <!-- <?php if (isset($_SESSION['quiz_user_id'])): ?>
+        <?php if ($isQuizCompleted): ?>
+        <button class="btn start-game-btn completed" disabled>
+            Completed
+        </button>
         <?php else: ?>
-            <p>Quiz not found.</p>
+        <a href="quiz_game.php?id=<?= $quiz_id ?>" class="btn start-game-btn active">
+            <i class="fas fa-play"></i> Start Game
+        </a>
         <?php endif; ?>
+        <?php endif; ?>
+        <?php else: ?>
+        <p>Quiz not found.</p>
+        <?php endif; ?> -->
 
         <!-- Other content for login and register -->
-        <?php if (!isset($_SESSION['quiz_user_id'])): ?>
-            <!-- Show Login and Register Containers if user is not logged in -->
-            <div class="container-box" id="loginContainer">
-                <h3>Login</h3>
-                <form method="POST" action="">
-                    <div class="form-group">
-                        <label for="login_phone_number">Phone Number: <span style="color: red;">*</span></label>
-                        <input type="tel" class="form-control" id="login_phone_number" name="login_phone_number" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Login</button>
-                </form>
-                <div class="toggle-text" onclick="toggleContainers()">Not registered? Click here to register.</div>
-            </div>
+        <!-- <?php if (!isset($_SESSION['quiz_user_id'])): ?> -->
+        <!-- Show Login and Register Containers if user is not logged in -->
+        <!-- <div class="container-box" id="loginContainer">
+            <h3>Login</h3>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="login_phone_number">Phone Number: <span style="color: red;">*</span></label>
+                    <input type="tel" class="form-control" id="login_phone_number" name="login_phone_number" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </form>
+            <div class="toggle-text" onclick="toggleContainers()">Not registered? Click here to register.</div>
+        </div> -->
 
-            <div class="container-box" id="registerContainer" style="display: none;">
-                <h3>Register to Continue</h3>
-                <form method="POST" action="">
-                    <div class="form-group">
-                        <label for="first_name">First Name: <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="last_name">Last Name: <span style="color: red;">*</span></label>
-                        <input type="text" class="form-control" id="last_name" name="last_name" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="phone_number">Phone Number: <span style="color: red;">*</span></label>
-                        <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="company_name">Company Name <small>(optional)</small>:</label>
-                        <input type="text" class="form-control" id="company_name" name="company_name">
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-block">Register</button>
-                </form>
-                <div class="toggle-text" onclick="toggleContainers()">Already registered? Click here to login.</div>
-            </div>
+        <div class="container-box" id="registerContainer" style="display: none;">
+            <h3>Register to Continue</h3>
+            <form method="POST" action="">
+                <div class="form-group">
+                    <label for="first_name">First Name: <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name: <span style="color: red;">*</span></label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone_number">Phone Number: <span style="color: red;">*</span></label>
+                    <input type="tel" class="form-control" id="phone_number" name="phone_number" required>
+                </div>
+                <div class="form-group">
+                    <label for="company_name">Company Name <small>(optional)</small>:</label>
+                    <input type="text" class="form-control" id="company_name" name="company_name">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+            <div class="toggle-text" onclick="toggleContainers()">Already registered? Click here to login.</div>
+        </div>
         <?php endif; ?>
     </div>
 
     <!-- Footer -->
     <?php include 'footer.php'; ?>
-
-    <style>
-    footer {
-            position: absolute;
-            top: unset;
-        }
-    </style>    
 
     <script>
         function toggleContainers() {
@@ -286,11 +320,12 @@ include 'headerchild.php';
             }
         }
 
-        $(document).ready(function() {
-            setTimeout(function() {
+        $(document).ready(function () {
+            setTimeout(function () {
                 $("#successAlert").fadeOut("slow");
             }, 3000);
         });
     </script>
 </body>
+
 </html>

@@ -44,6 +44,13 @@ $result = $conn->query($leaderboardQuery);
             margin: 0;
             padding: 0;
         }
+
+        /* Adding space for footer */
+        body::after {
+            content: "";
+            display: block;
+            height: 100px;
+        }
         .main-content {
             padding-top: 100px;
             text-align: center;
