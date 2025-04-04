@@ -1,18 +1,18 @@
 <?php
 // Ստուգում ենք, արդյոք session-ը սկսված է, և եթե ոչ՝ սկսում ենք
 if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+  session_start();
 }
 
 // Ստուգում ենք, արդյոք օգտատերը մուտք է գործել
-if (!isset($_SESSION['user_id'])) {
-    // Եթե օգտատերը մուտք չի գործել, ուղարկում ենք login.php էջ
-    header("Location: login.php");
-    exit();
+if (!isset($_SESSION["user_id"])) {
+  // Եթե օգտատերը մուտք չի գործել, ուղարկում ենք login.php էջ
+  header("Location: login.php");
+  exit();
 }
 
 // Ներառում ենք header.php
-include 'header.php';
+include "header.php";
 ?>
 
 <!DOCTYPE html>
@@ -34,6 +34,7 @@ include 'header.php';
             color: white;
             font-family: Arial, sans-serif;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -133,7 +134,13 @@ include 'header.php';
 </body>
 </html>
 
-<?php
-// Ներառում ենք footer.php
-include 'footer.php';
-?>
+<?php // Ներառում ենք footer.php
+
+include "footer.php"; ?>
+
+<style>
+    footer {
+            position: absolute;
+            top: unset;
+        }
+</style>

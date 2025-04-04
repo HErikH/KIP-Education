@@ -1,54 +1,53 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start(); // Start session if not already started
+  session_start(); // Start session if not already started
 }
 
-
 // Include the database connection
-include('db_connect.php');
+include "db_connect.php";
 
 // Initialize default values for balance, email, role, and date_end_role
-$balance = 0.00;
+$balance = 0.0;
 $userEmail = "";
 $userRole = "";
 $dateEndRole = "";
 
 // Check if user is logged in
-if (isset($_SESSION['user_id'])) {
-    $userId = $_SESSION['user_id'];
+if (isset($_SESSION["user_id"])) {
+  $userId = $_SESSION["user_id"];
 
-    // SQL query to fetch user details
-    $sql = "SELECT balance, email, role, date_end_role FROM users WHERE id = ?";
-    
-    // Prepare the statement
-    if ($stmt = $conn->prepare($sql)) {
-        // Bind the userId parameter to the query
-        $stmt->bind_param('i', $userId);
+  // SQL query to fetch user details
+  $sql = "SELECT balance, email, role, date_end_role FROM users WHERE id = ?";
 
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Bind the result to variables
-            $stmt->bind_result($balance, $userEmail, $userRole, $dateEndRole);
+  // Prepare the statement
+  if ($stmt = $conn->prepare($sql)) {
+    // Bind the userId parameter to the query
+    $stmt->bind_param("i", $userId);
 
-            // Fetch the result
-            if ($stmt->fetch()) {
-                // Store role in session for later use
-                $_SESSION['role'] = $userRole;
-            } else {
-                echo "User not found.";
-            }
-        } else {
-            // Handle execution error
-            echo "Error executing the query: " . $stmt->error;
-        }
+    // Execute the statement
+    if ($stmt->execute()) {
+      // Bind the result to variables
+      $stmt->bind_result($balance, $userEmail, $userRole, $dateEndRole);
 
-        // Close the statement
-        $stmt->close();
+      // Fetch the result
+      if ($stmt->fetch()) {
+        // Store role in session for later use
+        $_SESSION["role"] = $userRole;
+      } else {
+        echo "User not found.";
+      }
     } else {
-        // Handle error preparing the statement
-        echo "Error preparing the query: " . $conn->error;
+      // Handle execution error
+      echo "Error executing the query: " . $stmt->error;
     }
-} 
+
+    // Close the statement
+    $stmt->close();
+  } else {
+    // Handle error preparing the statement
+    echo "Error preparing the query: " . $conn->error;
+  }
+}
 
 // Close the database connection
 $conn->close();
@@ -66,19 +65,39 @@ $conn->close();
         
         <!-- Navbar Links on the Left (Visible on Desktop) -->
 <div class="navbar-links" id="navbar-links">
-    <a href="programms.php" class="menu-item programs <?php echo basename($_SERVER['PHP_SELF']) == 'programms.php' ? 'active' : ''; ?>">
+    <a href="programms.php" class="menu-item programs <?php echo basename(
+      $_SERVER["PHP_SELF"]
+    ) == "programms.php"
+      ? "active"
+      : ""; ?>">
         <i class="fas fa-book"></i> Programs
     </a>
-    <a href="quizzes.php" class="menu-item <?php echo basename($_SERVER['PHP_SELF']) == 'quizzes.php' ? 'active' : ''; ?>">
+    <a href="quizzes.php" class="menu-item <?php echo basename(
+      $_SERVER["PHP_SELF"]
+    ) == "quizzes.php"
+      ? "active"
+      : ""; ?>">
         <i class="fas fa-question-circle"></i> Quizzes
     </a>
-    <a href="contact.php" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
-    <a href="blog.php" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
+    <a href="contact.php" class="menu-item <?php echo basename(
+      $_SERVER["PHP_SELF"]
+    ) == "contact.php"
+      ? "active"
+      : ""; ?>">
+        <i class="fas fa-envelope"></i> Contact Me
+    </a>
+    <a href="blog.php" class="menu-item <?php echo basename(
+      $_SERVER["PHP_SELF"]
+    ) == "blog.php"
+      ? "active"
+      : ""; ?>">
+        <i class="fas fa-blog"></i> Blog
+    </a>
 </div>
         
         <!-- Profile, Balance, and Deposit Button on the Right (Visible on Desktop) -->
 <div class="account-container">
-            <?php if (isset($_SESSION['user_id'])): ?> 
+            <?php if (isset($_SESSION["user_id"])): ?> 
                 <!-- Countdown Container (Only if date_end_role is set) -->
                 <?php if (!empty($dateEndRole)): ?>
                     <div class="countdown-container">
@@ -93,7 +112,10 @@ $conn->close();
 
                     <!-- Balance Display -->
                     <div class="balance-display">
-                        <span><?php echo number_format($balance, 2); ?> AMD</span>
+                        <span><?php echo number_format(
+                          $balance,
+                          2
+                        ); ?> AMD</span>
                     </div>
                 </div>
 
@@ -117,7 +139,7 @@ $conn->close();
     </nav>
 
 <!-- Secondary Menu for Logged-in Users (Hidden on Mobile) -->
-<?php if (isset($_SESSION['user_id'])): ?>
+<?php if (isset($_SESSION["user_id"])): ?>
     <div class="secondary-menu">
         <!-- Secondary Menu Items -->
         <div class="secondary-menu-items">
@@ -125,12 +147,18 @@ $conn->close();
             <a href="profile.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
 
             <!-- For Teacher only visible to teachers -->
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'teacher'): ?>
+            <?php if (
+              isset($_SESSION["role"]) &&
+              $_SESSION["role"] === "teacher"
+            ): ?>
                 <a href="teachers.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> For Teacher</a>
             <?php endif; ?>
 
             <!-- Lessons only visible to students -->
-            <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
+            <?php if (
+              isset($_SESSION["role"]) &&
+              $_SESSION["role"] === "student"
+            ): ?>
                 <a href="video.php" class="menu-item"><i class="fas fa-book-reader"></i> Lessons</a>
             <?php endif; ?>
         </div>
@@ -145,7 +173,7 @@ $conn->close();
     <span class="close-sidebar" id="close-sidebar">&times;</span>
 
     <!-- User Information Section -->
-    <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION["user_id"])): ?>
     <div class="user-info">
         <div class="profile-image">
             <a href="profile.php">
@@ -153,8 +181,12 @@ $conn->close();
             </a>
         </div>
         <div class="user-details">
-            <span class="user-email"><?php echo htmlspecialchars($userEmail); ?></span>
-            <span class="user-id">ID: <?php echo htmlspecialchars($_SESSION['user_id']); ?></span>
+            <span class="user-email"><?php echo htmlspecialchars(
+              $userEmail
+            ); ?></span>
+            <span class="user-id">ID: <?php echo htmlspecialchars(
+              $_SESSION["user_id"]
+            ); ?></span>
             <div class="balance-display">
                 <span><?php echo number_format($balance, 2); ?> AMD</span>
             </div>
@@ -166,7 +198,7 @@ $conn->close();
    <!-- Top Section (Dashboard, Programs, Contact, Blog, For Teacher, Lessons) -->
 <nav class="menu d-flex flex-column">
     <!-- Dashboard visible to logged-in users only -->
-    <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION["user_id"])): ?>
         <a href="profile.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
     <?php endif; ?>
 
@@ -176,18 +208,18 @@ $conn->close();
     <a href="blog.php" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
 
     <!-- For Teacher only visible to teachers -->
-    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'teacher'): ?>
+    <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "teacher"): ?>
         <a href="teachers.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> For Teacher</a>
     <?php endif; ?>
 
     <!-- Lessons only visible to students -->
-    <?php if (isset($_SESSION['role']) && $_SESSION['role'] === 'student'): ?>
+    <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "student"): ?>
         <a href="video.php" class="menu-item"><i class="fas fa-book-reader"></i> Lessons</a>
     <?php endif; ?>
 </nav>
 
     <!-- Log Out Button -->
-    <?php if (isset($_SESSION['user_id'])): ?>
+    <?php if (isset($_SESSION["user_id"])): ?>
     <div class="menu-item logout-item">
         <a href="logout.php">
             <i class="fas fa-sign-out-alt"></i> Log Out
@@ -196,7 +228,7 @@ $conn->close();
     <?php endif; ?>
 
     <!-- My Account at the Bottom (Only show if user is not logged in) -->
-    <?php if (!isset($_SESSION['user_id'])): ?>
+    <?php if (!isset($_SESSION["user_id"])): ?>
     <div class="menu-item account-sidebar-item">
         <a href="login.php">
             <i class="fas fa-user"></i> My Account
