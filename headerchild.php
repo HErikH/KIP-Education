@@ -30,18 +30,18 @@ if ($isUserLoggedIn) {
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: https://kipeducationlessons.am/quizzes.php");
+    header("Location: quizzes.php");
     exit();
 }
 ?>
 
 <div class="header">
     <div class="left-section">
-        <a href="https://kipeducationlessons.am/quizzes.php" class="exit-link">
+        <a href="quizzes.php" class="exit-link">
             <i class="fas fa-arrow-left"></i> Back
         </a>
         <!-- Leaderboard Button -->
-        <a href="https://kipeducationlessons.am/leaderboard.php" class="leaderboard-btn">
+        <a href="leaderboard.php" class="leaderboard-btn">
             <i class="fas fa-trophy"></i> <span class="leaderboard-text">Leaderboard</span>
         </a>
     </div>

@@ -43,7 +43,7 @@ $api_url = "https://ipay.arca.am/payment/rest/register.do";
 $userName = "21536001_api";
 $password = "Inessa2006";
 $orderNumber = uniqid("order_");
-$returnUrl = "https://kipeducationid.com/deposit_success.php?type=$product_type"; // Pass the type as a query parameter
+$returnUrl = "deposit_success.php?type=$product_type"; // Pass the type as a query parameter
 
 // Log the return URL for verification
 error_log("Prepared returnUrl: $returnUrl");

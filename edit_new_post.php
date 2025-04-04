@@ -48,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($stmt->execute()) {
         // Վերափոխում դեպի blogadmin.php
-        header("Location: https://kipeducationlessons.am/blogadmin.php");
+        header("Location: blogadmin.php");
         exit();
     } else {
         echo "Error updating post!";

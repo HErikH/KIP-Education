@@ -266,6 +266,13 @@ include 'headerchild.php';
     <!-- Footer -->
     <?php include 'footer.php'; ?>
 
+    <style>
+    footer {
+            position: absolute;
+            top: unset;
+        }
+    </style>    
+
     <script>
         function toggleContainers() {
             const loginContainer = document.getElementById("loginContainer");

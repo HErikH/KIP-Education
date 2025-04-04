@@ -21,7 +21,7 @@ if (isset($_POST['deposit_amount']) && is_numeric($_POST['deposit_amount'])) {
     $userName = "21536001_api"; // Ձեր IPay API-ի օգտագործողի անունը
     $password = "Inessa2006"; // Ձեր IPay API-ի գաղտնաբառը
     $orderNumber = uniqid("order_"); // Եզակի պատվերի համար
-    $returnUrl = "https://kipeducationlessons.am/deposit_success.php"; // Վերադարձի URL վճարից հետո
+    $returnUrl = "deposit_success.php"; // Վերադարձի URL վճարից հետո
 
     // Պատրաստում ենք տվյալները հարցման համար
     $data = [
