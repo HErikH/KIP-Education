@@ -137,10 +137,3 @@ include "header.php";
 <?php // Ներառում ենք footer.php
 
 include "footer.php"; ?>
-
-<style>
-    footer {
-            position: absolute;
-            top: unset;
-        }
-</style>

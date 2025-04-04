@@ -88,6 +88,10 @@ if (isset($_GET['logout'])) {
         font-size: 16px;
         margin-right: 20px;
     }
+    .exit-link:hover {
+        color: #ff9800;
+        text-decoration: none;
+    }
     .exit-link i {
         margin-right: 8px;
     }
@@ -108,6 +112,7 @@ if (isset($_GET['logout'])) {
         margin-right: 8px;
     }
     .leaderboard-btn:hover {
+        text-decoration: none;
         background-color: #e68900;
     }
 

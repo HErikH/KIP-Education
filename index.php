@@ -13,7 +13,7 @@ session_start(); ?>
     <style>
         html {
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
         /* Body styling */
         body {
@@ -27,7 +27,7 @@ session_start(); ?>
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             position: relative;
-            overflow: hidden;
+            overflow-x: hidden;
         }
 
         .container {
@@ -180,14 +180,6 @@ session_start(); ?>
     <img src="resource/img/boy.webp" alt="Boy Image" class="right-image"> <!-- Boy image added here -->
 
     <?php include "footer.php"; ?>
-
-    <style>
-        footer {
-                position: absolute;
-                top: unset;
-            }
-    </style>
-
 
     <script>
         // Redirects to profile or login page based on session state

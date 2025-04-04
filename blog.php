@@ -42,6 +42,13 @@ if ($result === false) {
             flex-direction: column;
         }
 
+        /* Adding space for footer */
+        body::after {
+            content: "";
+            display: block;
+            height: 100px;
+        }
+
         .blog-container {
             display: flex;
             flex-direction: column;

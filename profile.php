@@ -80,6 +80,13 @@ $conn->close();
             margin: 0;
             padding-top: 150px; /* Increased top padding for desktops */
         }
+
+        /* Adding space for footer */
+        body::after {
+            content: "";
+            display: block;
+            height: 100px;
+        }
         
         /* Apply specific margins for mobile devices */
     @media only screen and (max-width: 768px) {

@@ -24,6 +24,13 @@ session_start(); ?>
             justify-content: center;
         }
 
+        /* Adding space for footer */
+        body::after {
+            content: "";
+            display: block;
+            height: 100px;
+        }
+
         /* Contact Page Layout */
         .contact-container {
             display: flex;

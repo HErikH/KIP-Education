@@ -13,8 +13,7 @@ footer {
     padding: 20px;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
-    position: relative;
-    top: 2rem;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
