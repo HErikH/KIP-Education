@@ -1,7 +1,3 @@
-<?php
-include 'headerchild.php';
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,6 +24,42 @@ include 'headerchild.php';
             overflow-x: hidden;
         }
 
+        .header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #182848;
+            color: #ffffff;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .left-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .exit-link {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .exit-link:hover {
+            color: #ff9800;
+            text-decoration: none;
+        }
+
+        .exit-link i {
+            margin-right: 8px;
+        }
+
         .main-content {
             width: 100%;
             height: 100%;
@@ -47,6 +79,13 @@ include 'headerchild.php';
 </head>
 
 <body>
+    <div class="header">
+        <div class="left-section">
+            <a onclick="location.replace('contact.php')" class="exit-link">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+        </div>
+    </div>
     <div class="main-content">
         <h1 class="message-success">Message sent successfully !</h1>
     </div>

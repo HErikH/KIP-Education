@@ -87,6 +87,7 @@ if (isset($_GET['logout'])) {
         text-decoration: none;
         font-size: 16px;
         margin-right: 20px;
+        cursor: pointer;
     }
     .exit-link:hover {
         color: #ff9800;
