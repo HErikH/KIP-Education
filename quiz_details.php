@@ -210,7 +210,7 @@ include 'headerchild.php';
 
     <!-- Main Content -->
     <div class="main-content">
-        <?php if ($isQuizCompleted): ?>
+        <!-- <?php if ($isQuizCompleted): ?>
         <button class="btn start-game-btn completed" disabled>
             Completed
         </button>
@@ -218,15 +218,15 @@ include 'headerchild.php';
         <a href="quiz_game?id=<?= $quiz_id ?>" class="btn start-game-btn active">
             <i class="fas fa-play"></i> Start Game
         </a>
-        <?php endif; ?>
+        <?php endif; ?> -->
         
-        <!-- <?php if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']): ?>
+        <?php if (isset($_SESSION['registration_success']) && $_SESSION['registration_success']): ?>
         <div class="alert alert-success" role="alert" id="successAlert">
             You have successfully registered,
             <?= htmlspecialchars($_SESSION['quiz_first_name']); ?>!
         </div>
         <?php unset($_SESSION['registration_success']); ?>
-        <?php elseif (isset($_SESSION['login_success']) && $_SESSION['login_success']): ?> -->
+        <?php elseif (isset($_SESSION['login_success']) && $_SESSION['login_success']): ?>
         <div class="alert alert-success" role="alert" id="successAlert">
             Welcome back,
             <?= htmlspecialchars($_SESSION['quiz_first_name']); ?>!
@@ -248,7 +248,7 @@ include 'headerchild.php';
         </div>
 
         <!-- Start Game button for logged-in users -->
-        <!-- <?php if (isset($_SESSION['quiz_user_id'])): ?>
+        <?php if (isset($_SESSION['quiz_user_id'])): ?>
         <?php if ($isQuizCompleted): ?>
         <button class="btn start-game-btn completed" disabled>
             Completed
@@ -261,12 +261,12 @@ include 'headerchild.php';
         <?php endif; ?>
         <?php else: ?>
         <p>Quiz not found.</p>
-        <?php endif; ?> -->
+        <?php endif; ?>
 
         <!-- Other content for login and register -->
-        <!-- <?php if (!isset($_SESSION['quiz_user_id'])): ?> -->
+        <?php if (!isset($_SESSION['quiz_user_id'])): ?>
         <!-- Show Login and Register Containers if user is not logged in -->
-        <!-- <div class="container-box" id="loginContainer">
+        <div class="container-box" id="loginContainer">
             <h3>Login</h3>
             <form method="POST" action="">
                 <div class="form-group">
@@ -276,7 +276,7 @@ include 'headerchild.php';
                 <button type="submit" class="btn btn-primary btn-block">Login</button>
             </form>
             <div class="toggle-text" onclick="toggleContainers()">Not registered? Click here to register.</div>
-        </div> -->
+        </div>
 
         <div class="container-box" id="registerContainer" style="display: none;">
             <h3>Register to Continue</h3>
