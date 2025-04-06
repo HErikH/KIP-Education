@@ -158,9 +158,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
         <p style="color:white;">ID: <?php echo $userData['id']; ?></p>
     </div>
     <nav class="nav flex-column">
-        <a class="nav-link <?php echo $current_page == 'profile.php' ? 'active' : ''; ?>" href="profile.php">Personal Information</a>
-        <a class="nav-link <?php echo $current_page == 'video.php' ? 'active' : ''; ?>" href="video.php">Courses</a>
-        <a class="nav-link" href="logout.php">Log Out</a>
+        <a class="nav-link <?php echo $current_page == 'profile.php' ? 'active' : ''; ?>" href="profile">Personal Information</a>
+        <a class="nav-link <?php echo $current_page == 'video.php' ? 'active' : ''; ?>" href="video">Courses</a>
+        <a class="nav-link" href="logout">Log Out</a>
     </nav>
 </div>
 

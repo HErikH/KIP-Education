@@ -215,7 +215,7 @@ include 'headerchild.php';
             Completed
         </button>
         <?php else: ?>
-        <a href="quiz_game.php?id=<?= $quiz_id ?>" class="btn start-game-btn active">
+        <a href="quiz_game?id=<?= $quiz_id ?>" class="btn start-game-btn active">
             <i class="fas fa-play"></i> Start Game
         </a>
         <?php endif; ?>
@@ -254,7 +254,7 @@ include 'headerchild.php';
             Completed
         </button>
         <?php else: ?>
-        <a href="quiz_game.php?id=<?= $quiz_id ?>" class="btn start-game-btn active">
+        <a href="quiz_game?id=<?= $quiz_id ?>" class="btn start-game-btn active">
             <i class="fas fa-play"></i> Start Game
         </a>
         <?php endif; ?>

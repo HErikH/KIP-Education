@@ -5,27 +5,27 @@
 <!-- Navigation Bar -->
 <nav class="navbar">
     <!-- Logo on the Left -->
-    <a href="index.php" class="navbar-brand">
+    <a href="index" class="navbar-brand">
         <img src="resource/img/logo.png" alt="Logo">
     </a>
     
     <!-- Navbar Links on the Left (Visible on Desktop) -->
     <div class="navbar-links" id="navbar-links">
-        <a href="programms.php" class="menu-item"><i class="fas fa-book"></i> Programs</a>
-        <a href="contact.php" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
-        <a href="blog.php" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
+        <a href="programms" class="menu-item"><i class="fas fa-book"></i> Programs</a>
+        <a href="contact" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
+        <a href="blog" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
     </div>
     
     <!-- My Account Button on the Right (Visible on Desktop) -->
     <div class="account-container">
-        <a href="login.php" class="account-button desktop-account-button"><i class="fas fa-user"></i> My Account</a>
+        <a href="login" class="account-button desktop-account-button"><i class="fas fa-user"></i> My Account</a>
     </div>
     
     <!-- Mobile Icons: User Icon and Hamburger Menu -->
     <div class="mobile-icons">
         <!-- User Icon in Circle (Visible on Mobile Only) -->
         <div class="user-icon-circle">
-            <a href="login.php">
+            <a href="login">
                 <img src="resource/img/user2.png" alt="User Icon">
             </a>
         </div>
@@ -42,15 +42,15 @@
 
     <!-- My Account with different design in Sidebar -->
     <div class="menu-item account-sidebar-item">
-        <a href="login.php">
+        <a href="login">
             <i class="fas fa-user"></i> My Account
         </a>
     </div>
 
     <nav class="menu d-flex flex-column">
-        <a href="programms.php" class="menu-item"><i class="fas fa-book"></i> Programs</a>
-        <a href="contact.php" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
-        <a href="blog.php" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
+        <a href="programms" class="menu-item"><i class="fas fa-book"></i> Programs</a>
+        <a href="contact" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
+        <a href="blog" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
     </nav>
 </div>
 

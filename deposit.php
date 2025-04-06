@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 // Ստուգում ենք, արդյոք օգտատերը մուտք է գործել
 if (!isset($_SESSION["user_id"])) {
   // Եթե օգտատերը մուտք չի գործել, ուղարկում ենք login.php էջ
-  header("Location: login.php");
+  header("Location: login");
   exit();
 }
 

@@ -189,11 +189,11 @@ session_start(); ?>
               $_SESSION["loggedin"] === true &&
               isset($_SESSION["user_id"])
             ): ?>
-                window.location.href = "profile.php?id=<?php echo $_SESSION[
+                window.location.href = "profile?id=<?php echo $_SESSION[
                   "user_id"
                 ]; ?>";
             <?php else: ?>
-                window.location.href = "login.php";
+                window.location.href = "login";
             <?php endif; ?>
         };
     </script>

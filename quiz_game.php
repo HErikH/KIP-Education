@@ -10,7 +10,7 @@ $quiz_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
 // Check if the user is logged in for the quiz session
 if (!isset($_SESSION['quiz_user_id'])) {
     // Redirect to the quiz details page if not logged in
-    header("Location: quiz_details.php?id=" . $quiz_id);
+    header("Location: quiz_details?id=" . $quiz_id);
     exit();
 }
 
@@ -31,7 +31,7 @@ $stmt->close();
 
 if ($completionCount > 0) {
     // If the user has already completed the quiz, redirect to a "completed" page or show a message
-    header("Location: quizzes.php?id=" . $quiz_id);
+    header("Location: quizzes?id=" . $quiz_id);
     exit();
 }
 
@@ -798,7 +798,7 @@ function displayBottomButtons() {
     mainPageButton.innerHTML = "Go to Main Page";
     mainPageButton.style.marginLeft = '10px'; // Add some space between buttons
     mainPageButton.onclick = function() {
-        window.location.href = "quizzes.php"; // Redirect to quizzes.php
+        window.location.href = "quizzes"; // Redirect to quizzes.php
     };
 
     // Append both buttons to the container

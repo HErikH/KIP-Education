@@ -36,6 +36,7 @@
             align-items: center;
             justify-content: space-between;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            min-height: 65px;
         }
 
         .left-section {
@@ -71,17 +72,13 @@
         .message-success {
             color: #f3ed17;
         }
-
-        .leaderboard-btn {
-            visibility: hidden;
-        }
     </style>
 </head>
 
 <body>
     <div class="header">
         <div class="left-section">
-            <a onclick="location.replace('contact.php')" class="exit-link">
+            <a onclick="location.replace('contact')" class="exit-link">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
         </div>

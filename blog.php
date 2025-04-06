@@ -55,13 +55,13 @@ if ($result === false) {
             align-items: center;
             justify-content: center;
             flex-grow: 1;
-            margin-top: 180px;
+            margin-top: 130px;
         }
 
         .blog-container h1 {
             font-size: 48px;
             font-weight: bold;
-            margin-bottom: 40px;
+            margin: 90px;
             text-align: center;
         }
 
@@ -151,7 +151,7 @@ include 'header.php';
                     <img src="' . htmlspecialchars($row['image_url']) . '" alt="Blog Image">
                     <h3>' . htmlspecialchars($row['title']) . '</h3>
                     <p class="date">' . date('F j, Y', strtotime($row['created_at'])) . '</p>
-                    <a href="blog_post.php?id=' . $row['id'] . '" class="btn">Read More</a>
+                    <a href="blog_post?id=' . $row['id'] . '" class="btn">Read More</a>
                 </div>';
             }
         } else {

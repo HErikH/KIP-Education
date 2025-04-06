@@ -30,18 +30,18 @@ if ($isUserLoggedIn) {
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: quizzes.php");
+    header("Location: quizzes");
     exit();
 }
 ?>
 
 <div class="header">
     <div class="left-section">
-        <a href="quizzes.php" class="exit-link">
+        <a href="quizzes" class="exit-link">
             <i class="fas fa-arrow-left"></i> Back
         </a>
         <!-- Leaderboard Button -->
-        <a href="leaderboard.php" class="leaderboard-btn">
+        <a href="leaderboard" class="leaderboard-btn">
             <i class="fas fa-trophy"></i> <span class="leaderboard-text">Leaderboard</span>
         </a>
     </div>

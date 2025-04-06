@@ -24,7 +24,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Փորձում ենք կատարել հարցումը
     if ($stmt->execute()) {
         // Եթե հարցումը հաջողվեց, տեղափոխում ենք հետ դեպի children list էջը
-        header("Location: children_list.php?success=1");
+        header("Location: children_list?success=1");
         exit();
     } else {
         // Եթե հարցումը ձախողվեց, ցույց ենք տալիս սխալը

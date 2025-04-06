@@ -351,12 +351,12 @@ include 'header.php';
 <div class="extra-container">
     <h3>My Program</h3>
     <p>You do not have a selected package yet.</p>
-    <a href="programms.php" class="btn btn-primary">Buy Program</a>
+    <a href="programms" class="btn btn-primary">Buy Program</a>
 
     <!-- Log Out Button -->
     <?php if (isset($_SESSION['user_id'])): ?>
     <div class="logout-button-container">
-        <a href="logout.php" class="btn btn-danger" style="position: absolute; bottom: 10px; right: 10px;">
+        <a href="logout" class="btn btn-danger" style="position: absolute; bottom: 10px; right: 10px;">
             Log Out
         </a>
     </div>
@@ -376,7 +376,7 @@ include 'header.php';
     <div class="bottom-container">
         <h3>My Program</h3>
         <p>You do not have a selected package yet.</p>
-        <a href="programms.php" class="btn btn-primary">Buy Program</a>
+        <a href="programms" class="btn btn-primary">Buy Program</a>
     </div>
 
    <!-- Вывод IP адресов -->

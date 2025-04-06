@@ -6,7 +6,7 @@ include 'db_connect.php';
 
 // Check if the session is valid, if not redirect to login page
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: login");
     exit();
 }
 
@@ -40,15 +40,15 @@ $stmt->close();
 <header class="main-header">
     <div class="container">
         <div class="logo">
-            <a href="profile.php">
+            <a href="profile">
                 <img src="resource/img/logo.png" alt="Logo" style="height: 35px;">
             </a>
         </div>
         <nav class="main-menu">
             <ul>
-                <li><a href="profile.php" class="menu-link"><i class="fas fa-home"></i> Dashboard</a></li>
-                <li><a href="video.php" class="menu-link"><i class="fas fa-video"></i> Lessons</a></li>
-                <li><a href="teachers.php" class="menu-link"><i class="fas fa-chalkboard-teacher"></i> For Teachers</a></li>
+                <li><a href="profile" class="menu-link"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="video" class="menu-link"><i class="fas fa-video"></i> Lessons</a></li>
+                <li><a href="teachers" class="menu-link"><i class="fas fa-chalkboard-teacher"></i> For Teachers</a></li>
             </ul>
         </nav>
         <div class="user-section">
@@ -56,7 +56,7 @@ $stmt->close();
                 <div id="countdown" class="countdown-timer"></div>
                 <div class="balance">Balance: $0.00</div>
             </div>
-            <a href="profile.php"><img src="resource/img/profile.png" alt="Profile Image" class="profile-img"></a>
+            <a href="profile"><img src="resource/img/profile.png" alt="Profile Image" class="profile-img"></a>
         </div>
         <div class="toggle-menu">
             <span>&#9776;</span>
@@ -67,16 +67,16 @@ $stmt->close();
 <!-- Show Menu for Mobile -->
 <div class="mobile-menu">
     <div class="mobile-user-info">
-        <a href="profile.php"><img src="resource/img/profile.png" alt="Profile Image" class="profile-img"></a>
+        <a href="profile"><img src="resource/img/profile.png" alt="Profile Image" class="profile-img"></a>
         <div class="user-email">user@example.com</div>
         <div class="countdown-timer"></div>
         <div class="balance">Balance: $0.00</div>
     </div>
     <nav>
         <ul>
-            <li><a href="profile.php" class="menu-link"><i class="fas fa-home"></i> Dashboard</a></li>
-            <li><a href="video.php" class="menu-link"><i class="fas fa-video"></i> Lessons</a></li>
-            <li><a href="teachers.php" class="menu-link"><i class="fas fa-chalkboard-teacher"></i> For Teachers</a></li>
+            <li><a href="profile" class="menu-link"><i class="fas fa-home"></i> Dashboard</a></li>
+            <li><a href="video" class="menu-link"><i class="fas fa-video"></i> Lessons</a></li>
+            <li><a href="teachers" class="menu-link"><i class="fas fa-chalkboard-teacher"></i> For Teachers</a></li>
         </ul>
     </nav>
 </div>

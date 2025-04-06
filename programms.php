@@ -956,7 +956,7 @@ include 'footer.php';
                         button.onclick = function () {
                             if (!isUserLoggedIn()) {
                                 // Redirect to login page if the user is not logged in
-                                window.location.href = 'login.php';
+                                window.location.href = 'login';
                             } else {
                                 showPopup(this);  // Open the popup if the user is logged in
                             }

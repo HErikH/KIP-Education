@@ -136,12 +136,12 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <span class="close-btn" id="closeSidebar">&times;</span>
     <a href="#" class="navbar-brand">Admin Panel</a>
     <nav class="nav flex-column">
-        <a class="nav-link <?php echo $current_page == 'admin.php' ? 'active' : ''; ?>" href="admin.php">Dashboard</a>
-        <a class="nav-link <?php echo $current_page == 'users.php' ? 'active' : ''; ?>" href="users.php">Users and Admins</a>
-        <a class="nav-link <?php echo $current_page == 'settings.php' ? 'active' : ''; ?>" href="settings.php">Settings</a>
-        <a class="nav-link <?php echo $current_page == 'reports.php' ? 'active' : ''; ?>" href="reports.php">Reports</a>
-        <a class="nav-link <?php echo $current_page == 'lessons.php' ? 'active' : ''; ?>" href="lessons.php">Lessons</a>
-        <a class="nav-link" href="logout.php">Logout</a>
+        <a class="nav-link <?php echo $current_page == 'admin.php' ? 'active' : ''; ?>" href="admin">Dashboard</a>
+        <a class="nav-link <?php echo $current_page == 'users.php' ? 'active' : ''; ?>" href="users">Users and Admins</a>
+        <a class="nav-link <?php echo $current_page == 'settings.php' ? 'active' : ''; ?>" href="settings">Settings</a>
+        <a class="nav-link <?php echo $current_page == 'reports.php' ? 'active' : ''; ?>" href="reports">Reports</a>
+        <a class="nav-link <?php echo $current_page == 'lessons.php' ? 'active' : ''; ?>" href="lessons">Lessons</a>
+        <a class="nav-link" href="logout">Logout</a>
     </nav>
 </div>
 

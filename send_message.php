@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $headers = "From: $email";
 
     if (mail($to, $subject, $body, $headers)) {
-        header("Location: send_message_success.php");
+        header("Location: send_message_success");
         exit(); 
     } else {
         echo "Error sending message.";

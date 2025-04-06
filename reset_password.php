@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute();
 
     // Հաջող գաղտնաբառի թարմացումից հետո ուղղորդում ենք մուտքի էջ
-    header("Location: login.php?password_reset=success");
+    header("Location: login?password_reset=success");
     exit();
 }
 ?>
@@ -110,7 +110,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <!-- Գլխավոր էջ կոճակ -->
         <div class="mt-3 text-center">
-            <a href="index.php" class="btn btn-secondary">Go to Main Page</a>
+            <a href="index" class="btn btn-secondary">Go to Main Page</a>
         </div>
     </div>
 

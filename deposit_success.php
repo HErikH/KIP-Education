@@ -11,7 +11,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Check if the user is logged in
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: login");
     exit();
 }
 
@@ -120,7 +120,7 @@ if (isset($_GET['orderId']) && $status === 'success') {
     <div class="success-container">
         <h2>Deposit Successful!</h2>
         <p>Your account has been credited and your role has been updated to <?= htmlspecialchars($new_role); ?>.</p>
-        <a href="profile.php" class="btn btn-primary">Return to Profile</a>
+        <a href="profile" class="btn btn-primary">Return to Profile</a>
     </div>
 </body>
 </html>

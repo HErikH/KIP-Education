@@ -8,7 +8,7 @@ ini_set('display_errors', 1);
 
 // Check if the user is already logged in
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("Location: profile.php");
+    header("Location: profile");
     exit();
 }
 
@@ -112,11 +112,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 // Redirect based on role
                 if ($user['role'] === 'admin') {
                     $message = "Login successful! Welcome Admin.";
-                    header("Location: admin.php");
+                    header("Location: admin");
                     exit();
                 } else {
                     $message = "Login successful! Welcome User.";
-                    header("Location: profile.php");
+                    header("Location: profile");
                     exit();
                 }
             } else {
@@ -303,11 +303,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="no-credentials">
             If you are not registered yet, click below<br>
-            <a href="register.php"><button class="click-here-btn">Register Now</button></a>
+            <a href="register"><button class="click-here-btn">Register Now</button></a>
         </div>
     </div>
 
-    <a href="index.php" class="main-page-btn">Go to Main Page</a>
+    <a href="index" class="main-page-btn">Go to Main Page</a>
     
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>

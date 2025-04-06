@@ -6,7 +6,7 @@ include 'db_connect.php';
 session_start();
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'teacher') {
     // Եթե օգտագործողը ուսուցիչ չէ, տեղափոխել login.php էջը
-    header('Location: login.php');
+    header('Location: login');
     exit();
 }
 
@@ -734,7 +734,7 @@ body {
         <div class="elegant-popup-content">
             <h2 class="elegant-popup-title">Notification</h2>
             <p class="elegant-popup-message">By clicking <strong>Start</strong>, the page becomes available to you for 366 days. 
-               Upon expiry, please contact us: <a href="contact.php" class="elegant-popup-link">Contact Us</a>.</p>
+               Upon expiry, please contact us: <a href="contact" class="elegant-popup-link">Contact Us</a>.</p>
             <form method="POST">
                 <button type="submit" name="start" class="elegant-popup-button">Start</button>
             </form>

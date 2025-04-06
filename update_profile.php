@@ -3,7 +3,7 @@ session_start();
 include 'db_connect.php';
 
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+    header('Location: login');
     exit();
 }
 
@@ -24,6 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo 'No changes were made.';
     }
 
-    header('Location: profile.php');
+    header('Location: profile');
 }
 ?>

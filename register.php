@@ -39,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if (!$stmt->execute()) {
                 die("Database query failed: " . $stmt->error);
             } else {
-                header("Location: login.php");
+                header("Location: login");
                 exit();
             }
         }
@@ -347,13 +347,13 @@ body {
             <!-- "Already have an account?" տեքստ և հղում -->
             <div class="no-credentials">
                 Already have an account?<br>
-                <a href="login.php" class="click-here-btn">Login here</a>
+                <a href="login" class="click-here-btn">Login here</a>
             </div>
         </form>
     </div>
 
     <!-- Գլխավոր էջ կոճակ, տեղադրված էջի ներքևում -->
-    <a href="index.php" class="main-page-btn">Go to Main Page</a>
+    <a href="index" class="main-page-btn">Go to Main Page</a>
 
     <!-- Ավելացնում ենք Bootstrap-ի JS և зависимости -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

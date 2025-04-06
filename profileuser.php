@@ -7,7 +7,7 @@ if (session_status() == PHP_SESSION_NONE) {
 // Check if the user is logging out
 if (isset($_GET['logout'])) {
     session_destroy(); // Destroy session on logout
-    header("Location: index.php"); // Redirect to index after logout
+    header("Location: index"); // Redirect to index after logout
     exit();
 }
 
@@ -16,7 +16,7 @@ include 'db_connect.php'; // Include your database connection
 
 // Check if the session is valid
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Redirect to login if no valid session
+    header("Location: login"); // Redirect to login if no valid session
     exit();
 }
 
@@ -255,7 +255,7 @@ if ($result->num_rows > 0) {
             </table>
         </div>
 
-        <a href="profile.php?logout=true" class="btn-logout">Logout</a>
+        <a href="profile?logout=true" class="btn-logout">Logout</a>
     </div>
 </div>
 

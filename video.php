@@ -5,7 +5,7 @@ include 'db_connect.php'; // Подключение к базе данных
 
 // Проверка, авторизован ли пользователь
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: login");
     exit();
 }
 
@@ -776,7 +776,7 @@ body {
                     <h4><?= $lesson['title'] ?></h4>
                     <p><?= $lesson['tag'] ?></p>
                 </div>
-                <a href="lessonview.php?id=<?= $lesson['id'] ?>" class="btn btn-primary">Open</a>
+                <a href="lessonview?id=<?= $lesson['id'] ?>" class="btn btn-primary">Open</a>
 
             </div>
 
@@ -785,7 +785,7 @@ body {
     <div class="popup-overlay elegant">
         <div class="popup-content elegant">
             <h2>Notification</h2>
-            <p>By clicking <strong>Start</strong>, the page becomes available to you for 76 days.<br> Upon expiry, please contact us: <a href="contact.php">Contact Us</a>.</p>
+            <p>By clicking <strong>Start</strong>, the page becomes available to you for 76 days.<br> Upon expiry, please contact us: <a href="contact">Contact Us</a>.</p>
             <form method="POST">
                 <button type="submit" name="start">Start</button>
             </form>

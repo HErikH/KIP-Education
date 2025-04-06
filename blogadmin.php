@@ -4,7 +4,7 @@ include 'db_connect.php';
 
 // Ստուգում ենք՝ արդյոք ադմինիստրատորն է մուտք գործել
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['role'] !== 'admin') {
-    header("Location: index.php");
+    header("Location: index");
     exit();
 }
 

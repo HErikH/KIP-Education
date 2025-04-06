@@ -153,7 +153,7 @@ $quizResult = $conn->query($quizQuery);
                         <div class="quiz-card-body">
                             <div class="quiz-title"><?= htmlspecialchars($quiz['title']) ?></div>
                             <div class="quiz-subtitle"><?= htmlspecialchars($quiz['subtitle']) ?></div>
-                            <a href="quiz_details.php?id=<?= $quiz['id'] ?>" class="btn-view">View Quiz</a>
+                            <a href="quiz_details?id=<?= $quiz['id'] ?>" class="btn-view">View Quiz</a>
                         </div>
                     </div>
                 <?php endwhile; ?>

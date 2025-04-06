@@ -262,7 +262,7 @@ session_start(); ?>
                 <a href="https://t.me/kipeducenter" target="_blank"><i class="fab fa-telegram telegram"></i></a>
                 <a href="https://youtube.com/@kipeducationandtrainingidcente?si=LtVca2znsVvF5fo-" target="_blank"><i class="fab fa-youtube youtube"></i></a>
                 <a href="https://vm.tiktok.com/ZS2TWe4qr/" target="_blank"><i class="fab fa-tiktok tiktok"></i></a>
-                <a href="https://u.wechat.com/kLkhkJMI_tCGNDNh_dOXWUo?s=0" target="_blank"><i class="fab fa-weixin wechat"></i></a>
+                <a href="https://u.wechat.com/kF-kXw2538xohDykaVOkcmE?s=0" target="_blank"><i class="fab fa-weixin wechat"></i></a>
                 <a href="mailto:kip.edu.center@gmail.com"><i class="fas fa-envelope gmail"></i></a>
             </div>
         </div>
@@ -278,11 +278,11 @@ session_start(); ?>
               $_SESSION["loggedin"] === true &&
               isset($_SESSION["user_id"])
             ): ?>
-                window.location.href = "profile.php?id=<?php echo $_SESSION[
+                window.location.href = "profile?id=<?php echo $_SESSION[
                   "user_id"
                 ]; ?>";
             <?php else: ?>
-                window.location.href = "login.php";
+                window.location.href = "login";
             <?php endif; ?>
         };
     </script>

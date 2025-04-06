@@ -59,34 +59,34 @@ $conn->close();
     <!-- Navigation Bar -->
     <nav class="navbar">
         <!-- Logo on the Left -->
-        <a href="index.php" class="navbar-brand">
+        <a href="index" class="navbar-brand">
             <img src="resource/img/logo.png" alt="Logo">
         </a>
         
         <!-- Navbar Links on the Left (Visible on Desktop) -->
 <div class="navbar-links" id="navbar-links">
-    <a href="programms.php" class="menu-item programs <?php echo basename(
+    <a href="programms" class="menu-item programs <?php echo basename(
       $_SERVER["PHP_SELF"]
     ) == "programms.php"
       ? "active"
       : ""; ?>">
         <i class="fas fa-book"></i> Programs
     </a>
-    <a href="quizzes.php" class="menu-item <?php echo basename(
+    <a href="quizzes" class="menu-item <?php echo basename(
       $_SERVER["PHP_SELF"]
     ) == "quizzes.php"
       ? "active"
       : ""; ?>">
         <i class="fas fa-question-circle"></i> Quizzes
     </a>
-    <a href="contact.php" class="menu-item <?php echo basename(
+    <a href="contact" class="menu-item <?php echo basename(
       $_SERVER["PHP_SELF"]
     ) == "contact.php"
       ? "active"
       : ""; ?>">
         <i class="fas fa-envelope"></i> Contact Me
     </a>
-    <a href="blog.php" class="menu-item <?php echo basename(
+    <a href="blog" class="menu-item <?php echo basename(
       $_SERVER["PHP_SELF"]
     ) == "blog.php"
       ? "active"
@@ -108,7 +108,7 @@ $conn->close();
                 <!-- Balance and Deposit Container -->
                 <div class="balance-deposit-container">
                     <!-- Deposit Button -->
-                    <a href="deposit.php" class="deposit-button"><i class="fas fa-wallet"></i> Deposit</a>
+                    <a href="deposit" class="deposit-button"><i class="fas fa-wallet"></i> Deposit</a>
 
                     <!-- Balance Display -->
                     <div class="balance-display">
@@ -121,13 +121,13 @@ $conn->close();
 
                 <!-- Profile Image -->
                 <div class="profile-image">
-                    <a href="profile.php">
+                    <a href="profile">
                         <img src="resource/img/profile.png" alt="Profile Image">
                     </a>
                 </div>
             <?php else: ?> 
                 <!-- Only show My Account if user is not logged in -->
-                <a href="login.php" class="account-button desktop-account-button"><i class="fas fa-user"></i> My Account</a>
+                <a href="login" class="account-button desktop-account-button"><i class="fas fa-user"></i> My Account</a>
             <?php endif; ?>
         </div>
 
@@ -144,14 +144,14 @@ $conn->close();
         <!-- Secondary Menu Items -->
         <div class="secondary-menu-items">
             <!-- Dashboard visible to guest and teachers -->
-            <a href="profile.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+            <a href="profile" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
 
             <!-- For Teacher only visible to teachers -->
             <?php if (
               isset($_SESSION["role"]) &&
               $_SESSION["role"] === "teacher"
             ): ?>
-                <a href="teachers.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> For Teacher</a>
+                <a href="teachers" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> For Teacher</a>
             <?php endif; ?>
 
             <!-- Lessons only visible to students -->
@@ -159,7 +159,7 @@ $conn->close();
               isset($_SESSION["role"]) &&
               $_SESSION["role"] === "student"
             ): ?>
-                <a href="video.php" class="menu-item"><i class="fas fa-book-reader"></i> Lessons</a>
+                <a href="video" class="menu-item"><i class="fas fa-book-reader"></i> Lessons</a>
             <?php endif; ?>
         </div>
     </div>
@@ -176,7 +176,7 @@ $conn->close();
     <?php if (isset($_SESSION["user_id"])): ?>
     <div class="user-info">
         <div class="profile-image">
-            <a href="profile.php">
+            <a href="profile">
                 <img src="resource/img/profile.png" alt="Profile Image">
             </a>
         </div>
@@ -190,7 +190,7 @@ $conn->close();
             <div class="balance-display">
                 <span><?php echo number_format($balance, 2); ?> AMD</span>
             </div>
-            <a href="deposit.php" class="deposit-button">Deposit</a>
+            <a href="deposit" class="deposit-button">Deposit</a>
         </div>
     </div>
     <?php endif; ?>
@@ -199,29 +199,29 @@ $conn->close();
 <nav class="menu d-flex flex-column">
     <!-- Dashboard visible to logged-in users only -->
     <?php if (isset($_SESSION["user_id"])): ?>
-        <a href="profile.php" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="profile" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
     <?php endif; ?>
 
-    <a href="programms.php" class="menu-item"><i class="fas fa-book"></i> Programs</a>
-    <a href="quizzes.php" class="menu-item"><i class="fas fa-question-circle"></i> Quizzes</a>
-    <a href="contact.php" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
-    <a href="blog.php" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
+    <a href="programms" class="menu-item"><i class="fas fa-book"></i> Programs</a>
+    <a href="quizzes" class="menu-item"><i class="fas fa-question-circle"></i> Quizzes</a>
+    <a href="contact" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
+    <a href="blog" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
 
     <!-- For Teacher only visible to teachers -->
     <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "teacher"): ?>
-        <a href="teachers.php" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> For Teacher</a>
+        <a href="teachers" class="menu-item"><i class="fas fa-chalkboard-teacher"></i> For Teacher</a>
     <?php endif; ?>
 
     <!-- Lessons only visible to students -->
     <?php if (isset($_SESSION["role"]) && $_SESSION["role"] === "student"): ?>
-        <a href="video.php" class="menu-item"><i class="fas fa-book-reader"></i> Lessons</a>
+        <a href="video" class="menu-item"><i class="fas fa-book-reader"></i> Lessons</a>
     <?php endif; ?>
 </nav>
 
     <!-- Log Out Button -->
     <?php if (isset($_SESSION["user_id"])): ?>
     <div class="menu-item logout-item">
-        <a href="logout.php">
+        <a href="logout">
             <i class="fas fa-sign-out-alt"></i> Log Out
         </a>
     </div>
@@ -230,7 +230,7 @@ $conn->close();
     <!-- My Account at the Bottom (Only show if user is not logged in) -->
     <?php if (!isset($_SESSION["user_id"])): ?>
     <div class="menu-item account-sidebar-item">
-        <a href="login.php">
+        <a href="login">
             <i class="fas fa-user"></i> My Account
         </a>
     </div>
@@ -649,6 +649,7 @@ $conn->close();
 
 .deposit-button:hover {
     background-color: #27ae60; /* Darker green on hover */
+    text-decoration: none;
 }
 
 /* Log Out Button Styling */
