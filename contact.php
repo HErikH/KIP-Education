@@ -3,13 +3,15 @@ session_start(); ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us - KIP Education</title>
     <link rel="icon" href="resource/img/favicon.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome Icons -->
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
             background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
@@ -45,7 +47,8 @@ session_start(); ?>
             min-height: 500px;
         }
 
-        .contact-form, .contact-info {
+        .contact-form,
+        .contact-info {
             background-color: rgba(255, 255, 255, 0.1);
             padding: 30px;
             border-radius: 15px;
@@ -59,7 +62,8 @@ session_start(); ?>
             height: 600px;
         }
 
-        .contact-form h3, .contact-info h3 {
+        .contact-form h3,
+        .contact-info h3 {
             font-size: 24px;
             margin-bottom: 20px;
         }
@@ -133,6 +137,7 @@ session_start(); ?>
             background-color: transparent;
             text-decoration: none;
             transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            cursor: pointer;
         }
 
         .social-icons a:hover {
@@ -148,37 +153,37 @@ session_start(); ?>
 
         /* Telegram */
         .social-icons a:hover .telegram {
-          color: #0088cc;
+            color: #0088cc;
         }
 
         /* Facebook */
         .social-icons a:hover .facebook {
-          color: #1877f2;
+            color: #1877f2;
         }
 
         /* Instagram */
         .social-icons a:hover .instagram {
-          color: #e4405f; 
+            color: #e4405f;
         }
 
         /* YouTube */
         .social-icons a:hover .youtube {
-          color: #ff0000;
+            color: #ff0000;
         }
 
         /* TikTok */
         .social-icons a:hover .tiktok {
-          color: #010101;
+            color: #010101;
         }
 
         /* WeChat */
         .social-icons a:hover .wechat {
-          color: #07c160; 
+            color: #07c160;
         }
 
         /* Gmail */
         .social-icons a:hover .gmail {
-          color: #ea4335; 
+            color: #ea4335;
         }
 
         footer {
@@ -198,7 +203,8 @@ session_start(); ?>
                 gap: 20px;
             }
 
-            .contact-form, .contact-info {
+            .contact-form,
+            .contact-info {
                 width: 45%;
             }
         }
@@ -213,12 +219,14 @@ session_start(); ?>
                 gap: 15px;
             }
 
-            .contact-form, .contact-info {
+            .contact-form,
+            .contact-info {
                 width: 100%;
             }
         }
     </style>
 </head>
+
 <body>
 
     <!-- Include Header -->
@@ -240,7 +248,8 @@ session_start(); ?>
                 </div>
                 <div class="form-group">
                     <label for="message">Message</label>
-                    <textarea id="message" name="message" class="form-control" rows="6" placeholder="Your Message" required></textarea>
+                    <textarea id="message" name="message" class="form-control" rows="6" placeholder="Your Message"
+                        required></textarea>
                 </div>
                 <button type="submit" class="btn-submit">Send Message</button>
             </form>
@@ -251,18 +260,23 @@ session_start(); ?>
             <img src="resource/img/logo.png" alt="KIP Education Logo">
             <h3>Contact Information</h3>
             <p><i class="fas fa-phone"></i> +374 33 348889</p>
-            <p><i class="fas fa-envelope"></i> <a href="mailto:kip.edu.center@gmail.com" style="color:white;">kip.edu.center@gmail.com</a></p>
+            <p><i class="fas fa-envelope"></i> <a href="mailto:kip.edu.center@gmail.com"
+                    style="color:white;">kip.edu.center@gmail.com</a></p>
             <p><i class="fas fa-map-marker-alt"></i> Yerevan, Armenia</p>
             <p><i class="fas fa-clock"></i> Mon - Fri: 9:00 AM - 6:00 PM</p>
 
             <!-- Social Media Icons -->
             <div class="social-icons">
-                <a href="https://www.facebook.com/profile.php?id=61556910637179&mibextid=ZbWKwL" target="_blank"><i class="fab fa-facebook-f facebook"></i></a>
-                <a href="https://www.instagram.com/kip.edu_center/profilecard/?igsh=MTd4aDcxZXYyb2I0eA==" target="_blank"><i class="fab fa-instagram instagram"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61556910637179&mibextid=ZbWKwL" target="_blank"><i
+                        class="fab fa-facebook-f facebook"></i></a>
+                <a href="https://www.instagram.com/kip.edu_center/profilecard/?igsh=MTd4aDcxZXYyb2I0eA=="
+                    target="_blank"><i class="fab fa-instagram instagram"></i></a>
                 <a href="https://t.me/kipeducenter" target="_blank"><i class="fab fa-telegram telegram"></i></a>
-                <a href="https://youtube.com/@kipeducationandtrainingidcente?si=LtVca2znsVvF5fo-" target="_blank"><i class="fab fa-youtube youtube"></i></a>
+                <a href="https://youtube.com/@kipeducationandtrainingidcente?si=LtVca2znsVvF5fo-" target="_blank"><i
+                        class="fab fa-youtube youtube"></i></a>
                 <a href="https://vm.tiktok.com/ZS2TWe4qr/" target="_blank"><i class="fab fa-tiktok tiktok"></i></a>
-                <a href="https://u.wechat.com/kF-kXw2538xohDykaVOkcmE?s=0" target="_blank"><i class="fab fa-weixin wechat"></i></a>
+                <!-- <a href="https://u.wechat.com/kF-kXw2538xohDykaVOkcmE?s=0" target="_blank"><i class="fab fa-weixin wechat"></i></a> -->
+                <a id="openWeChatQrModal"><i class="fab fa-weixin wechat"></i></a>
                 <a href="mailto:kip.edu.center@gmail.com"><i class="fas fa-envelope gmail"></i></a>
             </div>
         </div>
@@ -271,21 +285,36 @@ session_start(); ?>
     <!-- Include Footer -->
     <?php include "footer.php"; ?>
 
+    <!-- Include We-chat Qr Modal -->
+    <?php include "weChatQrModal.php" ?>
+
+    <!-- Handle Open / Close for We Chat Qr Modal -->
     <script>
-        document.getElementById("myAccountBtn").onclick = function() {
-            <?php if (
-              isset($_SESSION["loggedin"]) &&
-              $_SESSION["loggedin"] === true &&
-              isset($_SESSION["user_id"])
-            ): ?>
-                window.location.href = "profile?id=<?php echo $_SESSION[
-                  "user_id"
-                ]; ?>";
-            <?php else: ?>
-                window.location.href = "login";
-            <?php endif; ?>
-        };
+        document.getElementById('openWeChatQrModal').addEventListener('click', function (e) {
+            e.preventDefault();
+            document.getElementById('we-chat-qr-modal').style.display = 'flex';
+        });
+
+        document.getElementById('closeWeChatQrModal').addEventListener('click', function () {
+            document.getElementById('we-chat-qr-modal').style.display = 'none';
+        });
     </script>
 
+    <script>
+        document.getElementById("myAccountBtn").onclick = function () {
+            <? php if (
+                isset($_SESSION["loggedin"]) &&
+                $_SESSION["loggedin"] === true &&
+                isset($_SESSION["user_id"])
+            ): ?>
+                window.location.href = "profile?id=<?php echo $_SESSION[
+            "user_id"
+                ]; ?> ";
+                <? php else: ?>
+                    window.location.href = "login";
+            <? php endif; ?>
+        };
+    </script>
 </body>
+
 </html>
