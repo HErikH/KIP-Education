@@ -76,13 +76,13 @@
 </head>
 
 <body>
-    <div class="header">
+    <header class="header">
         <div class="left-section">
             <a onclick="location.replace('contact')" class="exit-link">
                 <i class="fas fa-arrow-left"></i> Back
             </a>
         </div>
-    </div>
+    </header>
     <div class="main-content">
         <h1 class="message-success">Message sent successfully !</h1>
     </div>

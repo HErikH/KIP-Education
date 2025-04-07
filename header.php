@@ -53,7 +53,6 @@ if (isset($_SESSION["user_id"])) {
 $conn->close();
 ?>
 
-
 <!-- Combined Header and Secondary Menu -->
 <div class="header-wrapper">
     <!-- Navigation Bar -->
@@ -143,6 +142,13 @@ $conn->close();
     <div class="secondary-menu">
         <!-- Secondary Menu Items -->
         <div class="secondary-menu-items">
+            <?php 
+                if (isset($show_back_button) && $show_back_button) {
+                    echo '<a onclick="window.history.back()" class="exit-link">
+                        <i class="fas fa-arrow-left"></i> Back
+                    </a>';
+                }
+            ?>
             <!-- Dashboard visible to guest and teachers -->
             <a href="profile" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
 
@@ -478,6 +484,25 @@ $conn->close();
     .secondary-menu .menu-item:hover {
         background-color: #bdc3c7;
         color: #34495e;
+    }
+
+    .exit-link {
+        position: absolute;
+        color: #ffffff;
+        text-decoration: none;
+        font-size: 16px;
+        margin-right: 20px;
+        cursor: pointer;
+        left: 2rem;
+    }
+
+    .exit-link:hover {
+        color: #ff9800;
+        text-decoration: none;
+    }
+
+    .exit-link i {
+        margin-right: 8px;
     }
 
     /* Hide balance-deposit-container on mobile */

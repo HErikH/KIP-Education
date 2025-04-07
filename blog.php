@@ -77,7 +77,8 @@ if ($result === false) {
             border-radius: 15px;
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
             width: 350px;
-            height: 450px; /* Set standard height for all cards */
+            min-height: 450px;
+            height: fit-content;
             overflow: hidden;
             text-align: left;
             display: flex;

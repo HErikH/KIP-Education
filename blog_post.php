@@ -97,6 +97,7 @@ body {
 
 <?php
 // Include the header
+$show_back_button = true;
 include 'header.php';
 ?>
 
