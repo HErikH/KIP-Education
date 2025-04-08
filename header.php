@@ -565,6 +565,9 @@ $conn->close();
     .menu {
         display: flex;
         flex-direction: column;
+        max-height: 300px;
+        padding: 1rem 0;
+        overflow: auto;
     }
 
     .menu-item {
@@ -625,7 +628,10 @@ $conn->close();
     /* User Info Styling in Sidebar */
 .user-info {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    text-align: center;
     padding: 15px;
     background-color: #34495e;
     border-bottom: 1px solid #2c3e50;
@@ -679,7 +685,9 @@ $conn->close();
 
 /* Log Out Button Styling */
 .logout-item {
-    margin-top: auto; /* Pushes the log out button to the bottom */
+    position: absolute;
+    width: 100%;
+    bottom: 0;
     padding: 15px;
     background-color: #e74c3c; /* Red background for Log Out */
     border-radius: 5px;
