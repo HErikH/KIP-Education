@@ -857,7 +857,9 @@ body {
         <div class="overlay-container-popup"></div>
     </div>
 </div>
+</div>
 
+<?php include "children_characteristics.php"?>
 
 <?php include 'footer.php'; ?>
 
