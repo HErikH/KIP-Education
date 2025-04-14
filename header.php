@@ -64,13 +64,6 @@ $conn->close();
         
         <!-- Navbar Links on the Left (Visible on Desktop) -->
 <div class="navbar-links" id="navbar-links">
-    <a href="programms" class="menu-item programs <?php echo basename(
-      $_SERVER["PHP_SELF"]
-    ) == "programms.php"
-      ? "active"
-      : ""; ?>">
-        <i class="fas fa-book"></i> Programs
-    </a>
     <a href="about_us" class="menu-item <?php echo basename(
         $_SERVER["PHP_SELF"]
       ) == "about_us.php"
@@ -78,6 +71,13 @@ $conn->close();
         : ""; ?>">
           <i class="fas fa-users"></i> About Us
       </a>
+    <a href="programms" class="menu-item programs <?php echo basename(
+      $_SERVER["PHP_SELF"]
+    ) == "programms.php"
+      ? "active"
+      : ""; ?>">
+        <i class="fas fa-book"></i> Programs
+    </a>
     <a href="quizzes" class="menu-item <?php echo basename(
       $_SERVER["PHP_SELF"]
     ) == "quizzes.php"
@@ -215,8 +215,8 @@ $conn->close();
         <a href="profile" class="menu-item"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
     <?php endif; ?>
 
-    <a href="programms" class="menu-item"><i class="fas fa-book"></i> Programs</a>
     <a href="about_us" class="menu-item"><i class="fas fa-users"></i> About Us</a>
+    <a href="programms" class="menu-item"><i class="fas fa-book"></i> Programs</a>
     <a href="quizzes" class="menu-item"><i class="fas fa-question-circle"></i> Quizzes</a>
     <a href="contact" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
     <a href="blog" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
