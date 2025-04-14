@@ -824,6 +824,17 @@ body {
                 <i class="fas fa-file-pdf"></i> UNICEF Learning through Play.pdf
             </div>
         </div>
+
+        <!-- Children's Educational Characteristics for Teachers Section inside the container -->
+        <div class="file-item" onclick="toggleSection('kidsEnglishCharacteristics')">
+            <i class="fas fa-folder"></i> Children's Educational Characteristics
+        </div>
+     
+        <div id="kidsEnglishCharacteristics" style="display: none; padding-left: 20px;">
+            <div class="file-item word" onclick="loadFile('/resource/For%20teacher/Kids%20characteristics_English.docx')">
+                <i class="fas fa-file-word"></i> Children's Educational Characteristics.docx
+            </div>
+        </div>
     </div>
 
 <!-- Video/File Section -->
@@ -858,8 +869,6 @@ body {
     </div>
 </div>
 </div>
-
-<?php include "children_characteristics.php"?>
 
 <?php include 'footer.php'; ?>
 
