@@ -1,4 +1,4 @@
-<section class="section py-5 bg-white rounded">
+<section id="group-lessons" class="section py-5 bg-white rounded">
     <div class="container">
         <h3 class="text-center text-primary font-weight-bold mb-4">Group Online Lesson</h3>
         <p class="lead text-center text-dark mb-5">Learn, connect, and grow together — wherever you are!</p>

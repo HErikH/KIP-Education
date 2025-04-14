@@ -3,6 +3,6 @@
 <?php
 require_once 'constants.php';
 
-function media($path = '') {
+function addMediaBaseUrl($path = '') {
     return MEDIA_BASE_URL . '/' . ltrim($path, '/');
 }

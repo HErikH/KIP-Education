@@ -1,4 +1,4 @@
-<section class="section py-5 bg-light rounded">
+<section id="private-lessons" class="section py-5 bg-light rounded">
     <div class="container">
         <h3 class="text-center text-primary font-weight-bold mb-4">Private Online Lesson</h3>
         <p class="lead text-center text-dark mb-5">One-on-one learning, fully personalized for your growth.</p>

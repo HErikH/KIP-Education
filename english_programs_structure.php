@@ -39,7 +39,7 @@
         </div>
 
         <!-- Online Course Overview -->
-        <div class="mb-5">
+        <div id="online-course-details" class="mb-5">
             <h5 class="text-dark mb-3">Online Course Overview:</h5>
             <ul class="list-unstyled pl-3">
                 <li class="mb-2">

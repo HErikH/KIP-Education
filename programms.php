@@ -1,4 +1,6 @@
 <?php
+require_once 'constants.php';
+
 // Include the database connection
 include 'db_connect.php';
 
@@ -201,6 +203,14 @@ $conn->close();
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             min-height: 350px;
             /* Fixed height for all cards */
+        }
+
+        .card__relative-about-us-info {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
         }
 
         .card:hover {
@@ -595,6 +605,9 @@ include 'header.php';
         <?php foreach ($products as $product): ?>
         <?php if ($product['group'] == 'Children ages 3-6 /K1/'): ?>
         <div class="card">
+            <!-- Href to about us relative section -->
+            <?php $anchor = PROGRAMS_ABOUT_INFO_NAMES[$product['title']]; ?>
+            <a class="card__relative-about-us-info" href="about_us#<?= $anchor ?>"></a>
             <!-- Convert title to uppercase and set font weight -->
             <h4 style="text-transform: uppercase; font-weight: 600;">
                 <?= htmlspecialchars($product['title']) ?>
@@ -647,6 +660,9 @@ include 'header.php';
         <?php foreach ($products as $product): ?>
         <?php if ($product['group'] == 'Children ages 7-11 /K2/'): ?>
         <div class="card">
+            <!-- Href to about us relative section -->
+            <?php $anchor = PROGRAMS_ABOUT_INFO_NAMES[$product['title']]; ?>
+            <a class="card__relative-about-us-info" href="about_us#<?= $anchor ?>"></a>
             <h4 style="text-transform: uppercase; font-weight: 600;">
                 <?= htmlspecialchars($product['title']) ?>
             </h4>
@@ -692,6 +708,9 @@ include 'header.php';
         <?php foreach ($products as $product): ?>
         <?php if ($product['group'] == 'Teenagers ages 12-17 /TA1/'): ?>
         <div class="card">
+            <!-- Href to about us relative section -->
+            <?php $anchor = PROGRAMS_ABOUT_INFO_NAMES[$product['title']]; ?>
+            <a class="card__relative-about-us-info" href="about_us#<?= $anchor ?>"></a>
             <h4 style="text-transform: uppercase; font-weight: 600;">
                 <?= htmlspecialchars($product['title']) ?>
             </h4>
@@ -737,6 +756,9 @@ include 'header.php';
         <?php foreach ($products as $product): ?>
         <?php if ($product['group'] == 'Adults/TA2/'): ?>
         <div class="card">
+            <!-- Href to about us relative section -->
+            <?php $anchor = PROGRAMS_ABOUT_INFO_NAMES[$product['title']]; ?>
+            <a class="card__relative-about-us-info" href="about_us#<?= $anchor ?>"></a>
             <h4 style="text-transform: uppercase; font-weight: 600;">
                 <?= htmlspecialchars($product['title']) ?>
             </h4>

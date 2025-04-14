@@ -1,5 +1,5 @@
 <!-- Let's Learn Alone -->
-<section class="py-5 bg-light rounded">
+<section id="learn-alone-lessons" class="py-5 bg-light rounded">
     <div class="container">
         <h3 class="text-center text-primary font-weight-bold mb-4">Let’s Learn Alone</h3>
         <p class="lead text-center text-dark mb-5">Empowering children to become confident, independent learners —
