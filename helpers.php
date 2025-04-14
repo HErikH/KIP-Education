@@ -1,3 +1,5 @@
+<!-- Write Here Your Helper Functions Here -->
+
 <?php
 require_once 'constants.php';
 

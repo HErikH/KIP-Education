@@ -13,7 +13,7 @@
         body {
             background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
             /* #FDB827 */
-            color: #F3A953;
+            color: #FF8C42;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
@@ -99,6 +99,10 @@
         .table td {
             vertical-align: middle;
         }
+
+        .text-with-shadow {
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
     </style>
 </head>
 
@@ -111,21 +115,23 @@
         <!-- Header -->
         <div class="text-center mb-5">
             <h1 class="display-4 text-primary">KIP Education and Training ID Center</h1>
-            <p class="lead">Learning through Multiple Intelligences & the Five Senses</p>
+            <p class="lead text-with-shadow">Learning through Multiple Intelligences & the Five Senses</p>
         </div>
 
         <!-- Who We Are -->
         <div class="section">
-            <h3 class="section-title">Who We Are</h3>
-            <p>KIP develops English education programs based on Dr. Howard Gardner's Theory of Multiple Intelligences,
+            <h3 class="section-title text-primary">Who We Are</h3>
+            <p class="text-with-shadow">KIP develops English education programs based on Dr.
+                Howard Gardner's Theory of Multiple Intelligences,
                 integrating the five senses, inspired by Harvard University research.</p>
-            <p>We also offer training for English teachers to apply these principles in the classroom.</p>
+            <p class="text-with-shadow">We also offer training for English teachers to apply
+                these principles in the classroom.</p>
         </div>
 
         <!-- Our Approach -->
         <div class="section">
-            <h3 class="section-title">Our Approach</h3>
-            <p>Our programs go beyond language instruction by fostering critical thinking, reasoning, expression, and
+            <h3 class="section-title text-primary">Our Approach</h3>
+            <p class="text-with-shadow">Our programs go beyond language instruction by fostering critical thinking, reasoning, expression, and
                 teamwork. Every student is unique and has different learning strengths. We aim to engage students
                 through their dominant intelligence.</p>
         </div>

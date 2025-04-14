@@ -1,5 +1,5 @@
 <div class="section intelligences-section">
-    <h3 class="section-title d-flex justify-content-between align-items-center" data-toggle="collapse"
+    <h3 class="section-title d-flex justify-content-between align-items-center text-primary" data-toggle="collapse"
         data-target="#intelligences" aria-expanded="false" aria-controls="intelligences">
         Multiple Intelligences
         <span class="toggle-icon">&#9654;</span>

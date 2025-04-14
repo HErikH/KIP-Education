@@ -1,5 +1,5 @@
 <div class="section">
-    <h3 class="section-title">Programs We Offer</h3>
+    <h3 class="section-title text-primary">Programs We Offer</h3>
     <div class="row">
         <?php
       $programs = [
