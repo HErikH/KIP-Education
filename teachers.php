@@ -179,6 +179,26 @@ body {
     background-color: rgba(255, 99, 132, 0.5); /* Red for PDF */
 }
 
+.category-icon-letters {
+    color: #B36D6D;
+}
+
+.category-icon-music {
+    color: #B39651;
+}
+
+.category-icon-culture {
+    color: #D06898;
+}
+
+.category-icon-logic_math {
+    color: #A3B351;
+}
+
+.category-icon-art {
+    color: #6BB368;
+}
+
 /* Video section */
 .video-section {
     width: 70%;
@@ -659,7 +679,7 @@ body {
 
             <!-- Category Folder -->
             <div class="file-item" onclick="toggleSection('<?php echo $category; ?>Section')">
-                <i class="fas fa-folder"></i> <?php echo $category; ?>
+                <i class="fas fa-folder category-icon-<?= strtolower($category); ?>"></i> <?php echo $category; ?>
             </div>
 
             <div id="<?php echo $category; ?>Section" style="display: none; padding-left: 20px;">
@@ -668,7 +688,7 @@ body {
                     <?php foreach ($lessons as $lesson): ?>
                         <!-- Each lesson becomes a folder -->
                         <div class="file-item" onclick="toggleSection('<?php echo $lesson['title']; ?>Section')" style="margin-left: 20px;">
-                            <i class="fas fa-folder"></i> <?php echo $lesson['title']; ?>
+                            <i class="fas fa-folder category-icon-<?= strtolower($category); ?>"></i> <?php echo $lesson['title']; ?>
                         </div>
 
                         <!-- Inside each lesson folder, display the corresponding files, videos, etc. -->
@@ -764,7 +784,7 @@ body {
 
         <!-- Special Lessons Section inside the container -->
         <div class="file-item" onclick="toggleSection('specialLessonsSection')">
-            <i class="fas fa-folder"></i> Special Lessons
+            <i class="fas fa-folder" style="color: #B39651;"></i> Special Lessons
         </div>
         <div id="specialLessonsSection" style="display: none; padding-left: 20px;">
             <!-- Happy Easter Folder -->
@@ -788,7 +808,7 @@ body {
 
             <!-- Merry Christmas Folder -->
             <div class="file-item" onclick="toggleSection('merryChristmasSection')">
-                <i class="fas fa-folder"></i> Merry Christmas
+                <i class="fas fa-folder" style="color: #6BB368;"></i> Merry Christmas
             </div>
             <div id="merryChristmasSection" style="display: none; padding-left: 20px;">
                 <div class="file-item powerpoint" onclick="loadFile('/resource/For%20teacher/Christmas-lesson.pptx')">
@@ -808,7 +828,7 @@ body {
 
         <!-- Resources for Teachers Section inside the container -->
         <div class="file-item" onclick="toggleSection('resourcesForTeachersSection')">
-            <i class="fas fa-folder"></i> Resources for Teachers
+            <i class="fas fa-folder" style="color: #D06898"></i> Resources for Teachers
         </div>
         <div id="resourcesForTeachersSection" style="display: none; padding-left: 20px;">
             <div class="file-item pdf" onclick="loadFile('/resource/For%20teacher/b_dialogues_everyday_conversations_english_lo_0.pdf')">
@@ -827,7 +847,7 @@ body {
 
         <!-- Children's Educational Characteristics for Teachers Section inside the container -->
         <div class="file-item" onclick="toggleSection('kidsEnglishCharacteristics')">
-            <i class="fas fa-folder"></i> Children's Educational Characteristics
+            <i class="fas fa-folder" style="color: #7668D1"></i> Children's Educational Characteristics
         </div>
      
         <div id="kidsEnglishCharacteristics" style="display: none; padding-left: 20px;">
