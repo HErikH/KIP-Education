@@ -372,13 +372,6 @@ include 'header.php';
         <button id="changePasswordBtn" class="btn btn-warning">Change Password</button>
     </div>
 
-    <!-- My Program Container -->
-    <div class="bottom-container">
-        <h3>My Program</h3>
-        <p>You do not have a selected package yet.</p>
-        <a href="programms" class="btn btn-primary">Buy Program</a>
-    </div>
-
    <!-- Вывод IP адресов -->
     <div class="extra-container">
         <h3>Accessed Devices</h3>
