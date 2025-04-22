@@ -197,6 +197,31 @@ if (isset($_GET['post_id']) && is_numeric($_GET['post_id'])) {
             border-radius: 50px;
         }
 
+        @media (max-width: 768px) {
+            .pagination a:not(.btn-primary) {
+                display: none;
+            }
+
+            .pagination-wrapper-bottom {
+                width: 100%;
+            }
+
+            .pagination a {
+                padding: 6px 10px;
+            }
+
+            .pagination a.btn-view-all {
+                width: 250px;
+                padding: 12px 25px;
+                font-size: 1.1rem;
+                border-radius: 50px;
+            }
+
+            .pagination a.btn-view-all:hover {
+                background-color: #2980b9;
+            }
+        }
+
         .blog-posts {
             display: flex;
             flex-wrap: wrap;
