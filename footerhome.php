@@ -10,7 +10,7 @@
 /* Footer Styling */
 footer {
     text-align: center;
-    padding: 20px;
+    padding: 12px;
     background-color: rgba(0, 0, 0, 0.5);
     color: white;
     position: fixed;

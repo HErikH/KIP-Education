@@ -163,20 +163,40 @@ body {
     background-color: rgba(54, 162, 235, 0.5); /* Blue for videos */
 }
 
+.file-item.video i {
+    color: rgba(54, 162, 235);
+}
+
 .file-item.excel {
     background-color: rgba(75, 192, 192, 0.5); /* Teal for Excel */
+}
+
+.file-item.excel i {
+    color: rgba(75, 192, 192); /* Teal for Excel */
 }
 
 .file-item.word {
     background-color: rgba(153, 102, 255, 0.5); /* Purple for Word */
 }
 
+.file-item.word i {
+    color: #B39651; /* Purple for Word */
+}
+
 .file-item.powerpoint {
     background-color: rgba(255, 159, 64, 0.5); /* Orange for PowerPoint */
 }
 
+.file-item.powerpoint i {
+    color: #D04423;
+}
+
 .file-item.pdf {
     background-color: rgba(255, 99, 132, 0.5); /* Red for PDF */
+}
+
+.file-item.pdf i {
+    color: rgba(255, 99, 132); /* Red for PDF */
 }
 
 .category-icon-letters {
@@ -846,13 +866,15 @@ body {
         </div>
 
         <!-- Children's Educational Characteristics for Teachers Section inside the container -->
-        <div class="file-item" onclick="toggleSection('kidsEnglishCharacteristics')">
-            <i class="fas fa-folder" style="color: #7668D1"></i> Children's Educational Characteristics
+        <div class="file-item text-left" onclick="toggleSection('kidsEnglishCharacteristics')">
+            <i class="fas fa-folder" style="color: #7668D1"></i> 
+            Children's Educational Characteristics Aged 3-6
         </div>
      
-        <div id="kidsEnglishCharacteristics" style="display: none; padding-left: 20px;">
+        <div id="kidsEnglishCharacteristics" style="display: none; padding-left: 20px; text-align: left;">
             <div class="file-item word" onclick="loadFile('/resource/For%20teacher/Kids%20characteristics_English.docx')">
-                <i class="fas fa-file-word"></i> Children's Educational Characteristics.docx
+                <i class="fas fa-file-word"></i> 
+                Children's Educational Characteristics Aged 3-6.docx
             </div>
         </div>
     </div>

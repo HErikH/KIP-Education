@@ -470,7 +470,7 @@ $conn->close();
     /* Secondary Menu Styling */
     .secondary-menu {
         background-color: #2c3e50;
-        padding: 10px 20px;
+        padding: 3px 20px;
         display: flex;
         justify-content: center;
         align-items: center;

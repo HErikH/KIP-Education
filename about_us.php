@@ -58,6 +58,7 @@
             border-left: 5px solid #007BFF;
             padding-left: 1rem;
             margin-bottom: 1.5rem;
+            font-size: 2rem;
         }
 
         .intelligences-section .section-title {
@@ -114,26 +115,26 @@
         <div class="hero-bg"></div>
         <!-- Header -->
         <div class="text-center mb-5">
-            <h1 class="display-4 text-primary">KIP Education and Training ID Center</h1>
-            <p class="lead text-with-shadow">Learning through Multiple Intelligences & the Five Senses</p>
+            <h1 class="display-4 text-primary font-weight-bold">KIP Education and Training ID Center</h1>
+            <h2 class="text-with-shadow">Learning through Multiple Intelligences & the Five Senses</h2>
         </div>
 
         <!-- Who We Are -->
         <div class="section">
             <h3 class="section-title text-primary">Who We Are</h3>
-            <p class="text-with-shadow">KIP develops English education programs based on Dr.
+            <h5 class="text-with-shadow">KIP develops English education programs based on Dr.
                 Howard Gardner's Theory of Multiple Intelligences,
-                integrating the five senses, inspired by Harvard University research.</p>
-            <p class="text-with-shadow">We also offer training for English teachers to apply
-                these principles in the classroom.</p>
+                integrating the five senses, inspired by Harvard University research.</h5>
+            <h5 class="text-with-shadow">We also offer training for English teachers to apply
+                these principles in the classroom.</h5>
         </div>
 
         <!-- Our Approach -->
         <div class="section">
             <h3 class="section-title text-primary">Our Approach</h3>
-            <p class="text-with-shadow">Our programs go beyond language instruction by fostering critical thinking, reasoning, expression, and
+            <h5 class="text-with-shadow">Our programs go beyond language instruction by fostering critical thinking, reasoning, expression, and
                 teamwork. Every student is unique and has different learning strengths. We aim to engage students
-                through their dominant intelligence.</p>
+                through their dominant intelligence.</h5>
         </div>
 
         <!-- Multiple Intelligences -->
