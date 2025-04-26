@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';  // Կապը տվյալների բազայի հետ
+require_once 'constants.php';
 
 // Ստուգում ենք՝ արդյոք ադմինիստրատորն է մուտք գործել
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true || $_SESSION['role'] !== 'admin') {
@@ -18,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $image_tmp = $_FILES['image']['tmp_name'];
         $image_name = $_FILES['image']['name'];
-        $image_path = 'resource/img/posts/' . $image_name;
+        $image_path = UPLOAD_DIR . 'resource/img/posts/' . $image_name;
 
         // Ստուգում ենք ֆայլի ձևաչափը
         $allowed_image_exts = ['jpg', 'jpeg', 'png', 'gif'];

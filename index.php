@@ -1,5 +1,7 @@
 <?php
-session_start(); ?>
+session_start(); 
+require_once 'helpers.php';
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -7,7 +9,7 @@ session_start(); ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIP Education - Lessons</title>
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome Icons -->
     <style>
@@ -176,8 +178,8 @@ session_start(); ?>
         </a>
     </div>
 
-    <img src="resource/img/girl.webp" alt="Girl Image" class="left-image">
-    <img src="resource/img/boy.webp" alt="Boy Image" class="right-image"> <!-- Boy image added here -->
+    <img src="<?= addMediaBaseUrl('resource/img/girl.webp') ?>" alt="Girl Image" class="left-image">
+    <img src="<?= addMediaBaseUrl('resource/img/bot.webp') ?>" alt="Boy Image" class="right-image"> <!-- Boy image added here -->
 
     <?php include "footer.php"; ?>
 

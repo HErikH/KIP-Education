@@ -1,4 +1,6 @@
 <?php
+require_once 'constants.php';
+
 if ($_FILES['upload']) {
     $file = $_FILES['upload'];
     $allowed_extensions = ['jpg', 'jpeg', 'png', 'gif'];
@@ -7,7 +9,7 @@ if ($_FILES['upload']) {
     $ext = strtolower(pathinfo($file['name'], PATHINFO_EXTENSION));
     if (in_array($ext, $allowed_extensions)) {
         // Move the uploaded file to the desired location
-        $uploadDir = 'resource/img/uploads/';
+        $uploadDir = UPLOAD_DIR . 'resource/img/uploads/';
         if (!is_dir($uploadDir)) {
             mkdir($uploadDir, 0777, true); // Create directory if it doesn't exist
         }

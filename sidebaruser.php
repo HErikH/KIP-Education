@@ -4,6 +4,8 @@ if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
 
+require_once 'helpers.php';
+
 // Get the current page name
 $current_page = basename($_SERVER['PHP_SELF']);
 ?>
@@ -153,7 +155,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <div class="sidebar" id="sidebar">
     <span class="close-btn" id="closeSidebar">&times;</span>
     <div class="profile-info">
-        <img src="resource/img/profile.png" alt="Profile Image">
+        <img src="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" alt="Profile Image">
         <h2 style="color:white;"><?php echo $userData['email']; ?></h2>
         <p style="color:white;">ID: <?php echo $userData['id']; ?></p>
     </div>

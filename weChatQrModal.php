@@ -49,7 +49,7 @@
 
 <div id="we-chat-qr-modal">
     <div class="we-chat-qr-modal__content">
-        <img src="resource/img/weChatQr.png" alt="We Chat Qr">
+        <img src="<?= addMediaBaseUrl('resource/img/weChatQr.png') ?>" alt="We Chat Qr">
         <button id="closeWeChatQrModal">&times;</button>
     </div>
 </div>

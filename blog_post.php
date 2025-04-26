@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'helpers.php';
 include 'db_connect.php'; // Include database connection
 
 // Check if the database connection is successful
@@ -29,7 +30,7 @@ $post = $result->fetch_assoc();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($post['title']) ?> - Kipeducation.am</title>
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>

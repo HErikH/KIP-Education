@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';
+require_once 'helpers.php';
 
 // Fetch quizzes and question counts from the database
 $quizQuery = "
@@ -23,7 +24,7 @@ $quizResult = $conn->query($quizQuery);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quizzes</title>
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="r<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -142,7 +143,7 @@ $quizResult = $conn->query($quizQuery);
                         <?php if (!empty($quiz['image'])): ?>
                             <img src="<?= htmlspecialchars($quiz['image']) ?>" alt="Quiz Image">
                         <?php else: ?>
-                            <img src="resource/quiz/img/default.jpg" alt="Default Image">
+                            <img src="<?= addMediaBaseUrl('resource/img/default.jpg') ?>" alt="Default Image">
                         <?php endif; ?>
                         <div class="badge-info">
                             <i class="fas fa-question-circle"></i> <?= htmlspecialchars($quiz['question_count']) ?> Questions

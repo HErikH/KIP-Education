@@ -1,6 +1,7 @@
 <?php
 // Include the database connection
 include 'db_connect.php';
+require_once 'helpers.php';
 
 // Ստուգել՝ արդյոք օգտագործողը մուտք է գործել
 session_start();
@@ -77,6 +78,7 @@ foreach ($lessons as $lesson) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>For Teachers</title>
     <!-- Font Awesome Icons -->
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <!-- Bootstrap for layout -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
@@ -786,7 +788,7 @@ body {
 
         <!-- Existing Files inside the container -->
         <h3>Additional Resources</h3>
-        <div class="file-item video" onclick="openVideo('/resource/For%20teacher/Morning%20Relaxing%20Music%20-%20Positive%20Background%20Music%20for%20Kids%20(Sway).mp4')">
+        <div class="file-item video" onclick="openVideo('<?= addMediaBaseUrl('/resource/For%20teacher/Morning%20Relaxing%20Music%20-%20Positive%20Background%20Music%20for%20Kids%20(Sway).mp4') ?>')">
             <i class="fas fa-video"></i> Background Music - Morning Relaxing Music
         </div>
         <div class="file-item excel" onclick="loadFile('/resource/For%20teacher/K1_Syllabus_Program.xlsx')">
@@ -815,7 +817,7 @@ body {
                 <div class="file-item pdf" onclick="loadFile('/resource/For%20teacher/Easter%20worksheet_Card.pdf')">
                     <i class="fas fa-file-pdf"></i> Easter worksheet_Card.pdf
                 </div>
-                <div class="file-item video" onclick="openVideo('/resource/For%20teacher/The%20Bunny%20Hokey%20Pokey%20-%20The%20Kiboomers%20Preschool%20Songs%20for%20Circle%20Time%20-%20Easter%20Song.mp4')">
+                <div class="file-item video" onclick="openVideo('<?= addMediaBaseUrl('/resource/For%20teacher/The%20Bunny%20Hokey%20Pokey%20-%20The%20Kiboomers%20Preschool%20Songs%20for%20Circle%20Time%20-%20Easter%20Song.mp4') ?>')">
                     <i class="fas fa-video"></i> The Bunny Hokey Pokey - The Kiboomers Easter Song.mp4
                 </div>
                 <div class="file-item pdf" onclick="loadFile('/resource/For%20teacher/The%20Bunny%20Pokey.pdf')">
@@ -834,7 +836,7 @@ body {
                 <div class="file-item powerpoint" onclick="loadFile('/resource/For%20teacher/Christmas-lesson.pptx')">
                     <i class="fas fa-file-powerpoint"></i> Christmas-lesson.pptx
                 </div>
-                <div class="file-item video" onclick="openVideo('/resource/For%20teacher/Jingle%20Bells%20_%20Christmas%20Song%20_%20Super%20Simple%20Songs.mp4')">
+                <div class="file-item video" onclick="openVideo('<?= addMediaBaseUrl('/resource/For%20teacher/Jingle%20Bells%20_%20Christmas%20Song%20_%20Super%20Simple%20Songs.mp4') ?>')">
                     <i class="fas fa-video"></i> Jingle Bells - Christmas Song
                 </div>
                 <div class="file-item pdf" onclick="loadFile('/resource/For%20teacher/Jingle+Bells+Lyrics.pdf')">
@@ -945,6 +947,9 @@ function updateProgress() {
 
 // Function to load files (PPTX, PDF, DOCX, XLSX) and manage overlay
 function loadFile(fileSrc) {
+    // Add media base url
+    fileSrc = 'https://media.kipeducationid.com' + fileSrc
+
     const fileIframe = document.getElementById('fileIframe');
     const overlayContainer = document.getElementById('overlay-container');
 
@@ -955,7 +960,7 @@ function loadFile(fileSrc) {
     if (fileSrc.endsWith('.pptx') || fileSrc.endsWith('.docx') || fileSrc.endsWith('.xlsx')) {
         // Use Office365 Viewer for Word, Excel, and PowerPoint
         const office365ViewerUrl = 'https://view.officeapps.live.com/op/view.aspx?src=';
-        const fullUrl = office365ViewerUrl + encodeURIComponent(window.location.origin + '/' + fileSrc); // Ensure fileSrc has the correct path
+        const fullUrl = office365ViewerUrl + encodeURIComponent(fileSrc); // Ensure fileSrc has the correct path
         fileIframe.src = fullUrl;
 
         // Show overlay only for PowerPoint files if needed

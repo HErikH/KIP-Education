@@ -1,10 +1,14 @@
+<?php 
+require_once 'helpers.php'; 
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <title>About Us</title>
@@ -36,7 +40,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: url('/resource/img/kipMeet.jpg') center center / cover no-repeat;
+            background: url("<?= addMediaBaseUrl('/resource/img/kipMeet.jpg') ?>") center center / cover no-repeat;
             filter: blur(5px);
             z-index: -1;
             opacity: 0.6;
@@ -71,7 +75,7 @@
         .products-section {
             position: relative;
             border-radius: 10px;
-            /* background: url('resource/img/kipMeet2.jpg') center center / cover no-repeat; */
+            /* background: url("<?= addMediaBaseUrl('resource/img/kipMeet2.jpg') ?>") center center / cover no-repeat; */
         }
 
         .card {

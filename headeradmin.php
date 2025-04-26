@@ -1,13 +1,14 @@
 <?php
 // Получение текущего имени страницы для определения активного элемента меню
 $current_page = basename($_SERVER['PHP_SELF']);
+require_once 'helpers.php';
 ?>
 
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container-fluid">
         <a class="navbar-brand" href="admin.php">
-            <img src="resource/img/logo.png" alt="Logo" style="height: 40px; margin-right: 10px;"> Admin Panel
+            <img src="<?= addMediaBaseUrl('resource/img/logo.png') ?>" alt="Logo" style="height: 40px; margin-right: 10px;"> Admin Panel
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>

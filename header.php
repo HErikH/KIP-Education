@@ -1,4 +1,5 @@
 <?php
+require_once 'helpers.php';
 if (session_status() === PHP_SESSION_NONE) {
   session_start(); // Start session if not already started
 }
@@ -59,7 +60,7 @@ $conn->close();
     <nav class="navbar">
         <!-- Logo on the Left -->
         <a href="index" class="navbar-brand">
-            <img src="resource/img/logo.png" alt="Logo">
+            <img src="<?= addMediaBaseUrl('resource/img/logo.png') ?>" alt="Logo">
         </a>
         
         <!-- Navbar Links on the Left (Visible on Desktop) -->
@@ -128,7 +129,7 @@ $conn->close();
                 <!-- Profile Image -->
                 <div class="profile-image">
                     <a href="profile">
-                        <img src="resource/img/profile.png" alt="Profile Image">
+                        <img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="Profile Image">
                     </a>
                 </div>
             <?php else: ?> 
@@ -190,7 +191,7 @@ $conn->close();
     <div class="user-info">
         <div class="profile-image">
             <a href="profile">
-                <img src="resource/img/profile.png" alt="Profile Image">
+                <img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="Profile Image">
             </a>
         </div>
         <div class="user-details">

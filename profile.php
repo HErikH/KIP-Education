@@ -1,4 +1,6 @@
 <?php
+require_once 'helpers.php';
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Start session if not already started
 }
@@ -69,7 +71,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Profile</title>
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
@@ -322,7 +324,7 @@ include 'header.php';
 <div class="container-layout">
     <!-- Profile Container -->
 <div class="profile-container">
-    <img src="resource/img/profile.png" alt="Profile Picture">
+    <img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="Profile Picture">
     <h2><?php echo htmlspecialchars($user['first_last_name']); ?></h2> <!-- Թարմացվել է այստեղ -->
     <p><?php echo htmlspecialchars($user['email']); ?></p>
     <p>ID: <?php echo htmlspecialchars($user['id']); ?></p>

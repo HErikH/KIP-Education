@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once 'helpers.php';
 include 'db_connect.php';
 
 // Check if the session is valid
@@ -89,7 +90,7 @@ include 'sidebar.php'; // Include the sidebar
     <div class="content">
         <div class="navbar d-block d-md-none">
             <div class="menu-icon-container">
-                <img src="resource/img/logo.png" alt="Logo">
+                <img src="<?= addMediaBaseUrl('resource/img/logo.png') ?>" alt="Logo">
                 <div class="menu-icon" id="menuIcon"></div>
             </div>
         </div>

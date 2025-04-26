@@ -1,4 +1,6 @@
 <?php
+require_once 'helpers.php';
+
 // Start the session only if it's not already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start(); // Start session only if none exists
@@ -205,7 +207,7 @@ if ($result->num_rows > 0) {
 <div class="content">
     <div class="profile-container">
         <div class="profile-header">
-            <img src="resource/img/profile.png" alt="User Image">
+            <img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="User Image">
             <div>
                 <h2><?php echo $user['email']; ?></h2>
                 <p>ID: <?php echo $user['id']; ?></p>

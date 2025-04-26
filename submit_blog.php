@@ -1,6 +1,7 @@
 <?php
 // Ներառում ենք տվյալների բազայի կապի ֆայլը
 include 'db_connect.php';
+require_once 'constants.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ստանում ենք ձևից մուտքագրված տվյալները
@@ -10,7 +11,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Ստուգում ենք՝ արդյոք ֆայլ վերբեռնվել է
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         // Նկարների համար վերբեռնման թիրախ պանակը
-        $target_dir = "resource/img/posts/";
+        $target_dir = UPLOAD_DIR . "resource/img/posts/";
         $image_name = time() . '-' . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $image_name;
         $image_url = $target_file;

@@ -3,6 +3,7 @@
 session_name('quiz_session');
 session_start();
 include 'db_connect.php';
+require_once 'helpers.php';
 
 // Include the separated header
 include 'headerchild.php';
@@ -32,7 +33,7 @@ $result = $conn->query($leaderboardQuery);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Leaderboard</title>
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>

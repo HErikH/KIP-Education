@@ -3,6 +3,7 @@
 session_name('quiz_session');
 session_start();
 include 'db_connect.php';
+require_once 'helpers.php';
 
 // Get the quiz ID from the URL
 $quiz_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
@@ -88,7 +89,7 @@ include 'headerchild.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz Details</title>
-    <link rel="icon" href="resource/img/favicon.png" type="image/png">
+    <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css">

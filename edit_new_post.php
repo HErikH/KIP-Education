@@ -1,6 +1,7 @@
 <?php
 include 'db_connect.php';
 include 'headeradmin.php';
+require_once 'constants.php';
 
 // Ստուգում ենք՝ արդյոք ID-ն տրամադրված է
 if (isset($_GET['id'])) {
@@ -32,7 +33,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Նոր նկարի վերբեռնում
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
-        $target_dir = "resource/img/posts/";
+        $target_dir = UPLOAD_DIR . "resource/img/posts/";
         $image_name = time() . '-' . basename($_FILES["image"]["name"]);
         $target_file = $target_dir . $image_name;
         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);

@@ -1,12 +1,13 @@
 <?php
 // headerhome.php
+require_once 'helpers.php';
 ?>
 
 <!-- Navigation Bar -->
 <nav class="navbar">
     <!-- Logo on the Left -->
     <a href="index" class="navbar-brand">
-        <img src="resource/img/logo.png" alt="Logo">
+        <img src="<?= addMediaBaseUrl('resource/img/logo.png') ?>" alt="Logo">
     </a>
     
     <!-- Navbar Links on the Left (Visible on Desktop) -->
@@ -26,7 +27,7 @@
         <!-- User Icon in Circle (Visible on Mobile Only) -->
         <div class="user-icon-circle">
             <a href="login">
-                <img src="resource/img/user2.png" alt="User Icon">
+                <img src="<?= addMediaBaseUrl('resource/img/user2.png') ?>" alt="User Icon">
             </a>
         </div>
 

@@ -1,12 +1,13 @@
 <?php
 session_start();
+require_once 'helpers.php';
 ?>
 
 <!-- User-specific Navigation Bar -->
 <nav class="navbar">
     <!-- Logo on the Left -->
     <a href="index.php" class="navbar-brand">
-        <img src="resource/img/logo.png" alt="Logo"> Kipeducation.am
+        <img src="<?= addMediaBaseUrl('resource/img/logo.png') ?>" alt="Logo"> Kipeducation.am
     </a>
     
     <!-- Navbar Links for the User -->
@@ -19,7 +20,7 @@ session_start();
     <!-- User Profile Image -->
 <div class="user-profile">
     <a href="profileuser.php">
-        <img src="resource/img/profile.png" alt="User Image" class="user-image">
+        <img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="User Image" class="user-image">
     </a>
 </div>
 

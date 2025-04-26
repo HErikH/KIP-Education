@@ -1,6 +1,7 @@
 <?php
 
 session_start(); // Добавляем session_start() в самом начале
+require_once 'constants.php';
 
 // Проверка авторизации и роли
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -45,7 +46,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_FILES['quizImage']) && $_FILES['quizImage']['error'] === UPLOAD_ERR_OK) {
 
-        $uploadDir = 'resource/quiz/img/';
+        $uploadDir = UPLOAD_DIR . 'resource/quiz/img/';
 
         $imagePath = $uploadDir . basename($_FILES['quizImage']['name']);
 

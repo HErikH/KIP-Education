@@ -1,5 +1,6 @@
 <?php
 session_start(); // Start the session
+require_once 'helpers.php';
 
 // Include your database connection
 include 'db_connect.php';
@@ -41,7 +42,7 @@ $stmt->close();
     <div class="container">
         <div class="logo">
             <a href="profile">
-                <img src="resource/img/logo.png" alt="Logo" style="height: 35px;">
+                <img src="<?= addMediaBaseUrl('resource/img/logo.png') ?>" alt="Logo" style="height: 35px;">
             </a>
         </div>
         <nav class="main-menu">
@@ -56,7 +57,7 @@ $stmt->close();
                 <div id="countdown" class="countdown-timer"></div>
                 <div class="balance">Balance: $0.00</div>
             </div>
-            <a href="profile"><img src="resource/img/profile.png" alt="Profile Image" class="profile-img"></a>
+            <a href="profile"><img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="Profile Image" class="profile-img"></a>
         </div>
         <div class="toggle-menu">
             <span>&#9776;</span>
@@ -67,7 +68,7 @@ $stmt->close();
 <!-- Show Menu for Mobile -->
 <div class="mobile-menu">
     <div class="mobile-user-info">
-        <a href="profile"><img src="resource/img/profile.png" alt="Profile Image" class="profile-img"></a>
+        <a href="profile"><img src="<?= addMediaBaseUrl('resource/img/profile.png') ?>" alt="Profile Image" class="profile-img"></a>
         <div class="user-email">user@example.com</div>
         <div class="countdown-timer"></div>
         <div class="balance">Balance: $0.00</div>

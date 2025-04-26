@@ -1,6 +1,7 @@
 <?php
 // Include the database connection
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Set the content type to JSON
 header('Content-Type: application/json');
@@ -35,11 +36,11 @@ if (isset($_POST['question_id'], $_POST['question_title'], $_POST['answers'], $_
         $allowedAudioExtensions = ['mp3', 'wav'];
 
         // Define the unique file name
-        $uniqueFileName = "resource/questions/" . uniqid() . '.' . $fileExtension;
+        $uniqueFileName =  UPLOAD_DIR . "resource/questions/" . uniqid() . '.' . $fileExtension;
 
         // Create the resource/questions directory if it doesn't exist
-        if (!file_exists('resource/questions')) {
-            mkdir('resource/questions', 0777, true);
+        if (!file_exists(UPLOAD_DIR . 'resource/questions')) {
+            mkdir(UPLOAD_DIR . 'resource/questions', 0777, true);
         }
 
         // Move the file to the appropriate location

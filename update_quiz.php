@@ -1,6 +1,7 @@
 <?php
 // Include database connection
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Enable error reporting (for debugging purposes, can be removed in production)
 ini_set('display_errors', 1);
@@ -16,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Handle file upload if a new image is provided
     if (isset($_FILES['quizImage']) && $_FILES['quizImage']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'resource/quiz/img/';
+        $uploadDir = UPLOAD_DIR . 'resource/quiz/img/';
         $imagePath = $uploadDir . basename($_FILES['quizImage']['name']);
 
         // Move the uploaded file to the desired directory
