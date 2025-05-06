@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
         $image_tmp = $_FILES['image']['tmp_name'];
         $image_name = $_FILES['image']['name'];
-        $image_path = UPLOAD_DIR . 'resource/img/posts/' . $image_name;
+        $save_path = UPLOAD_DIR . 'resource/img/posts/' . $image_name;
+        $image_path = IMAGE_URL_BASE_FOR_DB . "resource/img/posts/" . $image_name;
 
         // Ստուգում ենք ֆայլի ձևաչափը
         $allowed_image_exts = ['jpg', 'jpeg', 'png', 'gif'];
@@ -27,7 +28,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if (in_array($image_ext, $allowed_image_exts)) {
             // Պահպանում ենք նկարը սերվերի նշված թղթապանակում
-            move_uploaded_file($image_tmp, $image_path);
+            move_uploaded_file($image_tmp, $save_path);
         } else {
             $message = "Only JPG, JPEG, PNG, and GIF formats are allowed for images.";
             $image_path = null;

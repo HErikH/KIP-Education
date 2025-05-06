@@ -47,19 +47,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_FILES['quizImage']) && $_FILES['quizImage']['error'] === UPLOAD_ERR_OK) {
 
         $uploadDir = UPLOAD_DIR . 'resource/quiz/img/';
-
-        $imagePath = $uploadDir . basename($_FILES['quizImage']['name']);
-
-
-
-        // Move uploaded file to the desired directory
-
-        if (!move_uploaded_file($_FILES['quizImage']['tmp_name'], $imagePath)) {
-
+        $fileName = basename($_FILES['quizImage']['name']);
+        $savePath = $uploadDir . $fileName;
+    
+        if (move_uploaded_file($_FILES['quizImage']['tmp_name'], $savePath)) {
+            // Save public URL in DB
+            $imagePath = IMAGE_URL_BASE_FOR_DB . '/resource/quiz/img/' . $fileName;
+        } else {
             echo "<div class='alert alert-danger'>Error uploading image.</div>";
-
             $imagePath = null;
-
         }
 
     }
@@ -152,10 +148,10 @@ $conn->close();
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Font Awesome for Icons -->
 
     <style>
-
         body {
 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -200,59 +196,63 @@ $conn->close();
 
         }
 
-.quiz-card {
+        .quiz-card {
 
-    background-color: #ffffff;
+            background-color: #ffffff;
 
-    border-radius: 10px;
+            border-radius: 10px;
 
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
 
-    margin-bottom: 20px;
+            margin-bottom: 20px;
 
-    overflow: hidden;
+            overflow: hidden;
 
-    transition: transform 0.3s ease;
+            transition: transform 0.3s ease;
 
-    width: 32%; /* Adjust to fit three cards in a row */
+            width: 32%;
+            /* Adjust to fit three cards in a row */
 
-    display: inline-block;
+            display: inline-block;
 
-    vertical-align: top;
+            vertical-align: top;
 
-}
-
-
-
-.quiz-card:hover {
-
-    transform: scale(1.05); /* Slightly increase the scale for a more noticeable effect */
-
-}
+        }
 
 
 
-.quiz-card img {
+        .quiz-card:hover {
 
-    width: 100%;
+            transform: scale(1.05);
+            /* Slightly increase the scale for a more noticeable effect */
 
-    height: 180px; /* Adjusted height for a larger image */
-
-    object-fit: cover;
-
-    border-bottom: 1px solid #ddd; /* Add a bottom border to separate the image from the content */
-
-}
+        }
 
 
 
-.quiz-card-body {
+        .quiz-card img {
 
-    padding: 15px;
+            width: 100%;
 
-    text-align: center;
+            height: 180px;
+            /* Adjusted height for a larger image */
 
-}
+            object-fit: cover;
+
+            border-bottom: 1px solid #ddd;
+            /* Add a bottom border to separate the image from the content */
+
+        }
+
+
+
+        .quiz-card-body {
+
+            padding: 15px;
+
+            text-align: center;
+
+        }
 
 
 
@@ -364,7 +364,8 @@ $conn->close();
 
         .required-asterisk {
 
-            color: #007bff; /* Blue color for asterisk */
+            color: #007bff;
+            /* Blue color for asterisk */
 
         }
 
@@ -424,35 +425,41 @@ $conn->close();
 
         }
 
-.quiz-card-actions {
+        .quiz-card-actions {
 
-    display: flex;
+            display: flex;
 
-    justify-content: space-around; /* Space buttons evenly */
+            justify-content: space-around;
+            /* Space buttons evenly */
 
-    padding: 15px;
+            padding: 15px;
 
-    border-top: 1px solid #ddd; /* Optional: to separate the buttons from the content */
+            border-top: 1px solid #ddd;
+            /* Optional: to separate the buttons from the content */
 
-    text-align: center;
+            text-align: center;
 
-    gap: 10px; /* Optional: add some space between the buttons */
+            gap: 10px;
+            /* Optional: add some space between the buttons */
 
-}
+        }
 
 
 
-.quiz-card-actions .btn {
+        .quiz-card-actions .btn {
 
-    flex: 1; /* Make buttons take equal space */
+            flex: 1;
+            /* Make buttons take equal space */
 
-    margin: 0; /* Remove any default margins */
+            margin: 0;
+            /* Remove any default margins */
 
-    min-width: 0; /* Ensure buttons fit in the card */
+            min-width: 0;
+            /* Ensure buttons fit in the card */
 
-}
+        }
 
-.quiz-details {
+        .quiz-details {
 
             font-size: 14px;
 
@@ -461,7 +468,6 @@ $conn->close();
             margin-top: 5px;
 
         }
-
     </style>
 
 </head>
@@ -470,7 +476,7 @@ $conn->close();
 
 
 
-<div class="main-container">
+    <div class="main-container">
 
         <div class="left-container">
 
@@ -490,7 +496,8 @@ $conn->close();
 
                         <label for="quizTitle" class="form-label">Title <span class="required-asterisk">*</span></label>
 
-                        <input type="text" class="form-control" id="quizTitle" name="quizTitle" placeholder="Enter quiz title" required>
+                        <input type="text" class="form-control" id="quizTitle" name="quizTitle"
+                            placeholder="Enter quiz title" required>
 
                     </div>
 
@@ -498,7 +505,8 @@ $conn->close();
 
                         <label for="quizSubtitle" class="form-label">Subtitle</label>
 
-                        <input type="text" class="form-control" id="quizSubtitle" name="quizSubtitle" placeholder="Enter quiz subtitle">
+                        <input type="text" class="form-control" id="quizSubtitle" name="quizSubtitle"
+                            placeholder="Enter quiz subtitle">
 
                     </div>
 
@@ -560,131 +568,145 @@ $conn->close();
 
             <?php if ($quizResult && $quizResult->num_rows > 0): ?>
 
-                <?php while ($quiz = $quizResult->fetch_assoc()): ?>
+            <?php while ($quiz = $quizResult->fetch_assoc()): ?>
 
-                    <div class="quiz-card">
+            <div class="quiz-card">
 
-                        <img src="<?= htmlspecialchars($quiz['image']) ?>" alt="Quiz Image">
+                <img src="<?= htmlspecialchars($quiz['image']) ?>" alt="Quiz Image">
 
-                        <div class="quiz-card-body">
+                <div class="quiz-card-body">
 
-                            <div class="quiz-title"><?= htmlspecialchars($quiz['title']) ?></div>
+                    <div class="quiz-title">
+                        <?= htmlspecialchars($quiz['title']) ?>
+                    </div>
 
-                            <div class="quiz-subtitle"><?= htmlspecialchars($quiz['subtitle']) ?></div>
+                    <div class="quiz-subtitle">
+                        <?= htmlspecialchars($quiz['subtitle']) ?>
+                    </div>
 
-                            <div class="quiz-details">
+                    <div class="quiz-details">
 
-                                <?= htmlspecialchars($quiz['question_count']) ?> questions <br>
+                        <?= htmlspecialchars($quiz['question_count']) ?> questions <br>
 
-                                Duration: <?= ceil($quiz['time_in_seconds'] / 60) ?> min
+                        Duration:
+                        <?= ceil($quiz['time_in_seconds'] / 60) ?> min
 
-                            </div>
+                    </div>
+
+                </div>
+
+                <div class="quiz-card-actions">
+
+                    <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal"
+                        data-bs-target="#manageModal-<?= $quiz['id'] ?>">
+
+                        <i class="fas fa-edit"></i> Manage
+
+                    </a>
+
+                    <a href="questionssmart.php?id=<?= $quiz['id'] ?>" class="btn btn-warning btn-sm">
+
+                        <i class="fas fa-question-circle"></i> Questions
+
+                    </a>
+
+                    <a href="delete_quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-danger btn-sm">
+
+                        <i class="fas fa-trash-alt"></i> Delete
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Modal for Managing Quiz -->
+
+            <div class="modal fade" id="manageModal-<?= $quiz['id'] ?>" tabindex="-1"
+                aria-labelledby="manageModalLabel-<?= $quiz['id'] ?>" aria-hidden="true">
+
+                <div class="modal-dialog">
+
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+
+                            <h5 class="modal-title" id="manageModalLabel-<?= $quiz['id'] ?>">Manage Quiz</h5>
+
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 
                         </div>
 
-                        <div class="quiz-card-actions">
+                        <div class="modal-body">
 
-                            <a href="#" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#manageModal-<?= $quiz['id'] ?>">
+                            <form method="POST" action="update_quiz.php" enctype="multipart/form-data">
 
-                                <i class="fas fa-edit"></i> Manage
+                                <input type="hidden" name="quiz_id" value="<?= $quiz['id'] ?>">
 
-                            </a>
+                                <div class="mb-3">
 
-                           <a href="questionssmart.php?id=<?= $quiz['id'] ?>" class="btn btn-warning btn-sm">
+                                    <label for="quizTitle-<?= $quiz['id'] ?>" class="form-label">Title</label>
 
-    <i class="fas fa-question-circle"></i> Questions
+                                    <input type="text" class="form-control" id="quizTitle-<?= $quiz['id'] ?>"
+                                        name="quizTitle" value="<?= htmlspecialchars($quiz['title']) ?>">
 
-</a>
+                                </div>
 
-                            <a href="delete_quiz.php?id=<?= $quiz['id'] ?>" class="btn btn-danger btn-sm">
+                                <div class="mb-3">
 
-                                <i class="fas fa-trash-alt"></i> Delete
+                                    <label for="quizSubtitle-<?= $quiz['id'] ?>" class="form-label">Subtitle</label>
 
-                            </a>
+                                    <input type="text" class="form-control" id="quizSubtitle-<?= $quiz['id'] ?>"
+                                        name="quizSubtitle" value="<?= htmlspecialchars($quiz['subtitle']) ?>">
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label for="time_in_seconds-<?= $quiz['id'] ?>" class="form-label">Time (in
+                                        seconds)</label>
+
+                                    <input type="number" class="form-control" id="time_in_seconds-<?= $quiz['id'] ?>"
+                                        name="time_in_seconds"
+                                        value="<?= htmlspecialchars($quiz['time_in_seconds']) ?>">
+
+                                </div>
+
+                                <div class="mb-3">
+
+                                    <label for="quizImage-<?= $quiz['id'] ?>" class="form-label">Image</label>
+
+                                    <input type="file" class="form-control" id="quizImage-<?= $quiz['id'] ?>"
+                                        name="quizImage" accept="image/*">
+
+                                    <div class="preview-image mt-2">
+
+                                        <img src="<?= htmlspecialchars($quiz['image']) ?>" alt="Current Image"
+                                            style="max-width: 100%;">
+
+                                    </div>
+
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+
+                            </form>
 
                         </div>
 
                     </div>
 
+                </div>
 
+            </div>
 
-                    <!-- Modal for Managing Quiz -->
-
-                    <div class="modal fade" id="manageModal-<?= $quiz['id'] ?>" tabindex="-1" aria-labelledby="manageModalLabel-<?= $quiz['id'] ?>" aria-hidden="true">
-
-                        <div class="modal-dialog">
-
-                            <div class="modal-content">
-
-                                <div class="modal-header">
-
-                                    <h5 class="modal-title" id="manageModalLabel-<?= $quiz['id'] ?>">Manage Quiz</h5>
-
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                                </div>
-
-                                <div class="modal-body">
-
-                                    <form method="POST" action="update_quiz.php" enctype="multipart/form-data">
-
-                                        <input type="hidden" name="quiz_id" value="<?= $quiz['id'] ?>">
-
-                                        <div class="mb-3">
-
-                                            <label for="quizTitle-<?= $quiz['id'] ?>" class="form-label">Title</label>
-
-                                            <input type="text" class="form-control" id="quizTitle-<?= $quiz['id'] ?>" name="quizTitle" value="<?= htmlspecialchars($quiz['title']) ?>">
-
-                                        </div>
-
-                                        <div class="mb-3">
-
-                                            <label for="quizSubtitle-<?= $quiz['id'] ?>" class="form-label">Subtitle</label>
-
-                                            <input type="text" class="form-control" id="quizSubtitle-<?= $quiz['id'] ?>" name="quizSubtitle" value="<?= htmlspecialchars($quiz['subtitle']) ?>">
-
-                                        </div>
-
-                                        <div class="mb-3">
-
-                                            <label for="time_in_seconds-<?= $quiz['id'] ?>" class="form-label">Time (in seconds)</label>
-
-                                            <input type="number" class="form-control" id="time_in_seconds-<?= $quiz['id'] ?>" name="time_in_seconds" value="<?= htmlspecialchars($quiz['time_in_seconds']) ?>">
-
-                                        </div>
-
-                                        <div class="mb-3">
-
-                                            <label for="quizImage-<?= $quiz['id'] ?>" class="form-label">Image</label>
-
-                                            <input type="file" class="form-control" id="quizImage-<?= $quiz['id'] ?>" name="quizImage" accept="image/*">
-
-                                            <div class="preview-image mt-2">
-
-                                                <img src="<?= htmlspecialchars($quiz['image']) ?>" alt="Current Image" style="max-width: 100%;">
-
-                                            </div>
-
-                                        </div>
-
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-
-                                    </form>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                <?php endwhile; ?>
+            <?php endwhile; ?>
 
             <?php else: ?>
 
-                <p>No quizzes available.</p>
+            <p>No quizzes available.</p>
 
             <?php endif; ?>
 
@@ -694,7 +716,7 @@ $conn->close();
 
 
 
-    <?php include 'footeradmin.php'; ?>
+    <?php include 'footer.php'; ?>
 
 
 
@@ -706,7 +728,7 @@ $conn->close();
 
         // Toggle form visibility and change button text
 
-        document.getElementById("addQuizButton").addEventListener("click", function(event) {
+        document.getElementById("addQuizButton").addEventListener("click", function (event) {
 
             event.preventDefault();
 
@@ -716,9 +738,9 @@ $conn->close();
 
             formContainer.classList.toggle("active");
 
-            addButton.innerHTML = formContainer.classList.contains("active") 
+            addButton.innerHTML = formContainer.classList.contains("active")
 
-                ? '<i class="fas fa-times"></i> Close Form' 
+                ? '<i class="fas fa-times"></i> Close Form'
 
                 : '<i class="fas fa-plus"></i> Add New Quiz';
 
@@ -728,7 +750,7 @@ $conn->close();
 
         // Image preview function
 
-        document.getElementById('quizImage').addEventListener('change', function(event) {
+        document.getElementById('quizImage').addEventListener('change', function (event) {
 
             const [file] = event.target.files;
 
@@ -769,4 +791,3 @@ $conn->close();
 </body>
 
 </html>
-

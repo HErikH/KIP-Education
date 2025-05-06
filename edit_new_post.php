@@ -35,12 +35,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
         $target_dir = UPLOAD_DIR . "resource/img/posts/";
         $image_name = time() . '-' . basename($_FILES["image"]["name"]);
-        $target_file = $target_dir . $image_name;
-        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+        $save_path = $target_dir . $image_name;
+        $image_path = IMAGE_URL_BASE_FOR_DB . "resource/img/posts/" . $image_name;
+
+        move_uploaded_file($_FILES["image"]["tmp_name"], $save_path);
 
         // Թարմացնում ենք նկարը
         $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ?, image_url = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $new_title, $new_content, $target_file, $post_id);
+        $stmt->bind_param("sssi", $new_title, $new_content, $image_path, $post_id);
     } else {
         // Առանց նոր նկարի
         $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ? WHERE id = ?");

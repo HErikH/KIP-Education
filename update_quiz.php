@@ -18,10 +18,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Handle file upload if a new image is provided
     if (isset($_FILES['quizImage']) && $_FILES['quizImage']['error'] === UPLOAD_ERR_OK) {
         $uploadDir = UPLOAD_DIR . 'resource/quiz/img/';
-        $imagePath = $uploadDir . basename($_FILES['quizImage']['name']);
+        $imageName = basename($_FILES['quizImage']['name']);
+        $savePath = $uploadDir . $imageName;
+        $imagePath = IMAGE_URL_BASE_FOR_DB . 'resource/quiz/img/' . $imageName;
 
         // Move the uploaded file to the desired directory
-        if (!move_uploaded_file($_FILES['quizImage']['tmp_name'], $imagePath)) {
+        if (!move_uploaded_file($_FILES['quizImage']['tmp_name'], $savePath)) {
             header("Location: quizzesadmin.php?message=Error uploading image.");
             exit();
         }

@@ -14,12 +14,13 @@ if ($_FILES['upload']) {
             mkdir($uploadDir, 0777, true); // Create directory if it doesn't exist
         }
         $fileName = uniqid() . '.' . $ext;
-        $uploadFile = $uploadDir . $fileName;
+        $savePath = $uploadDir . $fileName;
+        $imagePath = IMAGE_URL_BASE_FOR_DB . "resource/img/uploads/" . $fileName
 
-        if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+        if (move_uploaded_file($file['tmp_name'], $savePath)) {
             // Return a JSON response with the image URL
             $response = [
-                'url' => $uploadFile // Return the uploaded image URL
+                'url' => $imagePath // Return the uploaded image URL
             ];
             echo json_encode($response);
             exit;

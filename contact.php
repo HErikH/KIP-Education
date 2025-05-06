@@ -304,7 +304,7 @@ require_once 'helpers.php';
 
     <script>
         document.getElementById("myAccountBtn").onclick = function () {
-            <? php if (
+            <?php if (
                 isset($_SESSION["loggedin"]) &&
                 $_SESSION["loggedin"] === true &&
                 isset($_SESSION["user_id"])
@@ -312,9 +312,9 @@ require_once 'helpers.php';
                 window.location.href = "profile?id=<?php echo $_SESSION[
             "user_id"
                 ]; ?> ";
-                <? php else: ?>
+                <?php else: ?>
                     window.location.href = "login";
-            <? php endif; ?>
+            <?php endif; ?>
         };
     </script>
 </body>

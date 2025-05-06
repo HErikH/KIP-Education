@@ -13,13 +13,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // Նկարների համար վերբեռնման թիրախ պանակը
         $target_dir = UPLOAD_DIR . "resource/img/posts/";
         $image_name = time() . '-' . basename($_FILES["image"]["name"]);
-        $target_file = $target_dir . $image_name;
-        $image_url = $target_file;
+        $save_path = $target_dir . $image_name;
+        $image_path = IMAGE_URL_BASE_FOR_DB . "resource/img/posts/" . $image_name;
         
         // Փոխադրում ենք վերբեռնված ֆայլը թիրախ պանակ
-        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+        move_uploaded_file($_FILES["image"]["tmp_name"], $save_path);
     } else {
-        $image_url = NULL;  // Եթե նկար չկա, թող NULL լինի
+        $image_path = NULL;  // Եթե նկար չկա, թող NULL լինի
     }
 
     // Ստեղծում ենք հարցումը
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Պատրաստում ենք հայտարարությունը
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $title, $content, $image_url);
+    $stmt->bind_param("sss", $title, $content, $image_path);
 
     // Վազեցնում ենք հարցումը
     if ($stmt->execute()) {

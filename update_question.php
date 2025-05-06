@@ -36,7 +36,9 @@ if (isset($_POST['question_id'], $_POST['question_title'], $_POST['answers'], $_
         $allowedAudioExtensions = ['mp3', 'wav'];
 
         // Define the unique file name
-        $uniqueFileName =  UPLOAD_DIR . "resource/questions/" . uniqid() . '.' . $fileExtension;
+        $uniquePath = "resource/questions/" . uniqid() . '.' . $fileExtension;
+        $uniqueFileName =  UPLOAD_DIR . $uniquePath;
+        $mediaPath = IMAGE_URL_BASE_FOR_DB . $uniquePath;
 
         // Create the resource/questions directory if it doesn't exist
         if (!file_exists(UPLOAD_DIR . 'resource/questions')) {
@@ -46,11 +48,11 @@ if (isset($_POST['question_id'], $_POST['question_title'], $_POST['answers'], $_
         // Move the file to the appropriate location
         if (move_uploaded_file($fileTmpPath, $uniqueFileName)) {
             if (in_array($fileExtension, $allowedImageExtensions)) {
-                $imagePath = $uniqueFileName;
+                $imagePath = mediaPath;
             } elseif (in_array($fileExtension, $allowedVideoExtensions)) {
-                $videoPath = $uniqueFileName;
+                $videoPath = mediaPath;
             } elseif (in_array($fileExtension, $allowedAudioExtensions)) {
-                $audioPath = $uniqueFileName;
+                $audioPath = mediaPath;
             }
         } else {
             echo json_encode(['success' => false, 'message' => 'Failed to upload the file.']);
