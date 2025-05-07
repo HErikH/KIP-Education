@@ -5,6 +5,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Устанавливаем кодировку символов для корректной работы с UTF-8
 $conn->set_charset("utf8mb4");
@@ -24,16 +25,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Функция для загрузки файлов
     function uploadFile($file, $uploadDir) {
+        $savePath = UPLOAD_DIR . $uploadDir;
+
         if (!empty($file['name'])) {
-            if (!is_dir($uploadDir)) {
-                mkdir($uploadDir, 0777, true); // Создаем директорию, если ее нет
+            if (!is_dir($savePath)) {
+                mkdir($savePath 0777, true); // Создаем директорию, если ее нет
             }
 
             $fileName = basename($file['name']);
-            $targetFilePath = $uploadDir . $fileName;
+            $targetFilePath = savePath . $fileName;
 
             if (move_uploaded_file($file['tmp_name'], $targetFilePath)) {
-                return $targetFilePath;
+                return MEDIA_BASE_URL_FOR_DB . $uploadDir . $fileName;
             }
         }
         return '';

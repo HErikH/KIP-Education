@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Սխալների ցուցադրում
 ini_set('display_errors', 1);
@@ -20,7 +21,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tag = $_POST['tag'] ?? null;
 
     // Ստեղծել ֆոլդեր դասի ID-ի հիման վրա, եթե այն գոյություն չունի
-    $lessonFolder = "uploads/lessons/$id";
+    $lessonFolder = UPLOAD_DIR . "uploads/lessons/$id";
+
     if (!is_dir($lessonFolder)) {
         mkdir($lessonFolder, 0777, true);
     }
@@ -32,8 +34,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Handle image upload
     if (!empty($_FILES['image']['name'])) {
-        $imagePath = $lessonFolder . '/' . basename($_FILES['image']['name']);
-        if (move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+        $imageName = basename($_FILES['image']['name']);
+        $savePath = $lessonFolder . '/' . $imageName;
+        $imagePath = MEDIA_BASE_URL_FOR_DB . "uploads/lessons/$id" . $imageName;
+        
+        if (move_uploaded_file($_FILES['image']['tmp_name'], $savePath)) {
             echo "Image uploaded successfully!";
             $updateFields[] = "image = ?";
             $params[] = $imagePath;
@@ -46,10 +51,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Handle main video upload
     if (!empty($_FILES['video']['name'])) {
         $videoName = str_replace(' ', '_', basename($_FILES['video']['name']));
-        $videoPath = $lessonFolder . '/' . $videoName;
+        $savePath = $lessonFolder . '/' . $videoName;
+        $videoPath = MEDIA_BASE_URL_FOR_DB . "uploads/lessons/$id" . $videoName;
 
         // Ստուգեք, արդյոք վիդեոն հաջողությամբ բեռնվել է
-        if (move_uploaded_file($_FILES['video']['tmp_name'], $videoPath)) {
+        if (move_uploaded_file($_FILES['video']['tmp_name'], $savePath)) {
             echo "Video uploaded successfully!";
             $updateFields[] = "video = ?";
             $params[] = $videoPath;
@@ -64,8 +70,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty(array_filter($_FILES['small_videos']['name']))) {
         foreach ($_FILES['small_videos']['tmp_name'] as $key => $tmp_name) {
             $fileName = basename($_FILES['small_videos']['name'][$key]);
-            $filePath = $lessonFolder . '/' . $fileName;
-            if (move_uploaded_file($tmp_name, $filePath)) {
+            $savePath = $lessonFolder . '/' . $fileName;
+            $filePath = MEDIA_BASE_URL_FOR_DB . "uploads/lessons/$id" . $fileName;
+    
+            if (move_uploaded_file($tmp_name, $savePath)) {
                 $smallVideos[] = $filePath;
             } else {
                 echo "Small video upload failed for $fileName!";
@@ -82,8 +90,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty(array_filter($_FILES['files']['name']))) {
         foreach ($_FILES['files']['tmp_name'] as $key => $tmp_name) {
             $fileName = basename($_FILES['files']['name'][$key]);
-            $filePath = $lessonFolder . '/' . $fileName;
-            if (move_uploaded_file($tmp_name, $filePath)) {
+            $savePath = $lessonFolder . '/' . $fileName
+            $filePath = MEDIA_BASE_URL_FOR_DB . "uploads/lessons/$id" . $fileName;
+    
+            if (move_uploaded_file($tmp_name, $savePath)) {
                 $files[] = $filePath;
             } else {
                 echo "File upload failed for $fileName!";

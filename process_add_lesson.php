@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Սխալների ցուցադրում (արտադրական միջավայրում անհրաժեշտ է անջատել)
 ini_set('display_errors', 1);
@@ -37,7 +38,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->close();
 
     // Բոլոր ֆայլերի բեռնման պանակը
-    $uploadDir = 'uploads/lessons/' . $lessonId . '/'; // Ստեղծում ենք պանակը ըստ ID-ի
+    $uploadDir = UPLOAD_DIR . 'uploads/lessons/' . $lessonId . '/'; // Ստեղծում ենք պանակը ըստ ID-ի
 
     // Ստեղծում ենք պանակը, եթե այն դեռ չկա
     if (!is_dir($uploadDir)) {
@@ -46,8 +47,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Վիդեո ֆայլի տեղափոխում վերջնական պանակ
     if (!empty($tempVideoPath)) {
-        $finalVideoPath = $uploadDir . basename($tempVideoPath); // Ստեղծում ենք վերջնական ուղին
-        if (rename($tempVideoPath, $finalVideoPath)) {
+        $savePath = $uploadDir . basename($tempVideoPath);
+        $finalVideoPath = MEDIA_BASE_URL_FOR_DB . 'uploads/lessons/' . basename($tempVideoPath); // Ստեղծում ենք վերջնական ուղին
+
+        if (rename($tempVideoPath, $savePath)) {
             // Վիդեոյի վերջնական պահպանման ուղին պահում ենք տվյալների բազայում
             $stmt = $conn->prepare("UPDATE lessons SET video = ? WHERE id = ?");
             if (!$stmt) {
@@ -65,14 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Պատկերի ներբեռնում
     if (!empty($_FILES['image']['name'])) {
         $imageName = str_replace(' ', '_', basename($_FILES['image']['name']));
-        $imagePath = $uploadDir . $imageName;
+        $savePath = $uploadDir . $imageName;
+        $imagePath = MEDIA_BASE_URL_FOR_DB . "uploads/videos/" . $imageName;
 
         // Ստուգում ենք ֆայլի տիպը, որպեսզի թույլատրենք միայն պատկերների ներբեռնումը
-        $imageFileType = strtolower(pathinfo($imagePath, PATHINFO_EXTENSION));
+        $imageFileType = strtolower(pathinfo($savePath, PATHINFO_EXTENSION));
         $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
 
         if (in_array($imageFileType, $allowedTypes)) {
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $imagePath)) {
+            if (move_uploaded_file($_FILES['image']['tmp_name'], $savePath)) {
                 // Ներբեռնված պատկերը պահում ենք տվյալների բազայում
                 $stmt = $conn->prepare("UPDATE lessons SET image = ? WHERE id = ?");
                 if (!$stmt) {
@@ -95,14 +99,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     for ($i = 1; $i <= 4; $i++) {
         if (!empty($_FILES['file' . $i]['name'])) {
             $fileName = str_replace(' ', '_', basename($_FILES['file' . $i]['name']));
-            $filePath = $uploadDir . $fileName;
+            $savePath = $uploadDir . $fileName;
+            $filePath = MEDIA_BASE_URL_FOR_DB . "uploads/videos/" . $fileName;
 
             // Ստուգում ենք ֆայլի տիպը, որպեսզի թույլատրենք միայն որոշակի ֆայլեր
-            $fileType = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+            $fileType = strtolower(pathinfo($savePath, PATHINFO_EXTENSION));
             $allowedFileTypes = ['pdf', 'pptx', 'docx'];
 
             if (in_array($fileType, $allowedFileTypes)) {
-                if (move_uploaded_file($_FILES['file' . $i]['tmp_name'], $filePath)) {
+                if (move_uploaded_file($_FILES['file' . $i]['tmp_name'], $savePath)) {
                     $files[] = $filePath;
                 } else {
                     echo "File upload failed for " . $_FILES['file' . $i]['name'];

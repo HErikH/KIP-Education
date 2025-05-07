@@ -38,7 +38,7 @@ if (isset($_POST['question_id'], $_POST['question_title'], $_POST['answers'], $_
         // Define the unique file name
         $uniquePath = "resource/questions/" . uniqid() . '.' . $fileExtension;
         $uniqueFileName =  UPLOAD_DIR . $uniquePath;
-        $mediaPath = IMAGE_URL_BASE_FOR_DB . $uniquePath;
+        $mediaPath = MEDIA_BASE_URL_FOR_DB . $uniquePath;
 
         // Create the resource/questions directory if it doesn't exist
         if (!file_exists(UPLOAD_DIR . 'resource/questions')) {

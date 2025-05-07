@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php'; // Տվյալների բազայի կապի ներառում
+require_once 'constants.php';
 
 // Սխալների ցուցադրում
 ini_set('display_errors', 1);
@@ -19,9 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Ստուգում ենք, արդյոք ֆայլը բեռնվել է
     if (isset($_FILES['video']) && $_FILES['video']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'uploads/videos/';
+        $uploadDir = UPLOAD_DIR . 'uploads/videos/';
         $videoName = str_replace(' ', '_', basename($_FILES['video']['name']));
         $uploadFile = $uploadDir . $videoName;
+        $videoPath = MEDIA_BASE_URL_FOR_DB . "uploads/videos/" . $videoName;
 
         // Ստեղծում ենք պանակը, եթե այն չկա
         if (!is_dir($uploadDir)) {
@@ -38,10 +40,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // Վիդեոյի վերջնական պահպանման ուղին պահում ենք տվյալների բազայում
             $stmt = $conn->prepare("UPDATE lessons SET video = ? WHERE id = ?");
             if ($stmt) {
-                $stmt->bind_param("si", $uploadFile, $lessonId);
+                $stmt->bind_param("si", $videoPath, $lessonId);
                 $stmt->execute();
                 $stmt->close();
-                echo json_encode(['status' => 'success', 'path' => $uploadFile]);
+                echo json_encode(['status' => 'success', 'path' => $videoPath]);
             } else {
                 echo json_encode(['status' => 'error', 'message' => 'Database query failed']);
             }

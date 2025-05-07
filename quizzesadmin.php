@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
         if (move_uploaded_file($_FILES['quizImage']['tmp_name'], $savePath)) {
             // Save public URL in DB
-            $imagePath = IMAGE_URL_BASE_FOR_DB . '/resource/quiz/img/' . $fileName;
+            $imagePath = MEDIA_BASE_URL_FOR_DB . 'resource/quiz/img/' . $fileName;
         } else {
             echo "<div class='alert alert-danger'>Error uploading image.</div>";
             $imagePath = null;

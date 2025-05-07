@@ -2,6 +2,7 @@
 // Подключение к базе данных
 include 'db_connect.php';
 include 'headeradmin.php';
+require_once 'constants.php';
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
@@ -37,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($question_type === 'image_select') {
         $imageUploads = [];
         if (!empty($_FILES['option_value']['name'][0])) {
-            $uploadDir = 'uploads/images/'; // Папка для загрузки изображений
+            $uploadDir = UPLOAD_DIR . 'uploads/images/'; // Папка для загрузки изображений
 
             // Проверяем, существует ли папка, если нет, создаем
             if (!is_dir($uploadDir)) {
@@ -48,8 +49,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             foreach ($_FILES['option_value']['name'] as $key => $value) {
                 if ($_FILES['option_value']['error'][$key] === UPLOAD_ERR_OK) {
                     $fileName = basename($_FILES['option_value']['name'][$key]);
-                    $mediaPath = $uploadDir . $fileName;
-                    if (move_uploaded_file($_FILES['option_value']['tmp_name'][$key], $mediaPath)) {
+                    $savePath = $uploadDir . $fileName;
+                    $mediaPath = MEDIA_BASE_URL_FOR_DB . "uploads/images/" . $fileName;
+
+                    if (move_uploaded_file($_FILES['option_value']['tmp_name'][$key], $savePath)) {
                         $imageUploads[] = $mediaPath; // Сохраняем относительный путь к файлу
                     } else {
                         echo "Ошибка при загрузке файла: " . $_FILES['option_value']['error'][$key];
@@ -63,8 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Обработка медиафайлов для других типов вопросов
         if (isset($_FILES['media']) && $_FILES['media']['error'] === UPLOAD_ERR_OK) {
-            $uploadDir = 'uploads/images/'; // Папка для загрузки изображений
-            $mediaPath = $uploadDir . basename($_FILES['media']['name']);
+            $uploadDir = UPLOAD_DIR . 'uploads/images/'; // Папка для загрузки изображений
+            $fileName = basename($_FILES['media']['name']);
+            $savePath = $uploadDir . $fileName;
 
             // Проверяем, существует ли папка, если нет, создаем
             if (!is_dir($uploadDir)) {
@@ -72,8 +76,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             }
 
             // Перемещаем загруженный файл в указанную директорию
-            if (move_uploaded_file($_FILES['media']['tmp_name'], $mediaPath)) {
-                $media = 'uploads/images/' . basename($_FILES['media']['name']); // Сохраняем путь к файлу
+            if (move_uploaded_file($_FILES['media']['tmp_name'], $savePath)) {
+                $media = MEDIA_BASE_URL_FOR_DB . "uploads/images/" . $fileName; // Сохраняем путь к файлу
             } else {
                 echo "Ошибка при загрузке файла: " . $_FILES['media']['error'];
             }
@@ -349,7 +353,7 @@ $conn->close();
                                     <input class="form-check-input" type="radio" name="question_<?php echo $index; ?>" value="<?php echo htmlspecialchars($answer); ?>">
                                     <label class="form-check-label">
                                         <?php echo htmlspecialchars($answer); ?>
-                                        <?php if (in_array("uploads/images/" . $answer, $true_answers)): ?>
+                                        <?php if (in_array(MEDIA_BASE_URL_FOR_DB ."uploads/images/" . $answer, $true_answers)): ?>
                                             <span class="correct-answer" style="color: green;">
                                                 <i class="fas fa-check"></i>
                                             </span>
@@ -368,7 +372,7 @@ $conn->close();
                                     <input class="form-check-input" type="checkbox" name="question_<?php echo $index; ?>[]" value="<?php echo htmlspecialchars($answer); ?>">
                                     <label class="form-check-label">
                                         <?php echo htmlspecialchars($answer); ?>
-                                        <?php if (in_array("uploads/images/" . $answer, $true_answers)): ?>
+                                        <?php if (in_array(MEDIA_BASE_URL_FOR_DB ."uploads/images/" . $answer, $true_answers)): ?>
                                             <span class="correct-answer" style="color: green;">
                                                 <i class="fas fa-check"></i>
                                             </span>
@@ -385,7 +389,7 @@ $conn->close();
                                 ?>
                                 <?php foreach ($question['answers'] as $answer): ?>
                                     <option value="<?php echo htmlspecialchars($answer); ?>" 
-                                            <?php if (in_array("uploads/images/" . $answer, $true_answers)) echo 'selected'; ?>>
+                                            <?php if (in_array(MEDIA_BASE_URL_FOR_DB ."uploads/images/" . $answer, $true_answers)) echo 'selected'; ?>>
                                         <?php echo htmlspecialchars($answer); ?>
                                     </option>
                                 <?php endforeach; ?>
@@ -618,7 +622,7 @@ function addImageField(isFirst = false) {
             reader.readAsDataURL(file);
 
             // Update checkbox and hidden input with the full file path
-            const filePath = 'uploads/images/' + file.name; // Full file path
+            const filePath = 'https://media.kipeducationid.com/uploads/images/' + file.name; // Full file path
             newCheckbox.value = filePath;
             hiddenInput.value = filePath; // Save the full path in the hidden input
         }

@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $target_dir = UPLOAD_DIR . "resource/img/posts/";
         $image_name = time() . '-' . basename($_FILES["image"]["name"]);
         $save_path = $target_dir . $image_name;
-        $image_path = IMAGE_URL_BASE_FOR_DB . "resource/img/posts/" . $image_name;
+        $image_path = MEDIA_BASE_URL_FOR_DB . "resource/img/posts/" . $image_name;
         
         // Փոխադրում ենք վերբեռնված ֆայլը թիրախ պանակ
         move_uploaded_file($_FILES["image"]["tmp_name"], $save_path);
@@ -23,11 +23,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Ստեղծում ենք հարցումը
-    $sql = "INSERT INTO blog_posts (title, content, image_url, created_at) VALUES (?, ?, ?, NOW())";
+    $sql = "INSERT INTO blog_posts (title, content, image_url, save_path, created_at) VALUES (?, ?, ?, ?, NOW())";
 
     // Պատրաստում ենք հայտարարությունը
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sss", $title, $content, $image_path);
+    $stmt->bind_param("ssss", $title, $content, $image_path, $save_path);
 
     // Վազեցնում ենք հարցումը
     if ($stmt->execute()) {

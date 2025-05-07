@@ -1,6 +1,7 @@
 <?php
 // Include database connection
 include 'db_connect.php';
+require_once 'constants.php';
 $conn->set_charset("utf8mb4");
 
 // Retrieve quiz ID from URL
@@ -23,25 +24,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Handling image upload
     if (isset($_FILES['image']['name']) && $_FILES['image']['name'] != '') {
-        $target_dir = "uploads/images/";
-        $image = basename($_FILES["image"]["name"]);
-        $target_file = $target_dir . $image;
+        $target_dir = UPLOAD_DIR . "uploads/images/";
+        $imageName = basename($_FILES["image"]["name"]);
+        $image = MEDIA_BASE_URL_FOR_DB . "uploads/images/" . $imageName;
+        $target_file = $target_dir . $imageName;
         move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
     }
 
     // Handling video upload
     if (isset($_FILES['video']['name']) && $_FILES['video']['name'] != '') {
-        $target_dir = "uploads/videos/";
-        $video = basename($_FILES["video"]["name"]);
-        $target_file = $target_dir . $video;
+        $target_dir = UPLOAD_DIR . "uploads/videos/";
+        $videoName = basename($_FILES["video"]["name"]);
+        $video = MEDIA_BASE_URL_FOR_DB . "uploads/videos/" . $videoName;
+        $target_file = $target_dir . $videoName;
         move_uploaded_file($_FILES["video"]["tmp_name"], $target_file);
     }
 
     // Handling audio upload
     if (isset($_FILES['audio']['name']) && $_FILES['audio']['name'] != '') {
-        $target_dir = "uploads/audios/";
-        $audio = basename($_FILES["audio"]["name"]);
-        $target_file = $target_dir . $audio;
+        $target_dir = UPLOAD_DIR . "uploads/audios/";
+        $audioName = basename($_FILES["audio"]["name"]);
+        $audio = MEDIA_BASE_URL_FOR_DB . "uploads/audios/" . $audionName;
+        $target_file = $target_dir . $audioName;
         move_uploaded_file($_FILES["audio"]["tmp_name"], $target_file);
     }
 

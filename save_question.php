@@ -1,6 +1,7 @@
 <?php
 // Подключение к базе данных
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Проверка, была ли отправлена форма
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -12,8 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Обработка загружаемых файлов
     $media = null;
     if (isset($_FILES['media']) && $_FILES['media']['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = 'uploads/images/'; // Папка для загрузки изображений
-        $mediaPath = $uploadDir . basename($_FILES['media']['name']);
+        $uploadDir = UPLOAD_DIR . 'uploads/images/'; // Папка для загрузки изображений
+        $mediaName = basename($_FILES['media']['name']);
+        $savePath = $uploadDir . $mediaName;
 
         // Проверяем, существует ли папка, если нет, создаем
         if (!is_dir($uploadDir)) {
@@ -21,9 +23,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Перемещаем загруженный файл в указанную директорию
-        if (move_uploaded_file($_FILES['media']['tmp_name'], $mediaPath)) {
+        if (move_uploaded_file($_FILES['media']['tmp_name'], $savePath)) {
             // Сохраняем полный путь к файлу
-            $media = 'uploads/images/' . basename($_FILES['media']['name']); // Save just the relative path
+            $media = MEDIA_BASE_URL_FOR_DB . 'uploads/images/' . $mediaName; // Save just the relative path
         } else {
             echo "Ошибка при загрузке файла: " . $_FILES['media']['error']; // Обработка ошибки загрузки
             exit(); // Прерываем выполнение, если произошла ошибка

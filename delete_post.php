@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $post_id = $_POST['id'];
 
     // Prepare the SQL statement to check if the post exists
-    $stmt = $conn->prepare("SELECT image_url FROM blog_posts WHERE id = ?");
+    $stmt = $conn->prepare("SELECT save_path FROM blog_posts WHERE id = ?");
     $stmt->bind_param("i", $post_id);
     $stmt->execute();
     $stmt->store_result();
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Fetch the image URL if it exists (to delete the image file later if needed)
-    $stmt->bind_result($image_url);
+    $stmt->bind_result($save_path);
     $stmt->fetch();
     $stmt->close();
 
@@ -32,8 +32,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($delete_stmt->execute()) {
         // If there's an image file associated with the post, delete it
-        if (!empty($image_url) && file_exists($image_url)) {
-            unlink($image_url); // Delete the image file from the server
+        if (!empty($save_path) && file_exists($save_path)) {
+            unlink($save_path); // Delete the image file from the server
         }
 
         echo 'success';

@@ -5,12 +5,12 @@ define("MEDIA_BASE_URL", "https://media.kipeducationid.com"); ?>
   // Physical path for moving uploaded files
   define("UPLOAD_DIR", ""); 
   // Base URL to be saved in the DB for image reference
-  define("IMAGE_URL_BASE_FOR_DB", "");
+  define("MEDIA_BASE_URL_FOR_DB", "");
 } else {
   // Physical path for moving uploaded files
   define("UPLOAD_DIR", "/home2/admin12345/media.kipeducationid.com/"); 
   // Base URL to be saved in the DB for image reference
-  define("IMAGE_URL_BASE_FOR_DB", "https://media.kipeducationid.com");
+  define("MEDIA_BASE_URL_FOR_DB", "https://media.kipeducationid.com/");
 } ?>
 <?php define("PROGRAMS_ABOUT_INFO_NAMES", [
   "group lesson" => "group-lessons",

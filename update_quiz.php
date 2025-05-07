@@ -20,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $uploadDir = UPLOAD_DIR . 'resource/quiz/img/';
         $imageName = basename($_FILES['quizImage']['name']);
         $savePath = $uploadDir . $imageName;
-        $imagePath = IMAGE_URL_BASE_FOR_DB . 'resource/quiz/img/' . $imageName;
+        $imagePath = MEDIA_BASE_URL_FOR_DB . 'resource/quiz/img/' . $imageName;
 
         // Move the uploaded file to the desired directory
         if (!move_uploaded_file($_FILES['quizImage']['tmp_name'], $savePath)) {
