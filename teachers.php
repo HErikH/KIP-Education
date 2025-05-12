@@ -948,7 +948,7 @@ function updateProgress() {
 // Function to load files (PPTX, PDF, DOCX, XLSX) and manage overlay
 function loadFile(fileSrc) {
     // Add media base url
-    fileSrc = 'https://media.kipeducationid.com' + fileSrc
+    fileSrc = 'https://media.kipeducationid.com/' + fileSrc.replace(/^\/+/, '');
 
     const fileIframe = document.getElementById('fileIframe');
     const overlayContainer = document.getElementById('overlay-container');
