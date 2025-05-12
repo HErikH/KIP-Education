@@ -41,8 +41,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         move_uploaded_file($_FILES["image"]["tmp_name"], $save_path);
 
         // Թարմացնում ենք նկարը
-        $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ?, image_url = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $new_title, $new_content, $image_path, $post_id);
+        $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ?, image_url = ?, save_path = ? WHERE id = ?");
+        $stmt->bind_param("ssssi", $new_title, $new_content, $image_path, $save_path, $post_id);
     } else {
         // Առանց նոր նկարի
         $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ? WHERE id = ?");

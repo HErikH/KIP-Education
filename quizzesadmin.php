@@ -66,9 +66,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (!empty($title)) {
 
-        $stmt = $conn->prepare("INSERT INTO quizzes (title, subtitle, time_in_seconds, image) VALUES (?, ?, ?, ?)");
+        $stmt = $conn->prepare("INSERT INTO quizzes (title, subtitle, time_in_seconds, image, savePath) VALUES (?, ?, ?, ?, ?)");
 
-        $stmt->bind_param("ssis", $title, $subtitle, $timeInSeconds, $imagePath);
+        $stmt->bind_param("ssiss", $title, $subtitle, $timeInSeconds, $imagePath, $savePath);
 
 
 

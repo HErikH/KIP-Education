@@ -37,8 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Գրառման ավելացում տվյալների բազայում
     if ($image_path) {
-        $stmt = $conn->prepare("INSERT INTO blog_posts (title, content, image_url) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $title, $content, $image_path);
+        $stmt = $conn->prepare("INSERT INTO blog_posts (title, content, image_url, save_path) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("ssss", $title, $content, $image_path, $save_path);
         if ($stmt->execute()) {
             $message = "Blog post added successfully!";
         } else {

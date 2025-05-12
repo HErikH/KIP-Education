@@ -13,8 +13,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $save_path = UPLOAD_DIR . 'resource/img/posts/' . $image_name;
         $image_path = MEDIA_BASE_URL_FOR_DB . "resource/img/posts/" . $image_name;
         move_uploaded_file($image_tmp, $save_path);
-        $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ?, image_url = ? WHERE id = ?");
-        $stmt->bind_param("sssi", $title, $content, $image_path, $post_id);
+        $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ?, image_url = ?, save_path = ? WHERE id = ?");
+        $stmt->bind_param("sssi", $title, $content, $image_path, $save_path, $post_id);
     } else {
         $stmt = $conn->prepare("UPDATE blog_posts SET title = ?, content = ? WHERE id = ?");
         $stmt->bind_param("ssi", $title, $content, $post_id);
