@@ -25,10 +25,11 @@ try {
 $userId = $_SESSION['user_id']; // Օգտագործողի ID
 
 // Ստուգել, արդյոք `date_start_role` կամ `date_end_role`-ը NULL է
-$sql = "SELECT date_start_role, date_end_role FROM users WHERE id = ?";
+$sql = "SELECT date_start_role, date_end_role, bought_program_names FROM users WHERE id = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$userId]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
+$bought_program_names = json_decode($userData['bought_program_names']);
 
 // Եթե `date_start_role` կամ `date_end_role`-ը NULL է, ցույց տալ popup-ը
 $showPopup = is_null($userData['date_start_role']) || is_null($userData['date_end_role']);
@@ -53,9 +54,6 @@ $stmt->execute();
 $lessons = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 // Group lessons by program type and tag (Letters, Music, etc.)
-
-// Be sure if you add the new program type also add name here in $programs
-$programs = ['K1', 'T1', 'T2'];
 
 $grouped_programs = [];
 
@@ -157,18 +155,27 @@ foreach ($lessons as $lesson) {
         }
 
         .program-file {
+            width: 100%;
             display: flex;
+            align-items: center;
             gap: 10px;
             padding: 10px;
             margin-bottom: 15px;
+            border: none;
             border-radius: 8px;
-            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            background: transparent;
             transition: background-color 0.3s ease;
-            align-items: center;
+            cursor: pointer;
         }
 
         .program-file:hover {
             background-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .program-file:focus {
+            outline: none;
         }
 
         .program-file-icon-K1 {
@@ -858,11 +865,17 @@ foreach ($lessons as $lesson) {
         <!-- Files list -->
         <div class="program-section" style="flex: 0 0 30%; margin-right: 20px;">
             <?php foreach ($grouped_programs as $programName => $grouped_lessons): ?>
-            <h5 class="program-file" onclick="toggleSection('files-list-<?php echo $programName; ?>')">
+            <button 
+            type="button" 
+            class="program-file" 
+            onclick="toggleSection('files-list-<?= $programName; ?>')"
+            <?=in_array($programName, $bought_program_names) ? "" : "disabled style='opacity: 0.6; cursor: not-allowed;'" ?>
+            >
                 <i class="fas fa-folder program-file-icon-<?= $programName ?>"></i>
                 <?php echo $programName; ?> Program
-            </h5>
+            </button>
 
+            <?php if (in_array($programName, $bought_program_names)): ?>
             <div id="files-list-<?php echo $programName; ?>" class="files-list"
                 style="display: none; flex: 0 0 30%; margin-right: 20px;">
                 <h3>Available Lessons</h3>
@@ -1084,6 +1097,7 @@ foreach ($lessons as $lesson) {
                     </div>
                 </div>
             </div>
+            <?php endif; ?>
             <?php endforeach; ?>
         </div>
 

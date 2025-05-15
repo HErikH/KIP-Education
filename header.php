@@ -91,7 +91,7 @@ $conn->close();
     ) == "contact.php"
       ? "active"
       : ""; ?>">
-        <i class="fas fa-envelope"></i> Contact Me
+        <i class="fas fa-envelope"></i> Contact Us
     </a>
     <a href="blog" class="menu-item <?php echo basename(
       $_SERVER["PHP_SELF"]
@@ -219,7 +219,7 @@ $conn->close();
     <a href="about_us" class="menu-item"><i class="fas fa-users"></i> About Us</a>
     <a href="programms" class="menu-item"><i class="fas fa-book"></i> Programs</a>
     <a href="quizzes" class="menu-item"><i class="fas fa-question-circle"></i> Quizzes</a>
-    <a href="contact" class="menu-item"><i class="fas fa-envelope"></i> Contact Me</a>
+    <a href="contact" class="menu-item"><i class="fas fa-envelope"></i> Contact Us</a>
     <a href="blog" class="menu-item"><i class="fas fa-blog"></i> Blog</a>
 
     <!-- For Teacher only visible to teachers -->
