@@ -87,7 +87,7 @@ require_once 'helpers.php';
         /* Right-side boy image positioned absolutely */
 .right-image {
     position: absolute;
-    right: -300px; /* Նախկինում -160px էր, ավելի ձախ բերենք */
+    right: -230px; /* Նախկինում -160px էր, ավելի ձախ բերենք */
     bottom: 0;
     height: 90%; /* Նույն չափ */
     width: auto;
@@ -179,7 +179,7 @@ require_once 'helpers.php';
     </div>
 
     <img src="<?= addMediaBaseUrl('resource/img/girl.webp') ?>" alt="Girl Image" class="left-image">
-    <img src="<?= addMediaBaseUrl('resource/img/bot.webp') ?>" alt="Boy Image" class="right-image"> <!-- Boy image added here -->
+    <img src="<?= addMediaBaseUrl('resource/img/boy.webp') ?>" alt="Boy Image" class="right-image"> <!-- Boy image added here -->
 
     <?php include "footer.php"; ?>
 
