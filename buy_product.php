@@ -1,6 +1,7 @@
 <?php
 // Include the database connection
 include 'db_connect.php';
+require_once './constants.php';
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
@@ -51,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Fetch user's balance and role
-    $sql = "SELECT balance, role FROM users WHERE id = ?";
+    $sql = "SELECT balance, role, bought_program_names FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
 
     if ($stmt === false) {
@@ -67,9 +68,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt->bind_result($balance, $userRole);
+    $stmt->bind_result($balance, $userRole, $bought_program_names);
     $stmt->fetch();
     $stmt->close();
+
+    $bought_program_names = json_decode($bought_program_names, true);
 
     $response = [];
 
@@ -83,13 +86,22 @@ $conn->begin_transaction();
 
 try {
     // Update balance
-    $updateBalanceSql = "UPDATE users SET balance = ? WHERE id = ?";
+    $updateBalanceSql = "UPDATE users SET balance = ?, bought_program_names = ? WHERE id = ?";
     $stmt = $conn->prepare($updateBalanceSql);
     if ($stmt === false) {
         throw new Exception('SQL prepare failed (update balance): ' . $conn->error);
     }
 
-    $stmt->bind_param("di", $newBalance, $userId);
+    // Loop through possible program names and check if any is in the productGroup
+    foreach (ALL_PROGRAM_NAMES as $program_name) {
+        if (strpos($productGroup, $program_name) !== false && !in_array($program_name, $bought_program_names)) {
+            $bought_program_names[] = $program_name;
+        }
+    }
+
+    // Encode the array as JSON for storing in DB
+    $boughtProgramsJson = json_encode($bought_program_names);
+    $stmt->bind_param("dsi", $newBalance, $boughtProgramsJson, $userId);
     if (!$stmt->execute()) {
         throw new Exception('SQL execute failed (update balance): ' . $stmt->error);
     }

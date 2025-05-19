@@ -1,6 +1,7 @@
-<!-- Write Here Your Constants Variables -->
 <?php // Base URL for accessing all medias from sub domain
 define("MEDIA_BASE_URL", "https://media.kipeducationid.com"); ?>
+<?php // All names of programs be sure that you add new program name here
+define("ALL_PROGRAM_NAMES", ["K1"]); ?>
 <?php if (strpos($_SERVER["HTTP_HOST"], "localhost") !== false) {
   // Physical path for moving uploaded files
   define("UPLOAD_DIR", ""); 

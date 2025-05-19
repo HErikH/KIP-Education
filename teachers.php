@@ -29,7 +29,7 @@ $sql = "SELECT date_start_role, date_end_role, bought_program_names FROM users W
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$userId]);
 $userData = $stmt->fetch(PDO::FETCH_ASSOC);
-$bought_program_names = json_decode($userData['bought_program_names']);
+$bought_program_names = json_decode($userData['bought_program_names'], true);
 
 // Եթե `date_start_role` կամ `date_end_role`-ը NULL է, ցույց տալ popup-ը
 $showPopup = is_null($userData['date_start_role']) || is_null($userData['date_end_role']);
