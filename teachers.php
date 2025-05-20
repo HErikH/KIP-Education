@@ -865,11 +865,17 @@ foreach ($lessons as $lesson) {
         <!-- Files list -->
         <div class="program-section" style="flex: 0 0 30%; margin-right: 20px;">
             <?php foreach ($grouped_programs as $programName => $grouped_lessons): ?>
+            <?php $defaultFile = json_decode($grouped_lessons['Letters'][0]['files'])[1]; ?>
             <button 
             type="button" 
+            id="program-file"
             class="program-file" 
             onclick="toggleSection('files-list-<?= $programName; ?>')"
             <?=in_array($programName, $bought_program_names) ? "" : "disabled style='opacity: 0.6; cursor: not-allowed;'" ?>
+            <?php if (!empty($defaultFile)): ?>
+            data-default-src="<?php echo $defaultFile; ?>"
+            onmouseenter="loadFile('<?= $defaultFile; ?>', 'hover')"
+            <?php endif; ?>
             >
                 <i class="fas fa-folder program-file-icon-<?= $programName ?>"></i>
                 <?php echo $programName; ?> Program
@@ -1144,8 +1150,17 @@ foreach ($lessons as $lesson) {
 
     <!-- JavaScript to handle video and file loading with progress -->
     <script>
+        // Track already loaded files
+        const recentlyHoveredQueue = [];
         let progressInterval;
         let progress = 0;
+
+        // Load some resource initially in file preview it will set first found id program-file defaultSrc
+        window.addEventListener("DOMContentLoaded", () => {
+            const defaultSrc = document.getElementById("program-file").dataset.defaultSrc;
+            recentlyHoveredQueue.push(defaultSrc);
+            loadFile(defaultSrc);
+        });
 
         // Loader functions for file viewer
         function showLoader() {
@@ -1171,7 +1186,24 @@ foreach ($lessons as $lesson) {
         }
 
         // Function to load files (PPTX, PDF, DOCX, XLSX) and manage overlay
-        function loadFile(fileSrc) {
+        function loadFile(fileSrc, action) {
+            // If file already loaded do not load it again in file preview iframe for hover action
+
+            if (action === 'hover') {
+                const last = recentlyHoveredQueue.at(-1);
+
+                // Don't reload if hovering the same file again
+                if (fileSrc === last) return;
+
+                // Remove previous file if stack already has 2 items
+                if (recentlyHoveredQueue.length === 2) {
+                  recentlyHoveredQueue.shift();
+                }
+            
+                // Add the new file to the stack and proceed to load it
+                recentlyHoveredQueue.push(fileSrc);
+            }
+            
             // Add media base url
             fileSrc = 'https://media.kipeducationid.com/' + fileSrc.replace(/^\/+/, '');
 
@@ -1221,6 +1253,7 @@ foreach ($lessons as $lesson) {
 
 
 
+        // Not used yet maybe will be usefull in future
         // Function to load PPTX files and manage overlay
         function loadPptx(fileSrc) {
             const fileIframe = document.getElementById('fileIframe');
