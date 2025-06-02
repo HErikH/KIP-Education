@@ -68,6 +68,7 @@ foreach ($lessons as $lesson) {
             "Logic_Math" => [],
             "Art" => [],
             "Book" => [], // Գրքերի բաժինը նույնպես տեղադրված է, սակայն այն կթաքցնենք
+            "Additional" => [], 
         ];
     }
 
@@ -163,7 +164,7 @@ foreach ($lessons as $lesson) {
             margin-bottom: 15px;
             border: none;
             border-radius: 8px;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             color: white;
             background: transparent;
             transition: background-color 0.3s ease;
@@ -866,6 +867,7 @@ foreach ($lessons as $lesson) {
         <div class="program-section" style="flex: 0 0 30%; margin-right: 20px;">
             <?php foreach ($grouped_programs as $programName => $grouped_lessons): ?>
             <?php $defaultFile = json_decode($grouped_lessons['Letters'][0]['files'])[1]; ?>
+
             <button 
             type="button" 
             id="program-file"
@@ -890,14 +892,15 @@ foreach ($lessons as $lesson) {
                 <?php foreach ($grouped_lessons as $category => $lessons): ?>
                 <!-- Թաքցնենք Book բաժինը -->
                 <?php if ($category === 'Book') continue; ?>
+                <?php if ($category === 'Additional') continue; ?>
 
                 <!-- Category Folder -->
-                <div class="file-item" onclick="toggleSection('<?php echo $category; ?>Section')">
+                <div class="file-item" onclick="toggleSection('<?php echo $programName . $category; ?>Section')">
                     <i class="fas fa-folder category-icon-<?= strtolower($category); ?>"></i>
                     <?php echo $category; ?>
                 </div>
 
-                <div id="<?php echo $category; ?>Section" style="display: none; padding-left: 20px;">
+                <div id="<?php echo $programName . $category; ?>Section" style="display: none; padding-left: 20px;">
                     <?php if (!empty($lessons)): ?>
                     <!-- Loop through lessons within the category -->
                     <?php foreach ($lessons as $lesson): ?>
@@ -995,24 +998,54 @@ foreach ($lessons as $lesson) {
 
                 <!-- Existing Files inside the container -->
                 <h3>Additional Resources</h3>
-                <div class="file-item video"
-                    onclick="openVideo('<?= addMediaBaseUrl('/resource/For%20teacher/Morning%20Relaxing%20Music%20-%20Positive%20Background%20Music%20for%20Kids%20(Sway).mp4') ?>')">
-                    <i class="fas fa-video"></i> Background Music - Morning Relaxing Music
+
+                <?php $additionalResources = json_decode($grouped_lessons['Additional'][0]['files'], true); ?>
+                <?php if (isset($additionalResources)): ?>
+                <?php foreach ($additionalResources as $resourse): ?>
+                <?php
+                    $title = $resourse['title'];
+                    $file = $resourse['file'];
+                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+
+                    switch ($extension) {
+                        case 'mp4':
+                            $fileType = 'video';
+                            $iconClass = 'fas fa-video';
+                            $onClick = "openVideo('" . addMediaBaseUrl($file) . "')";
+                            break;
+                        case 'xlsx':
+                        case 'xls':
+                            $fileType = 'excel';
+                            $iconClass = 'fas fa-file-excel';
+                            $onClick = "loadFile('$file')";
+                            break;
+                        case 'doc':
+                        case 'docx':
+                            $fileType = 'word';
+                            $iconClass = 'fas fa-file-word';
+                            $onClick = "loadFile('$file')";
+                            break;
+                        case 'ppt':
+                        case 'pptx':
+                            $fileType = 'powerpoint';
+                            $iconClass = 'fas fa-file-powerpoint';
+                            $onClick = "loadFile('$file')";
+                            break;
+                        default:
+                            $fileType = 'file';
+                            $iconClass = 'fas fa-file';
+                            $onClick = "loadFile('$file')";
+                    }
+                ?>
+
+                <div class="file-item <?= $fileType ?>" onclick="<?= $onClick ?>">
+                    <i class="<?= $iconClass ?>"></i>
+                    <?= htmlspecialchars($title) ?>
                 </div>
-                <div class="file-item excel" onclick="loadFile('/resource/For%20teacher/K1_Syllabus_Program.xlsx')">
-                    <i class="fas fa-file-excel"></i> K1_Syllabus_Program.xlsx
-                </div>
-                <div class="file-item word"
-                    onclick="loadFile('/resource/For%20teacher/K1_Suggested%20Lesson%20Plan%20Order.docx')">
-                    <i class="fas fa-file-word"></i> K1_Suggested Lesson Plan Order.docx
-                </div>
-                <div class="file-item powerpoint" onclick="loadFile('/resource/For%20teacher/K1_Convorsation.pptx')">
-                    <i class="fas fa-file-powerpoint"></i> K1_Convorsation.pptx
-                </div>
-                <div class="file-item word"
-                    onclick="loadFile('/resource/For%20teacher/50%20Fun%20Games%20for%20Children.docx')">
-                    <i class="fas fa-file-word"></i> 50 Fun Games for Children.docx
-                </div>
+                <?php endforeach; ?>
+                <?php else: ?>
+                    <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
+                <?php endif; ?>
 
                 <!-- Special Lessons Section inside the container -->
                 <div class="file-item" onclick="toggleSection('specialLessonsSection')">
@@ -1253,9 +1286,11 @@ foreach ($lessons as $lesson) {
 
 
 
-        // Not used yet maybe will be usefull in future
+        // ! Not used yet maybe will be usefull in future
         // Function to load PPTX files and manage overlay
         function loadPptx(fileSrc) {
+            fileSrc = 'https://media.kipeducationid.com/' + fileSrc.replace(/^\/+/, '');
+
             const fileIframe = document.getElementById('fileIframe');
             const overlayContainer = document.getElementById('overlay-container');
 
@@ -1293,6 +1328,8 @@ foreach ($lessons as $lesson) {
 
         // Video Popup Functions
         function openVideo(videoSrc) {
+            videoSrc = 'https://media.kipeducationid.com/' + videoSrc.replace(/^\/+/, '');
+
             const videoSource = document.getElementById('videoSource');
             const videoPopup = document.getElementById('videoPopup');
             const videoPlayer = document.getElementById('videoPlayer');

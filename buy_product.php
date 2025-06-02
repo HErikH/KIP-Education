@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Fetch product details to get group, title, and type
-    $productSql = "SELECT title, `group`, `type` FROM products WHERE id = ?";
+    $productSql = "SELECT title, `group`, `type`, product_name FROM products WHERE id = ?";
     $productStmt = $conn->prepare($productSql);
 
     if ($productStmt === false) {
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $productStmt->bind_result($productTitle, $productGroup, $productType);
+    $productStmt->bind_result($productTitle, $productGroup, $productType, $productName);
     $productStmt->fetch();
     $productStmt->close();
 
@@ -92,9 +92,9 @@ try {
         throw new Exception('SQL prepare failed (update balance): ' . $conn->error);
     }
 
-    // Loop through possible program names and check if any is in the productGroup
+    // Loop through possible program names and check if any one is equal to productName 
     foreach (ALL_PROGRAM_NAMES as $program_name) {
-        if (strpos($productGroup, $program_name) !== false && !in_array($program_name, $bought_program_names)) {
+        if ($productName == $program_name && !in_array($program_name, $bought_program_names)) {
             $bought_program_names[] = $program_name;
         }
     }
