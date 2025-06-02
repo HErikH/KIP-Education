@@ -1,6 +1,7 @@
 <?php
 // Include the database connection
 include 'db_connect.php';
+require_once './constants.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate user ID
@@ -33,11 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Prepare the SQL statement to update the user fields
-    $stmt = $conn->prepare("UPDATE users SET email = ?, first_last_name = ?, phone_number = ?, country = ?, balance = ?, role = ? WHERE id = ?");
+    $stmt = $conn->prepare("UPDATE users SET email = ?, first_last_name = ?, phone_number = ?, country = ?, balance = ?, role = ?, bought_program_names	= ? WHERE id = ?");
     
     if ($stmt) {
         // Bind parameters and execute the query
-        $stmt->bind_param('ssssssi', $email, $firstLastName, $phoneNumber, $country, $balance, $role, $userId);
+        $stmt->bind_param('sssssssi', $email, $firstLastName, $phoneNumber, $country, $balance, $role, json_encode(ALL_PROGRAM_NAMES), $userId);
         if ($stmt->execute()) {
             // Close the statement and the connection
             $stmt->close();
