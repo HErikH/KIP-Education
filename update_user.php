@@ -1,7 +1,6 @@
 <?php
 // Include the database connection
 include 'db_connect.php';
-require_once './constants.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Validate user ID
@@ -20,6 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $country = htmlspecialchars(trim($_POST['country'] ?? 'Armenia'));  // Default to Armenia
     $balance = floatval($_POST['balance'] ?? 0.00);  // Default balance to 0.00
     $role = htmlspecialchars(trim($_POST['role'] ?? 'guest'));  // Default role to guest
+    $programs = json_encode(explode(',', $_POST['program'][0] ?? ''));
 
     // If email validation fails, log the error and exit
     if (!$email) {
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     if ($stmt) {
         // Bind parameters and execute the query
-        $stmt->bind_param('sssssssi', $email, $firstLastName, $phoneNumber, $country, $balance, $role, json_encode(ALL_PROGRAM_NAMES), $userId);
+        $stmt->bind_param('sssssssi', $email, $firstLastName, $phoneNumber, $country, $balance, $role, $programs, $userId);
         if ($stmt->execute()) {
             // Close the statement and the connection
             $stmt->close();

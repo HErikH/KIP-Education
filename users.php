@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db_connect.php';
+require_once 'constants.php';
 
 // Session check
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
@@ -119,6 +120,63 @@ $conn->close();
             background-color: #218838;
             transition: background-color 0.3s;
         }
+
+        .multi-select-wrapper {
+          position: relative;
+          font-family: sans-serif;
+        }
+
+        .multi-select {
+          border: 1px solid #ccc;
+          padding: 8px;
+          border-radius: 4px;
+          cursor: pointer;
+          background-color: white;
+        }
+
+        .multi-select.active {
+          border-color: #007bff;
+        }
+
+        .multi-select .tags {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+        }
+
+        .multi-select .tag {
+          background-color: #007bff;
+          color: white;
+          padding: 2px 6px;
+          border-radius: 12px;
+          font-size: 0.85rem;
+        }
+
+        .dropdown-options {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          right: 0;
+          border: 1px solid #ccc;
+          background-color: white;
+          z-index: 10;
+          display: none;
+          max-height: 200px;
+          overflow-y: auto;
+        }
+
+        .dropdown-options.active {
+          display: block;
+        }
+
+        .dropdown-options div {
+          padding: 8px;
+          cursor: pointer;
+        }
+
+        .dropdown-options div:hover {
+          background-color: #f0f0f0;
+        }
         /* Responsive Design */
         @media (max-width: 768px) {
             h1 {
@@ -217,6 +275,28 @@ $conn->close();
             </select>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col">
+          <label class="form-label">Program</label>
+  
+          <div class="multi-select-wrapper" data-name="add-program">
+              <div class="multi-select">
+                <div class="tags">Click to select</div>
+              </div>
+
+              <div class="dropdown-options">
+                <?php foreach (ALL_PROGRAM_NAMES as $program_name): ?>
+                    <div data-value="<?= $program_name ?>" >
+                        <?= $program_name ?>
+                    </div>
+                <?php endforeach; ?>
+              </div>
+
+              <!-- Hidden input to store selected values for form submission -->
+              <input type="hidden" name="program[]" id="selectedValues">
+          </div>
+        </div>
+      </div>
     <div class="row mb-3">
         <div class="col">
             <label for="product_name" class="form-label">Product Name</label>
@@ -318,7 +398,9 @@ $conn->close();
                                 '<?php echo htmlspecialchars($user['phone_number']); ?>', 
                                 '<?php echo htmlspecialchars($user['role']); ?>', 
                                 '<?php echo htmlspecialchars($user['balance']); ?>', 
-                                '<?php echo htmlspecialchars($user['country']); ?>')">
+                                '<?php echo htmlspecialchars($user['country']); ?>',
+                                '<?php echo htmlspecialchars($user['bought_program_names']); ?>'
+                                )">
                                 <i class="fas fa-cog"></i> Settings
                             </button>
                         </td>
@@ -457,6 +539,28 @@ $conn->close();
                             </select>
                         </div>
                     </div>
+                    <div id="settings-select-program" class="row mb-3 collapse">
+                        <div class="col">
+                            <label class="form-label">Program</label>
+
+                            <div class="multi-select-wrapper" data-name="program">
+                                <div class="multi-select">
+                                  <div id="settings-selected-tags" class="tags">Click to select</div>
+                                </div>
+                                
+                                <div class="dropdown-options">
+                                    <?php foreach (ALL_PROGRAM_NAMES as $program_name): ?>
+                                        <div data-value="<?= $program_name ?>" >
+                                            <?= $program_name ?>
+                                        </div>
+                                    <?php endforeach; ?>
+                                </div>
+                    
+                                <!-- Hidden input to store selected values for form submission -->
+                                <input id="settings-selected-values" type="hidden" name="program[]" class="selected-values">
+                              </div>
+                        </div>
+                    </div>
                     <div class="row mb-3">
                         <div class="col">
                             <label for="settings_balance" class="form-label">Balance</label>
@@ -480,6 +584,72 @@ $conn->close();
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    // Custom multi select logic
+    document.querySelectorAll('.multi-select-wrapper').forEach((wrapper, index) => {
+    const selectBox = wrapper.querySelector('.multi-select');
+    const dropdown = wrapper.querySelector('.dropdown-options');
+    const tagsBox = wrapper.querySelector('.tags');
+    const hiddenInput = wrapper.querySelector('.selected-values');
+
+    let selectedValues = [];
+
+    selectBox.addEventListener('click', () => {
+      dropdown.classList.toggle('active');
+      selectBox.classList.toggle('active');
+    });
+
+    dropdown.addEventListener('click', (e) => {
+      const value = e.target.getAttribute('data-value');
+      if (!value) return;
+
+      const index = selectedValues.indexOf(value);
+      if (index === -1) {
+        selectedValues.push(value);
+      } else {
+        selectedValues.splice(index, 1);
+      }
+
+      updateTags(tagsBox, selectedValues, hiddenInput);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!wrapper.contains(e.target)) {
+        dropdown.classList.remove('active');
+        selectBox.classList.remove('active');
+      }
+    });
+});
+
+
+function updateTags(tagsBox, selectedValues, hiddenInput) {
+    if (typeof selectedValues === 'string') {
+        try {
+          selectedValues = JSON.parse(selectedValues);
+        } catch {
+          selectedValues = [];
+        }
+    }
+
+    if (selectedValues === '' || (Array.isArray(selectedValues) && selectedValues[0] === '' && selectedValues.length === 1)) {
+     selectedValues = [];
+    }
+
+    tagsBox.innerHTML = '';
+
+    if (selectedValues.length === 0) {
+      tagsBox.textContent = 'Click to select';
+    } else {
+      selectedValues.forEach(val => {
+        const tag = document.createElement('span');
+        tag.className = 'tag';
+        tag.textContent = val;
+        tagsBox.appendChild(tag);
+      });
+    }
+
+    hiddenInput.value = selectedValues.join(',');
+}
+
 document.addEventListener('DOMContentLoaded', function() {
 
     // Add event listener for user_type changes (if applicable)
@@ -560,7 +730,7 @@ document.getElementById('addUserForm').onsubmit = function(event) {
 };
 
 // Open Settings Modal
-window.openSettings = function(userId, userEmail, firstLastName, phoneNumber, role, balance, country) {
+window.openSettings = function(userId, userEmail, firstLastName, phoneNumber, role, balance, country, bought_program_names) {
     // Set values in the modal for editing
     document.getElementById('settingsUserId').value = userId;
     document.getElementById('settings_email').value = userEmail;
@@ -569,6 +739,29 @@ window.openSettings = function(userId, userEmail, firstLastName, phoneNumber, ro
     document.getElementById('settings_role').value = role;
     document.getElementById('settings_balance').value = balance;
     document.getElementById('settings_country').value = country || 'Armenia'; // Default to 'Armenia' if null
+
+    const roleSelect = $('#settings_role');
+    const programBox = $('#settings-select-program');
+    const hiddenInput = $('#settings-selected-values')[0];
+    const tagsBox = $('#settings-selected-tags')[0];
+    
+    function toggleProgramBox(role) {
+      // role !== 'guest'
+      if (role === 'teacher') {
+        programBox.collapse('show');
+        updateTags(tagsBox, bought_program_names, hiddenInput);
+      } else {
+        programBox.collapse('hide');
+      }
+    }
+    
+    // Initial toggle
+    toggleProgramBox(role);
+    
+    // Change listener
+    roleSelect.on('change', function () {
+      toggleProgramBox(this.value);
+    });
 
     // Show the modal
     var settingsModal = new bootstrap.Modal(document.getElementById('settingsModal'));
