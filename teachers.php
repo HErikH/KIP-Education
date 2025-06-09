@@ -62,6 +62,7 @@ foreach ($lessons as $lesson) {
 
     if (!isset($grouped_programs[$program])) {
         $grouped_programs[$program] = [
+            "Grammar" => [],
             "Letters" => [],
             "Music" => [],
             "Culture" => [],
@@ -69,6 +70,7 @@ foreach ($lessons as $lesson) {
             "Art" => [],
             "Book" => [], // Գրքերի բաժինը նույնպես տեղադրված է, սակայն այն կթաքցնենք
             "Additional" => [], 
+            "Resources_For_Teachers" => [] 
         ];
     }
 
@@ -866,7 +868,19 @@ foreach ($lessons as $lesson) {
         <!-- Files list -->
         <div class="program-section" style="flex: 0 0 30%; margin-right: 20px;">
             <?php foreach ($grouped_programs as $programName => $grouped_lessons): ?>
-            <?php $defaultFile = json_decode($grouped_lessons['Letters'][0]['files'])[1]; ?>
+            <?php
+                $defaultFile = NULL;
+
+                foreach (['Letters', 'Grammar'] as $key) {
+                    if (!empty($grouped_lessons[$key][0]['files'])) {
+                        $files = json_decode($grouped_lessons[$key][0]['files']);
+                        if (!empty($files[1])) {
+                            $defaultFile = $files[1];
+                            break;
+                        }
+                    }
+                }
+            ?>
 
             <button 
             type="button" 
@@ -893,6 +907,7 @@ foreach ($lessons as $lesson) {
                 <!-- Թաքցնենք Book բաժինը -->
                 <?php if ($category === 'Book') continue; ?>
                 <?php if ($category === 'Additional') continue; ?>
+                <?php if ($category === 'Resources_For_Teachers') continue; ?>
 
                 <!-- Category Folder -->
                 <div class="file-item" onclick="toggleSection('<?php echo $programName . $category; ?>Section')">
@@ -999,7 +1014,16 @@ foreach ($lessons as $lesson) {
                 <!-- Existing Files inside the container -->
                 <h3>Additional Resources</h3>
 
-                <?php $additionalResources = json_decode($grouped_lessons['Additional'][0]['files'], true); ?>
+                <?php
+                $additionalResources = [];
+                                
+                if (
+                    isset($grouped_lessons['Additional']) &&
+                    isset($grouped_lessons['Additional'][0]['files'])
+                ) {
+                    $additionalResources = json_decode($grouped_lessons['Additional'][0]['files'], true);
+                }
+                ?>
                 <?php if (isset($additionalResources)): ?>
                 <?php foreach ($additionalResources as $resourse): ?>
                 <?php
@@ -1048,15 +1072,15 @@ foreach ($lessons as $lesson) {
                 <?php endif; ?>
 
                 <!-- Special Lessons Section inside the container -->
-                <div class="file-item" onclick="toggleSection('specialLessonsSection')">
+                <div class="file-item" onclick="toggleSection('<?= $programName; ?>specialLessonsSection')">
                     <i class="fas fa-folder" style="color: #B39651;"></i> Special Lessons
                 </div>
-                <div id="specialLessonsSection" style="display: none; padding-left: 20px;">
+                <div id="<?= $programName; ?>specialLessonsSection" style="display: none; padding-left: 20px;">
                     <!-- Happy Easter Folder -->
-                    <div class="file-item" onclick="toggleSection('happyEasterSection')">
+                    <div class="file-item" onclick="toggleSection('<?= $programName; ?>happyEasterSection')">
                         <i class="fas fa-folder"></i> Happy Easter
                     </div>
-                    <div id="happyEasterSection" style="display: none; padding-left: 20px;">
+                    <div id="<?= $programName; ?>happyEasterSection" style="display: none; padding-left: 20px;">
                         <div class="file-item pdf"
                             onclick="loadFile('/resource/For%20teacher/Easter%20worksheet_Card.pdf')">
                             <i class="fas fa-file-pdf"></i> Easter worksheet_Card.pdf
@@ -1076,10 +1100,10 @@ foreach ($lessons as $lesson) {
                     </div>
 
                     <!-- Merry Christmas Folder -->
-                    <div class="file-item" onclick="toggleSection('merryChristmasSection')">
+                    <div class="file-item" onclick="toggleSection('<?= $programName; ?>merryChristmasSection')">
                         <i class="fas fa-folder" style="color: #6BB368;"></i> Merry Christmas
                     </div>
-                    <div id="merryChristmasSection" style="display: none; padding-left: 20px;">
+                    <div id="<?= $programName; ?>merryChristmasSection" style="display: none; padding-left: 20px;">
                         <div class="file-item powerpoint"
                             onclick="loadFile('/resource/For%20teacher/Christmas-lesson.pptx')">
                             <i class="fas fa-file-powerpoint"></i> Christmas-lesson.pptx
@@ -1100,35 +1124,48 @@ foreach ($lessons as $lesson) {
                 </div>
 
                 <!-- Resources for Teachers Section inside the container -->
-                <div class="file-item" onclick="toggleSection('resourcesForTeachersSection')">
+                <div class="file-item" onclick="toggleSection('<?= $programName; ?>resourcesForTeachersSection')">
                     <i class="fas fa-folder" style="color: #D06898"></i> Resources for Teachers
                 </div>
-                <div id="resourcesForTeachersSection" style="display: none; padding-left: 20px;">
-                    <div class="file-item pdf"
-                        onclick="loadFile('/resource/For%20teacher/b_dialogues_everyday_conversations_english_lo_0.pdf')">
-                        <i class="fas fa-file-pdf"></i> Everyday Conversations in English.pdf
-                    </div>
-                    <div class="file-item pdf"
-                        onclick="loadFile('/resource/For%20teacher/Early%20Learning%20Teaching%20Strategies.pdf')">
-                        <i class="fas fa-file-pdf"></i> Early Learning Teaching Strategies.pdf
-                    </div>
-                    <div class="file-item pdf"
-                        onclick="loadFile('/resource/For%20teacher/high-impact-teaching-strategies.pdf')">
-                        <i class="fas fa-file-pdf"></i> High-Impact Teaching Strategies.pdf
-                    </div>
-                    <div class="file-item pdf"
-                        onclick="loadFile('/resource/For%20teacher/UNICEF_Learning%20through%20play.pdf')">
-                        <i class="fas fa-file-pdf"></i> UNICEF Learning through Play.pdf
-                    </div>
+                <?php
+                $resourcesForTeachers = [];
+                                
+                if (
+                    isset($grouped_lessons['Resources_For_Teachers']) &&
+                    isset($grouped_lessons['Resources_For_Teachers'][0]['files'])
+                ) {
+                    $resourcesForTeachers = json_decode($grouped_lessons['Resources_For_Teachers'][0]['files'], true);
+                }
+                ?>
+
+                <?php if (isset($resourcesForTeachers)): ?>
+                <div id="<?= $programName; ?>resourcesForTeachersSection" style="display: none; padding-left: 20px;">
+                    <?php foreach ($resourcesForTeachers as $resource): ?>
+                        <?php
+                            $fileUrl = str_replace(' ', '%20', $resource['file']);
+                            $fileTitle = $resource['title'];
+                            $fileExtension = pathinfo($fileTitle, PATHINFO_EXTENSION);
+                            $fileClass = strtolower($fileExtension);
+                        ?>
+                        <div 
+                        class="file-item <?= $fileClass ?>"                         
+                        onclick="loadFile('<?= $fileUrl ?>')"
+                        >
+                            <i class="fas fa-file-<?= $fileClass ?>"></i> <?= $fileTitle ?>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
+                <?php else: ?>
+                    <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
+                <?php endif; ?>
 
                 <!-- Children's Educational Characteristics for Teachers Section inside the container -->
-                <div class="file-item text-left" onclick="toggleSection('kidsEnglishCharacteristics')">
+                <div class="file-item text-left" onclick="toggleSection('<?= $programName; ?>kidsEnglishCharacteristics')">
                     <i class="fas fa-folder" style="color: #7668D1"></i>
                     Children's Educational Characteristics Aged 3-6
                 </div>
 
-                <div id="kidsEnglishCharacteristics" style="display: none; padding-left: 20px; text-align: left;">
+                <div id="<?= $programName; ?>kidsEnglishCharacteristics" style="display: none; padding-left: 20px; text-align: left;">
                     <div class="file-item word"
                         onclick="loadFile('/resource/For%20teacher/Kids%20characteristics_English.docx')">
                         <i class="fas fa-file-word"></i>

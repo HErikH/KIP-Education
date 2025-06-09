@@ -699,7 +699,8 @@ include 'header.php';
                 data-information="<?= htmlspecialchars($product['information']) ?>"
                 data-group="<?= htmlspecialchars($product['group']) ?>"
                 data-price-month="<?= htmlspecialchars($product['price_month']) ?>"
-                data-price-year="<?= htmlspecialchars($product['price_year']) ?>" onclick="showPopup(this)">Buy</a>
+                data-price-year="<?= htmlspecialchars($product['price_year']) ?>" 
+                data-product-id="<?= htmlspecialchars($product['id']) ?>" onclick="showPopup(this)">Buy</a>
         </div>
         <?php endif; ?>
         <?php endforeach; ?>
@@ -747,7 +748,8 @@ include 'header.php';
                 data-information="<?= htmlspecialchars($product['information']) ?>"
                 data-group="<?= htmlspecialchars($product['group']) ?>"
                 data-price-month="<?= htmlspecialchars($product['price_month']) ?>"
-                data-price-year="<?= htmlspecialchars($product['price_year']) ?>" onclick="showPopup(this)">Buy</a>
+                data-price-year="<?= htmlspecialchars($product['price_year']) ?>" 
+                data-product-id="<?= htmlspecialchars($product['id']) ?>" onclick="showPopup(this)">Buy</a>
         </div>
         <?php endif; ?>
         <?php endforeach; ?>
@@ -795,7 +797,8 @@ include 'header.php';
                 data-information="<?= htmlspecialchars($product['information']) ?>"
                 data-group="<?= htmlspecialchars($product['group']) ?>"
                 data-price-month="<?= htmlspecialchars($product['price_month']) ?>"
-                data-price-year="<?= htmlspecialchars($product['price_year']) ?>" onclick="showPopup(this)">Buy</a>
+                data-price-year="<?= htmlspecialchars($product['price_year']) ?>" 
+                data-product-id="<?= htmlspecialchars($product['id']) ?>" onclick="showPopup(this)">Buy</a>
         </div>
         <?php endif; ?>
         <?php endforeach; ?>
