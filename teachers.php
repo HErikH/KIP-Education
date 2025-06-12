@@ -16,8 +16,21 @@ include 'header.php';
 
 try {
     // Create PDO connection
-    $pdo = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    try {
+        // Create PDO connection
+        $pdo = new PDO(
+            "mysql:host=$servername;dbname=$dbname;charset=utf8mb4",
+            $username,
+            $password,
+            [
+                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+                PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8mb4"
+            ]
+        );
+    } catch (PDOException $e) {
+        die("Connection failed: " . $e->getMessage());
+    }
 } catch (PDOException $e) {
     die("Connection failed: " . $e->getMessage());
 }
@@ -70,7 +83,8 @@ foreach ($lessons as $lesson) {
             "Art" => [],
             "Book" => [], // Գրքերի բաժինը նույնպես տեղադրված է, սակայն այն կթաքցնենք
             "Additional" => [], 
-            "Resources_For_Teachers" => [] 
+            "Resources_For_Teachers" => [],
+            "Performance_Theme" => []
         ];
     }
 
@@ -111,7 +125,7 @@ foreach ($lessons as $lesson) {
             justify-content: flex-start;
             align-items: flex-start;
             padding: 20px;
-            margin: 50px;
+            margin: 100px 50px;
         }
 
         .program-section {
@@ -171,6 +185,7 @@ foreach ($lessons as $lesson) {
             background: transparent;
             transition: background-color 0.3s ease;
             cursor: pointer;
+            word-break: break-word;
         }
 
         .program-file:hover {
@@ -243,6 +258,7 @@ foreach ($lessons as $lesson) {
             transition: background-color 0.3s ease;
             display: flex;
             align-items: center;
+            word-break: break-word;
         }
 
         .file-item:hover {
@@ -904,10 +920,11 @@ foreach ($lessons as $lesson) {
 
                 <!-- Loop through each lesson group (e.g., Letters, Music, etc.) -->
                 <?php foreach ($grouped_lessons as $category => $lessons): ?>
-                <!-- Թաքցնենք Book բաժինը -->
+                <!-- Escape every section which is handled separately for avoiding miss handling -->
                 <?php if ($category === 'Book') continue; ?>
                 <?php if ($category === 'Additional') continue; ?>
                 <?php if ($category === 'Resources_For_Teachers') continue; ?>
+                <?php if ($category === 'Performance_Theme') continue; ?>
 
                 <!-- Category Folder -->
                 <div class="file-item" onclick="toggleSection('<?php echo $programName . $category; ?>Section')">
@@ -1024,7 +1041,7 @@ foreach ($lessons as $lesson) {
                     $additionalResources = json_decode($grouped_lessons['Additional'][0]['files'], true);
                 }
                 ?>
-                <?php if (isset($additionalResources)): ?>
+                <?php if (!empty($additionalResources)): ?>
                 <?php foreach ($additionalResources as $resourse): ?>
                 <?php
                     $title = $resourse['title'];
@@ -1138,8 +1155,8 @@ foreach ($lessons as $lesson) {
                 }
                 ?>
 
-                <?php if (isset($resourcesForTeachers)): ?>
                 <div id="<?= $programName; ?>resourcesForTeachersSection" style="display: none; padding-left: 20px;">
+                    <?php if (!empty($resourcesForTeachers)): ?>
                     <?php foreach ($resourcesForTeachers as $resource): ?>
                         <?php
                             $fileUrl = str_replace(' ', '%20', $resource['file']);
@@ -1154,10 +1171,10 @@ foreach ($lessons as $lesson) {
                             <i class="fas fa-file-<?= $fileClass ?>"></i> <?= $fileTitle ?>
                         </div>
                     <?php endforeach; ?>
-                </div>
-                <?php else: ?>
-                    <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
-                <?php endif; ?>
+                    <?php else: ?>
+                        <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
+                    <?php endif; ?>
+                    </div>
 
                 <!-- Children's Educational Characteristics for Teachers Section inside the container -->
                 <div class="file-item text-left" onclick="toggleSection('<?= $programName; ?>kidsEnglishCharacteristics')">
@@ -1171,6 +1188,34 @@ foreach ($lessons as $lesson) {
                         <i class="fas fa-file-word"></i>
                         Children's Educational Characteristics Aged 3-6.docx
                     </div>
+                </div>
+
+                <!-- Performance Theme Section -->
+                <div class="file-item text-left" onclick="toggleSection('<?= $programName; ?>performanceTheme')">
+                    <i class="fas fa-folder" style="color: #7cb070"></i>
+                    Performance Theme
+                </div>
+
+                <?php
+                $performanceTheme = [];
+
+                if (
+                    isset($grouped_lessons['Performance_Theme']) &&
+                    isset($grouped_lessons['Performance_Theme'][0]['files'])
+                ) {
+                    $performanceTheme = $grouped_lessons['Performance_Theme'][0];
+                }
+                ?>
+
+                <div id="<?= $programName; ?>performanceTheme" style="display: none; padding-left: 20px; text-align: left;">
+                    <?php if (!empty($performanceTheme)): ?>
+                        <?php 
+                            $tree = buildFileTree($performanceTheme, 3);
+                            renderFileTree($tree);
+                        ?>
+                    <?php else: ?>
+                        <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
+                    <?php endif; ?>
                 </div>
             </div>
             <?php endif; ?>
