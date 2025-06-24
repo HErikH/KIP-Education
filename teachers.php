@@ -890,7 +890,7 @@ foreach ($lessons as $lesson) {
                 foreach (['Letters', 'Grammar'] as $key) {
                     if (!empty($grouped_lessons[$key][0]['files'])) {
                         $files = json_decode($grouped_lessons[$key][0]['files']);
-                        if (!empty($files[1])) {
+                        if (!empty($files[1]) && !str_ends_with($files[1], '.docx')) {
                             $defaultFile = $files[1];
                             break;
                         }
@@ -1235,7 +1235,7 @@ foreach ($lessons as $lesson) {
 
             <!-- File viewer -->
             <div class="files-viewer" id="fileViewer" style="position: relative;">
-                <iframe id="fileIframe" src="" onload="hideLoader()"
+                <iframe allowfullscreen id="fileIframe" src="" onload="hideLoader()"
                     style="width: 100%; height: 600px; border: none; position: relative;"></iframe>
 
                 <!-- Overlay inside iframe -->
@@ -1302,6 +1302,18 @@ foreach ($lessons as $lesson) {
 
         // Function to load files (PPTX, PDF, DOCX, XLSX) and manage overlay
         function loadFile(fileSrc, action) {
+            const office365ViewerUrl = 'https://view.officeapps.live.com/op/view.aspx?src=';
+            const mediaBaseUrl = 'https://media.kipeducationid.com/';
+
+            // Fix problem with the docx load on the mobile devices
+            const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            const isDocX = fileSrc.endsWith('.docx');
+
+            if (isMobile && isDocX) {
+                window.open('https://docs.google.com/viewer?url=' + encodeURIComponent(mediaBaseUrl + fileSrc), '_blank');
+                return
+            }
+
             // If file already loaded do not load it again in file preview iframe for hover action
 
             if (action === 'hover') {
@@ -1320,7 +1332,7 @@ foreach ($lessons as $lesson) {
             }
             
             // Add media base url
-            fileSrc = 'https://media.kipeducationid.com/' + fileSrc.replace(/^\/+/, '');
+            fileSrc = mediaBaseUrl + fileSrc.replace(/^\/+/, '');
 
             const fileIframe = document.getElementById('fileIframe');
             const overlayContainer = document.getElementById('overlay-container');
@@ -1331,7 +1343,6 @@ foreach ($lessons as $lesson) {
             // Detect file type and use the appropriate viewer
             if (fileSrc.endsWith('.pptx') || fileSrc.endsWith('.docx') || fileSrc.endsWith('.xlsx')) {
                 // Use Office365 Viewer for Word, Excel, and PowerPoint
-                const office365ViewerUrl = 'https://view.officeapps.live.com/op/view.aspx?src=';
                 const fullUrl = office365ViewerUrl + encodeURIComponent(fileSrc); // Ensure fileSrc has the correct path
                 fileIframe.src = fullUrl;
 
