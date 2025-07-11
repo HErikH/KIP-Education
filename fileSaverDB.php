@@ -2,12 +2,12 @@
 include 'db_connect.php';
 
 // === CONFIG ===
-$mediaDir = 'uploads/lessons/142'; // change this to your folder
-$id = 142;                 // manually set
-$title = 'Lesson 55_Art_Cooking';
-$tag = 'Art';
+$mediaDir = 'uploads/lessons/206'; // change this to your folder
+$id = 206;                 // manually set
+$title = 'Lesson 64_Grammar Conjunctions';
+$tag = 'Grammar';
 
-$program_name = 'K2';
+$program_name = 'TA1_A0';
 
 // === FILE SCAN ===
 $fullPath = __DIR__ . '/' . $mediaDir;

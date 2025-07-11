@@ -116,7 +116,7 @@ $conn->close();
             justify-content: space-between;
             gap: 20px; /* Space between the containers */
             width: 80%; /* Adjust the width to your preference */
-            margin: 0 auto;
+            margin: 50px auto;
         }
 
         .profile-container, .extra-container {
