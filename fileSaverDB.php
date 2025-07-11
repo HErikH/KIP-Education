@@ -2,9 +2,9 @@
 include 'db_connect.php';
 
 // === CONFIG ===
-$mediaDir = 'uploads/lessons/142'; // change this to your folder
-$id = 142;                 // manually set
-$title = 'Lesson 55_Art_Cooking';
+$mediaDir = 'uploads/lessons/210'; // change this to your folder
+$id = 228;                 // manually set
+$title = 'Lesson 11_Art_Clothing';
 $tag = 'Art';
 
 $program_name = 'K2';

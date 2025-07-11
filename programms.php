@@ -104,7 +104,7 @@ $conn->close();
 
         /* Program Boxes Styling */
         .program-container {
-            margin-top: 120px;
+            margin-top: 200px;
             display: flex;
             justify-content: center;
             /* Center the boxes horizontally within the container */

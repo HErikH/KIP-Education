@@ -63,9 +63,12 @@ function renderFileTree($tree, $pathPrefix = '')
     } else {
       $fileTitle = $node["_data"]["title"];
       $filePath = $node["_data"]["file"];
+      $extension = strtolower(pathinfo($filePath, PATHINFO_EXTENSION));
+      $load = $extension == "mp4" ? "openVideo('$filePath')" : "loadFile('$filePath')";
+
       echo "
       <div class='file-item'
-        onclick=\"loadFile('$filePath')\">
+        onclick=\"$load\">
         <i class='fas fa-file'></i>
         $fileTitle
      </div>";

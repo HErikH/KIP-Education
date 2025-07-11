@@ -84,7 +84,9 @@ foreach ($lessons as $lesson) {
             "Book" => [], // Գրքերի բաժինը նույնպես տեղադրված է, սակայն այն կթաքցնենք
             "Additional" => [], 
             "Resources_For_Teachers" => [],
-            "Performance_Theme" => []
+            "Performance_Theme" => [],
+            "Review_Lessons" => [],
+            "Special_Lessons" => [],
         ];
     }
 
@@ -92,6 +94,9 @@ foreach ($lessons as $lesson) {
         $grouped_programs[$program][$lesson['tag']][] = $lesson;
     }
 }
+
+// Escape every section which is handled separately for avoiding miss handling
+$skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performance_Theme', "Review_Lessons", "Special_Lessons"];
 ?>
 
 
@@ -884,6 +889,30 @@ foreach ($lessons as $lesson) {
         <!-- Files list -->
         <div class="program-section" style="flex: 0 0 30%; margin-right: 20px;">
             <?php foreach ($grouped_programs as $programName => $grouped_lessons): ?>
+            <?php $sections = [
+                [
+                    'key' => 'specialLessonsSection',
+                    'label' => 'Special Lessons',
+                    'data' => $grouped_lessons['Special_Lessons'][0] ?? [],
+                    'depth' => 2,
+                    'iconColor' => '#B39651',
+                ],
+                [
+                    'key' => 'performanceThemeSection',
+                    'label' => 'Performance Theme',
+                    'data' => $grouped_lessons['Performance_Theme'][0] ?? [],
+                    'depth' => 3,
+                    'iconColor' => '#7cb070',
+                ],
+                [
+                    'key' => 'reviewLessonsSection',
+                    'label' => 'Review Lessons',
+                    'data' => $grouped_lessons['Review_Lessons'][0] ?? [],
+                    'depth' => 2,
+                    'iconColor' => '#B36D6D',
+                ],
+            ];
+            ?>
             <?php
                 $defaultFile = NULL;
 
@@ -921,10 +950,7 @@ foreach ($lessons as $lesson) {
                 <!-- Loop through each lesson group (e.g., Letters, Music, etc.) -->
                 <?php foreach ($grouped_lessons as $category => $lessons): ?>
                 <!-- Escape every section which is handled separately for avoiding miss handling -->
-                <?php if ($category === 'Book') continue; ?>
-                <?php if ($category === 'Additional') continue; ?>
-                <?php if ($category === 'Resources_For_Teachers') continue; ?>
-                <?php if ($category === 'Performance_Theme') continue; ?>
+                <?php if (in_array($category, $skippedCategories)) continue; ?>
 
                 <!-- Category Folder -->
                 <div class="file-item" onclick="toggleSection('<?php echo $programName . $category; ?>Section')">
@@ -1052,7 +1078,7 @@ foreach ($lessons as $lesson) {
                         case 'mp4':
                             $fileType = 'video';
                             $iconClass = 'fas fa-video';
-                            $onClick = "openVideo('" . addMediaBaseUrl($file) . "')";
+                            $onClick = "openVideo('" . $file . "')";
                             break;
                         case 'xlsx':
                         case 'xls':
@@ -1088,58 +1114,28 @@ foreach ($lessons as $lesson) {
                     <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
                 <?php endif; ?>
 
-                <!-- Special Lessons Section inside the container -->
-                <div class="file-item" onclick="toggleSection('<?= $programName; ?>specialLessonsSection')">
-                    <i class="fas fa-folder" style="color: #B39651;"></i> Special Lessons
-                </div>
-                <div id="<?= $programName; ?>specialLessonsSection" style="display: none; padding-left: 20px;">
-                    <!-- Happy Easter Folder -->
-                    <div class="file-item" onclick="toggleSection('<?= $programName; ?>happyEasterSection')">
-                        <i class="fas fa-folder"></i> Happy Easter
-                    </div>
-                    <div id="<?= $programName; ?>happyEasterSection" style="display: none; padding-left: 20px;">
-                        <div class="file-item pdf"
-                            onclick="loadFile('/resource/For%20teacher/Easter%20worksheet_Card.pdf')">
-                            <i class="fas fa-file-pdf"></i> Easter worksheet_Card.pdf
-                        </div>
-                        <div class="file-item video"
-                            onclick="openVideo('<?= addMediaBaseUrl('/resource/For%20teacher/The%20Bunny%20Hokey%20Pokey%20-%20The%20Kiboomers%20Preschool%20Songs%20for%20Circle%20Time%20-%20Easter%20Song.mp4') ?>')">
-                            <i class="fas fa-video"></i> The Bunny Hokey Pokey - The Kiboomers Easter Song.mp4
-                        </div>
-                        <div class="file-item pdf"
-                            onclick="loadFile('/resource/For%20teacher/The%20Bunny%20Pokey.pdf')">
-                            <i class="fas fa-file-pdf"></i> The Bunny Pokey.pdf
-                        </div>
-                        <div class="file-item powerpoint"
-                            onclick="loadFile('/resource/For%20teacher/Happy%20Easter.pptx')">
-                            <i class="fas fa-file-powerpoint"></i> Happy Easter.pptx
-                        </div>
+                <!-- Sections -->
+                <?php foreach ($sections as $section): ?>
+                    <?php
+                        $sectionId = $programName . $section['key'];
+                        $hasFiles = !empty($section['data']);
+                        $tree = $hasFiles ? buildFileTree($section['data'], $section['depth']) : null;
+                    ?>
+
+                    <div class="file-item text-left" onclick="toggleSection('<?= $sectionId ?>')">
+                        <i class="fas fa-folder" style="color: <?= $section['iconColor'] ?>;"></i>
+                        <?= $section['label'] ?>
                     </div>
 
-                    <!-- Merry Christmas Folder -->
-                    <div class="file-item" onclick="toggleSection('<?= $programName; ?>merryChristmasSection')">
-                        <i class="fas fa-folder" style="color: #6BB368;"></i> Merry Christmas
+                    <div id="<?= $sectionId ?>" style="display: none; padding-left: 20px; text-align: left;">
+                        <?php if ($hasFiles): ?>
+                            <?php renderFileTree($tree, $section['key']); ?>
+                        <?php else: ?>
+                            <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
+                        <?php endif; ?>
                     </div>
-                    <div id="<?= $programName; ?>merryChristmasSection" style="display: none; padding-left: 20px;">
-                        <div class="file-item powerpoint"
-                            onclick="loadFile('/resource/For%20teacher/Christmas-lesson.pptx')">
-                            <i class="fas fa-file-powerpoint"></i> Christmas-lesson.pptx
-                        </div>
-                        <div class="file-item video"
-                            onclick="openVideo('<?= addMediaBaseUrl('/resource/For%20teacher/Jingle%20Bells%20_%20Christmas%20Song%20_%20Super%20Simple%20Songs.mp4') ?>')">
-                            <i class="fas fa-video"></i> Jingle Bells - Christmas Song
-                        </div>
-                        <div class="file-item pdf"
-                            onclick="loadFile('/resource/For%20teacher/Jingle+Bells+Lyrics.pdf')">
-                            <i class="fas fa-file-pdf"></i> Jingle Bells Lyrics.pdf
-                        </div>
-                        <div class="file-item pdf"
-                            onclick="loadFile('/resource/For%20teacher/Christmas%20worksheet_Card.pdf')">
-                            <i class="fas fa-file-pdf"></i> Christmas worksheet_Card.pdf
-                        </div>
-                    </div>
-                </div>
-
+                <?php endforeach; ?>
+     
                 <!-- Resources for Teachers Section inside the container -->
                 <div class="file-item" onclick="toggleSection('<?= $programName; ?>resourcesForTeachersSection')">
                     <i class="fas fa-folder" style="color: #D06898"></i> Resources for Teachers
@@ -1188,34 +1184,6 @@ foreach ($lessons as $lesson) {
                         <i class="fas fa-file-word"></i>
                         Children's Educational Characteristics Aged 3-6.docx
                     </div>
-                </div>
-
-                <!-- Performance Theme Section -->
-                <div class="file-item text-left" onclick="toggleSection('<?= $programName; ?>performanceTheme')">
-                    <i class="fas fa-folder" style="color: #7cb070"></i>
-                    Performance Theme
-                </div>
-
-                <?php
-                $performanceTheme = [];
-
-                if (
-                    isset($grouped_lessons['Performance_Theme']) &&
-                    isset($grouped_lessons['Performance_Theme'][0]['files'])
-                ) {
-                    $performanceTheme = $grouped_lessons['Performance_Theme'][0];
-                }
-                ?>
-
-                <div id="<?= $programName; ?>performanceTheme" style="display: none; padding-left: 20px; text-align: left;">
-                    <?php if (!empty($performanceTheme)): ?>
-                        <?php 
-                            $tree = buildFileTree($performanceTheme, 3);
-                            renderFileTree($tree);
-                        ?>
-                    <?php else: ?>
-                        <div class="file-item" style="margin-left: 20px;">No lessons available in this category.</div>
-                    <?php endif; ?>
                 </div>
             </div>
             <?php endif; ?>
