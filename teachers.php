@@ -87,6 +87,7 @@ foreach ($lessons as $lesson) {
             "Performance_Theme" => [],
             "Review_Lessons" => [],
             "Special_Lessons" => [],
+            "Letter_Worksheets" => [],
         ];
     }
 
@@ -96,7 +97,7 @@ foreach ($lessons as $lesson) {
 }
 
 // Escape every section which is handled separately for avoiding miss handling
-$skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performance_Theme', "Review_Lessons", "Special_Lessons"];
+$skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performance_Theme', "Review_Lessons", "Special_Lessons", "Letter_Worksheets"];
 ?>
 
 
@@ -911,6 +912,13 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
                     'depth' => 2,
                     'iconColor' => '#B36D6D',
                 ],
+                [
+                    'key' => 'letterWorksheetsSection',
+                    'label' => 'Letter Worksheets',
+                    'data' => $grouped_lessons['Letter_Worksheets'][0] ?? [],
+                    'depth' => 2,
+                    'iconColor' => '#B36D6D',
+                ],
             ];
             ?>
             <?php
@@ -949,6 +957,8 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
 
                 <!-- Loop through each lesson group (e.g., Letters, Music, etc.) -->
                 <?php foreach ($grouped_lessons as $category => $lessons): ?>
+                <!-- Escape every section which is empty -->
+                <?php if (empty($lessons)) continue; ?>
                 <!-- Escape every section which is handled separately for avoiding miss handling -->
                 <?php if (in_array($category, $skippedCategories)) continue; ?>
 
@@ -1121,6 +1131,8 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
                         $hasFiles = !empty($section['data']);
                         $tree = $hasFiles ? buildFileTree($section['data'], $section['depth']) : null;
                     ?>
+                    
+                    <?php if (!$hasFiles) continue; ?>
 
                     <div class="file-item text-left" onclick="toggleSection('<?= $sectionId ?>')">
                         <i class="fas fa-folder" style="color: <?= $section['iconColor'] ?>;"></i>
