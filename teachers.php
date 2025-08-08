@@ -1407,6 +1407,12 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
             const videoPopup = document.getElementById('videoPopup');
             const videoPlayer = document.getElementById('videoPlayer');
 
+            if (videoSrc.endsWith("webm")) {
+                videoSource.type = "video/webm";
+            } else {
+                videoSource.type = "video/mp4";
+            }
+
             videoSource.src = videoSrc;
             videoPlayer.load(); // Reload the video source
             videoPopup.style.display = 'flex'; // Show video popup
