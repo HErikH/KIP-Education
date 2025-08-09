@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { RoomHandler } from "../socket/handlers/roomsHandler.js";
+import { RoomsHandler } from "../socket/handlers/roomsHandler.js";
 
 export function socketServer(server) {
   return new Server(server, {
@@ -12,11 +12,12 @@ export function socketServer(server) {
     },
     allowEIO3: true, // Allow Engine.IO v3 clients
     transports: ["websocket", "polling"], // Explicitly enable both transports
+    connectionStateRecovery: {} // Helps when some socket stayed disconnected this will restore missed data
   });
 }
 
-export const onConnection = (io) => (socket) => {
+export const onSocketConnection = (io) => (socket) => {
   console.log("🔌 A user connected: ", socket.id);
 
-  new RoomHandler(io, socket);
+  new RoomsHandler(io, socket);
 };

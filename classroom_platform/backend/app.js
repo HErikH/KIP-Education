@@ -1,7 +1,7 @@
 import express from "express";
 import { PORT } from "./config/envConfig.js";
 import { createServer } from "http";
-import { socketServer, onConnection } from "./socket/socketServer.js";
+import { socketServer, onSocketConnection } from "./socket/socketServer.js";
 import helmet from "helmet";
 import cors from "cors";
 
@@ -20,7 +20,7 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-io.on("connection", onConnection(io));
+io.on("connection", onSocketConnection(io));
 
 app.all("*", (req, res) => {
   return res.status(404).json({ message: "Not Found" });

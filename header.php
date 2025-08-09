@@ -1,14 +1,14 @@
 <?php
 require_once 'helpers.php';
 
-// Allow cross-origin requests from your React app's origin
-header("Access-Control-Allow-Origin: http://localhost:5173");
+// // Allow cross-origin requests from your React app's origin
+// header("Access-Control-Allow-Origin: http://localhost:5173");
 
-// Optional: Allow specific methods (GET, POST, etc.)
-header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+// // Optional: Allow specific methods (GET, POST, etc.)
+// header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 
-// Optional: Allow specific headers
-header("Access-Control-Allow-Headers: Content-Type, X-Requested-With");
+// // Optional: Allow specific headers
+// header("Access-Control-Allow-Headers: Content-Type, X-Requested-With");
 
 if (session_status() === PHP_SESSION_NONE) {
   session_start(); // Start session if not already started
