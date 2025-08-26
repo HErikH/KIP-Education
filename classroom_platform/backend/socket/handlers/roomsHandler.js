@@ -6,23 +6,25 @@ export class RoomsHandler {
     this.io = io;
     this.socket = socket;
 
-    this.registerHandlers();
-
-    this.shareRoomsInfo();
+    // this.shareRoomsInfo();
   }
 
   registerHandlers() {
-    this.socket.on(ACTIONS.JOIN_ROOM, this.handleJoinRoom);
-    this.socket.on(ACTIONS.LEAVE, this.leaveRoom);
-    // this.socket.on("disconnecting", this.leaveRoom);
+    this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
+    this.socket.on(ACTIONS.LEAVE, (data) => this.#handleLeaveRoom(data));
+    this.socket.on(ACTIONS.DISCONNECTING, (data) =>
+      this.#handleLeaveRoom(data),
+    );
+    this.socket.on(ACTIONS.RELAY_SDP, (data) => this.#handleRelaySdp(data));
+    this.socket.on(ACTIONS.RELAY_ICE, (data) => this.#handleRelayIce(data));
   }
 
-  async handleJoinRoom({ roomId, userId, role }) {
+  async #handleJoinRoom({ roomId, userId, role }) {
     const joinedRooms = this.socket.rooms;
 
-    if (this.isUserJoined(joinedRooms, roomId)) {
-      return console.warn(`Already joined to the ${roomId}`);
-    }
+    // if (this.#isUserJoined(joinedRooms, roomId)) {
+    //   return console.warn(`Already joined to the ${roomId}`);
+    // }
 
     const socketsInRoom = (await this.io.in(roomId).fetchSockets()) || [];
 
@@ -50,23 +52,32 @@ export class RoomsHandler {
     this.socket.emit("joined-room", { roomId, userId, role });
   }
 
-  getClientRooms() {
+  #getClientRooms() {
     const rooms = this.io.sockets.adapter.rooms;
 
-    console.log(Array.from(rooms.keys()))
+    console.log(Array.from(rooms.keys()), "share");
 
-    return Array.from(rooms.keys()).filter(
-      (roomId) => validate(roomId) && version(roomId) === 4,
-    );
+    return Array.from(rooms.keys());
+
+    // return Array.from(rooms.keys()).filter(
+    //   (roomId) => validate(roomId) && version(roomId) === 4,
+    // );
+
+    // ! Id's of rooms will generated with prefix class- in the php admin panel
+    // ! for avoiding including client id's
+
+    // return Array.from(rooms.keys()).filter(
+    //   (roomId) => roomId.includes("class")
+    // );
   }
 
   shareRoomsInfo() {
     this.io.emit(ACTIONS.SHARE_ROOMS, {
-      rooms: this.getClientRooms(),
+      rooms: this.#getClientRooms(),
     });
   }
 
-  leaveRoom() {
+  #handleLeaveRoom() {
     const rooms = this.socket.rooms;
 
     Array.from(rooms)
@@ -79,11 +90,11 @@ export class RoomsHandler {
 
         clients.forEach((clientID) => {
           this.io.to(clientID).emit(ACTIONS.REMOVE_PEER, {
-            peerID: this.socket.id,
+            peerId: this.socket.id,
           });
 
           this.socket.emit(ACTIONS.REMOVE_PEER, {
-            peerID: clientID,
+            peerId: clientID,
           });
         });
 
@@ -93,7 +104,21 @@ export class RoomsHandler {
     this.shareRoomsInfo();
   }
 
-  isUserJoined(joinedRooms, roomId) {
+  #handleRelaySdp({ peerId, sessionDescription }) {
+    this.io.to(peerId).emit(ACTIONS.SESSION_DESCRIPTION, {
+      peerId: this.socket.id,
+      sessionDescription,
+    });
+  }
+
+  #handleRelayIce({ peerId, iceCandidate }) {
+    this.io.to(peerId).emit(ACTIONS.ICE_CANDIDATE, {
+      peerId: this.socket.id,
+      iceCandidate,
+    });
+  }
+
+  #isUserJoined(joinedRooms, roomId) {
     return Array.from(joinedRooms).includes(roomId);
   }
 }

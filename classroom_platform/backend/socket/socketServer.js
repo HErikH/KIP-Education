@@ -16,8 +16,11 @@ export function socketServer(server) {
   });
 }
 
+
 export const onSocketConnection = (io) => (socket) => {
   console.log("🔌 A user connected: ", socket.id);
+  
+  const roomsHandler = new RoomsHandler(io, socket);
 
-  new RoomsHandler(io, socket);
+  roomsHandler.registerHandlers();
 };

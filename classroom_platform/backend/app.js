@@ -2,6 +2,7 @@ import express from "express";
 import { PORT } from "./config/envConfig.js";
 import { createServer } from "http";
 import { socketServer, onSocketConnection } from "./socket/socketServer.js";
+import { indexRouter } from "./routes/index.js";
 import helmet from "helmet";
 import cors from "cors";
 
@@ -20,6 +21,10 @@ app.use(helmet());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// * Connect apis
+app.use("/", indexRouter);
+
+// * Connect socket
 io.on("connection", onSocketConnection(io));
 
 app.all("*", (req, res) => {

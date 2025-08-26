@@ -8,4 +8,5 @@ export const ACTIONS = {
   RELAY_ICE: "ice:relay",
   ICE_CANDIDATE: "ice:candidate",
   SESSION_DESCRIPTION: "session:description",
+  DISCONNECTING: "room:disconnecting"
 };
