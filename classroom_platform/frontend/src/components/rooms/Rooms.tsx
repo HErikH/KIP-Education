@@ -1,13 +1,23 @@
-import React, { useEffect, useState } from "react";
 import RoomJoiner from "../roomJoiner/RoomJoiner";
-import { useRoomsData } from "@/store/rooms/selectors";
+import Room from "../room/Room";
+import { useRoomsData, useSelectedRoomId } from "@/store/rooms/selectors";
 
-function Room() {
+function Rooms() {
   const rooms = useRoomsData();
+  const selectedRoomId = useSelectedRoomId();
 
-  return rooms.map((item) => {
-    return <RoomJoiner key={item.roomId} {...item} />;
-  });
+  return !selectedRoomId ? (
+    <div className="rooms">
+      <h1 className="rooms__title">Available Rooms</h1>
+      <ul className="rooms__list">
+        {rooms.map((item) => {
+          return <RoomJoiner key={item.roomId} {...item} />;
+        })}
+      </ul>
+    </div>
+  ) : (
+    <Room />
+  );
 }
 
-export default Room;
+export default Rooms;

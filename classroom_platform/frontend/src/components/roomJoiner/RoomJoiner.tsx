@@ -1,12 +1,13 @@
 import React, { Fragment, useEffect, useState } from "react";
-import { socket } from "@/socket/socketServer";
+import { roomsHandler, socket } from "@/socket/socketServer";
 import type { T_RoomInfo } from "@/helpers/types/rooms";
+import { useSetSelectedRoomId } from "@/store/rooms/actions";
+import "./style.scss";
 
-type T_Props = {
-
-} & T_RoomInfo;
+type T_Props = {} & T_RoomInfo;
 
 const RoomJoiner = ({ roomId, userId, role }: T_Props) => {
+  const setSelectedRoomId = useSetSelectedRoomId();
 
   // useEffect(() => {
   //   const connect = () => {
@@ -37,18 +38,29 @@ const RoomJoiner = ({ roomId, userId, role }: T_Props) => {
   // }, [roomId, userId, role]);
 
   return (
-    <Fragment>
-      <h1>Available rooms</h1>
-
-      <ul>
-        <li>
-          <span>{roomId}</span> <br />
-          <span>{userId}</span> <br />
-          <span>{role}</span> <br />
-          <button>Join Room</button>
-        </li>
-      </ul>
-    </Fragment>
+    <li key={roomId} className="rooms__item">
+      <div className="rooms__info">
+        <span className="rooms__label">Room ID:</span>
+        <span className="rooms__value">{roomId}</span>
+      </div>
+      <div className="rooms__info">
+        <span className="rooms__label">User ID:</span>
+        <span className="rooms__value">{userId}</span>
+      </div>
+      <div className="rooms__info">
+        <span className="rooms__label">Role:</span>
+        <span className="rooms__value">{role}</span>
+      </div>
+      <button
+        className="rooms__button"
+        onClick={() => {
+          setSelectedRoomId(roomId);
+          roomsHandler.joinRoom({ roomId, userId, role });
+        }}
+      >
+        Join Room
+      </button>
+    </li>
   );
 };
 

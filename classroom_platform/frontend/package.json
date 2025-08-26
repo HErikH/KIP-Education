@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "axios": "^1.11.0",
+    "freeice": "^2.2.2",
     "immer": "^10.1.1",
+    "lodash.isnull": "^3.0.0",
+    "lodash.isundefined": "^3.0.1",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "sass": "^1.89.2",
@@ -22,6 +25,8 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.30.1",
+    "@types/lodash.isnull": "^3.0.9",
+    "@types/lodash.isundefined": "^3.0.9",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@vitejs/plugin-react": "^4.6.0",

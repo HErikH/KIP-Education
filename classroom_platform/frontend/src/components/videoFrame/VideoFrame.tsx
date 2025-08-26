@@ -1,9 +1,19 @@
-import React from 'react'
+import { LOCAL_VIDEO } from "@/helpers/constants/webRTC";
+import { forwardRef } from "react";
 
-function VideoFrame() {
-  return (
-    <div>VideoFrame</div>
-  )
+type T_Props = {
+  clientId?: string;
 }
 
-export default VideoFrame
+export const VideoFrame = forwardRef<HTMLVideoElement, T_Props>(({ clientId }, ref) => {
+  return (
+    <video
+      ref={ref}
+      autoPlay
+      playsInline
+      controls={false}
+      muted={clientId === LOCAL_VIDEO} 
+      id="cam-video-stream"
+    ></video>
+  );
+});
