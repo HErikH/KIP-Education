@@ -8,5 +8,17 @@ export const ACTIONS = {
   RELAY_ICE: "ice:relay",
   ICE_CANDIDATE: "ice:candidate",
   SESSION_DESCRIPTION: "session:description",
-  DISCONNECTING: "room:disconnecting"
+  DISCONNECTING: "room:disconnecting",
+
+  // MediaSoup specific actions
+  GET_RTP_CAPABILITIES: "rtp:capabilities",
+  CREATE_TRANSPORT: "transport:create",
+  CONNECT_TRANSPORT: "transport:connect",
+  PRODUCE: "produce",
+  CONSUME: "consume",
+  CONSUMER_RESUME: "consumer:resume",
+  CONSUMER_PAUSE: "consumer:pause",
+  NEW_PRODUCER: "producer:new",
+  PRODUCER_PAUSE: "producer:pause",
+  PRODUCER_RESUME: "producer:resume",
 };

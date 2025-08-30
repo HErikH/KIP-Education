@@ -3,6 +3,7 @@ import { PORT } from "./config/envConfig.js";
 import { createServer } from "http";
 import { socketServer, onSocketConnection } from "./socket/socketServer.js";
 import { indexRouter } from "./routes/index.js";
+import { RoomsHandler } from "./socket/handlers/roomsHandler.js";
 import helmet from "helmet";
 import cors from "cors";
 
@@ -25,6 +26,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 
 // * Connect socket
+await RoomsHandler.initMediaSoup();
 io.on("connection", onSocketConnection(io));
 
 app.all("*", (req, res) => {

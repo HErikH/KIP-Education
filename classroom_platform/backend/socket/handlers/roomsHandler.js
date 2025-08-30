@@ -1,124 +1,266 @@
 import { ACTIONS } from "../socketActions.js";
 import { version, validate } from "uuid";
+import { MediaSoupManager } from "../../mediasoup/mediaSoupManager.js";
 
+const mediaSoupManager = new MediaSoupManager();
 export class RoomsHandler {
   constructor(io, socket) {
     this.io = io;
     this.socket = socket;
+    this.roomId = null;
+    this.peerId = socket.id;
+  }
 
-    // this.shareRoomsInfo();
+  static async initMediaSoup() {
+    await mediaSoupManager.init();
   }
 
   registerHandlers() {
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
-    this.socket.on(ACTIONS.LEAVE, (data) => this.#handleLeaveRoom(data));
+    this.socket.on(ACTIONS.LEAVE_ROOM, (data) => this.#handleLeaveRoom(data));
     this.socket.on(ACTIONS.DISCONNECTING, (data) =>
       this.#handleLeaveRoom(data),
     );
-    this.socket.on(ACTIONS.RELAY_SDP, (data) => this.#handleRelaySdp(data));
-    this.socket.on(ACTIONS.RELAY_ICE, (data) => this.#handleRelayIce(data));
+
+    // MediaSoup handlers
+    this.socket.on(ACTIONS.GET_RTP_CAPABILITIES, (data, callback) =>
+      this.#handleGetRtpCapabilities(data, callback),
+    );
+    this.socket.on(ACTIONS.CREATE_TRANSPORT, (data, callback) =>
+      this.#handleCreateTransport(data, callback),
+    );
+    this.socket.on(ACTIONS.CONNECT_TRANSPORT, (data, callback) =>
+      this.#handleConnectTransport(data, callback),
+    );
+    this.socket.on(ACTIONS.PRODUCE, (data, callback) =>
+      this.#handleProduce(data, callback),
+    );
+    this.socket.on(ACTIONS.CONSUME, (data, callback) =>
+      this.#handleConsume(data, callback),
+    );
+    this.socket.on(ACTIONS.CONSUMER_RESUME, (data, callback) =>
+      this.#handleConsumerResume(data, callback),
+    );
   }
 
-  async #handleJoinRoom({ roomId, userId, role }) {
-    const joinedRooms = this.socket.rooms;
+  // * Listeners
+  async #handleJoinRoom({ roomId }) {
+    try {
+      console.log(`👤 Peer ${this.peerId} joining room ${roomId}`);
 
-    // if (this.#isUserJoined(joinedRooms, roomId)) {
-    //   return console.warn(`Already joined to the ${roomId}`);
-    // }
+      this.roomId = roomId;
+      this.socket.join(roomId);
 
-    const socketsInRoom = (await this.io.in(roomId).fetchSockets()) || [];
+      // Create or get room
+      const room = mediaSoupManager.createRoom(roomId);
 
-    socketsInRoom.forEach((clientSocket) => {
-      this.io.to(clientSocket.id).emit(ACTIONS.ADD_PEER, {
-        peerId: this.socket.id,
-        createOffer: false,
+      // Add peer to room
+      const peer = room.addPeer(this.peerId);
+
+      // Get existing peers in the room
+      const existingPeers = room
+        .getPeerIds()
+        .filter((id) => id !== this.peerId);
+
+      // Notify existing peers about new peer
+      await this.socket.to(roomId).emit(ACTIONS.ADD_PEER, {
+        peerId: this.peerId,
       });
 
-      this.socket.emit(ACTIONS.ADD_PEER, {
-        peerId: clientSocket.id,
-        createOffer: true,
+      // Send existing peers to new peer
+      await this.socket.emit(ACTIONS.ADD_PEER, {
+        peers: existingPeers,
       });
-    });
 
-    this.shareRoomsInfo();
-    this.socket.join(roomId);
+      // 🔧 NEW: Notify new peer about ALL existing producers
+      // 🔧 DELAY sending existing producers to allow transport setup
+      if (existingPeers.length > 0) {
+        setTimeout(() => {
+          console.log(
+            `⏰ Sending ${existingPeers.length} existing producers to new peer ${this.peerId}`,
+          );
 
-    console.log(`👤 User ${userId} (${role}) joined room: ${roomId}`);
+          for (const existingPeerId of existingPeers) {
+            const existingPeer = room.getPeer(existingPeerId);
 
-    // Inform others in the room except the joined user
-    this.socket.to(roomId).emit("user-joined", { userId, role });
+            // Check if peer still exists (in case they left)
+            if (existingPeer) {
+              for (const producer of existingPeer.producers.values()) {
+                console.log(
+                  `📡 Notifying peer ${this.peerId} about producer ${producer.id} from ${existingPeerId}`,
+                );
 
-    // Confirm to sender they joined successfully
-    this.socket.emit("joined-room", { roomId, userId, role });
-  }
+                this.socket.emit(ACTIONS.NEW_PRODUCER, {
+                  peerId: existingPeerId,
+                  producerId: producer.id,
+                  kind: producer.kind,
+                });
+              }
+            }
+          }
+        }, 1000); // 1 second delay - adjust as needed
+      }
 
-  #getClientRooms() {
-    const rooms = this.io.sockets.adapter.rooms;
-
-    console.log(Array.from(rooms.keys()), "share");
-
-    return Array.from(rooms.keys());
-
-    // return Array.from(rooms.keys()).filter(
-    //   (roomId) => validate(roomId) && version(roomId) === 4,
-    // );
-
-    // ! Id's of rooms will generated with prefix class- in the php admin panel
-    // ! for avoiding including client id's
-
-    // return Array.from(rooms.keys()).filter(
-    //   (roomId) => roomId.includes("class")
-    // );
-  }
-
-  shareRoomsInfo() {
-    this.io.emit(ACTIONS.SHARE_ROOMS, {
-      rooms: this.#getClientRooms(),
-    });
+      console.log(`✅ Peer ${this.peerId} joined room ${roomId}`);
+    } catch (error) {
+      console.error("❌ Error joining room:", error);
+      this.socket.emit("error", { message: "Failed to join room" });
+    }
   }
 
   #handleLeaveRoom() {
-    const rooms = this.socket.rooms;
+    if (!this.roomId) return;
 
-    Array.from(rooms)
-      // LEAVE ONLY CLIENT CREATED ROOM
-      .filter((roomId) => validate(roomId) && version(roomId) === 4)
-      .forEach((roomId) => {
-        const clients = Array.from(
-          this.io.sockets.adapter.rooms.get(roomId) || [],
-        );
+    try {
+      console.log(`👋 Peer ${this.peerId} leaving room ${this.roomId}`);
 
-        clients.forEach((clientID) => {
-          this.io.to(clientID).emit(ACTIONS.REMOVE_PEER, {
-            peerId: this.socket.id,
-          });
+      const room = mediaSoupManager.getRoom(this.roomId);
+      if (room) {
+        // Remove peer from room
+        room.removePeer(this.peerId);
 
-          this.socket.emit(ACTIONS.REMOVE_PEER, {
-            peerId: clientID,
-          });
+        // Notify other peers
+        this.socket.to(this.roomId).emit(ACTIONS.REMOVE_PEER, {
+          peerId: this.peerId,
         });
 
-        this.socket.leave(roomId);
+        // Clean up empty room
+        if (room.isEmpty()) {
+          mediaSoupManager.deleteRoom(this.roomId);
+        }
+      }
+
+      this.socket.leave(this.roomId);
+      this.roomId = null;
+    } catch (error) {
+      console.error("❌ Error leaving room:", error);
+    }
+  }
+
+  #handleGetRtpCapabilities(data, callback) {
+    try {
+      const rtpCapabilities = mediaSoupManager.router.rtpCapabilities;
+
+      callback({ rtpCapabilities });
+    } catch (error) {
+      console.error("❌ Error getting RTP capabilities:", error);
+      callback({ error: error.message });
+    }
+  }
+
+  async #handleCreateTransport({ direction }, callback) {
+    try {
+      const room = mediaSoupManager.getRoom(this.roomId);
+
+      if (!room) {
+        throw new Error("Room not found");
+      }
+
+      const peer = room.getPeer(this.peerId);
+      if (!peer) {
+        throw new Error("Peer not found");
+      }
+
+      const transport = await peer.createWebRtcTransport();
+
+      callback({
+        params: {
+          id: transport.id,
+          iceParameters: transport.iceParameters,
+          iceCandidates: transport.iceCandidates,
+          dtlsParameters: transport.dtlsParameters,
+        },
       });
 
-    this.shareRoomsInfo();
+      console.log(`🚛 Created ${direction} transport for peer ${this.peerId}`);
+    } catch (error) {
+      console.error("❌ Error creating transport:", error);
+      callback({ error: error.message });
+    }
   }
 
-  #handleRelaySdp({ peerId, sessionDescription }) {
-    this.io.to(peerId).emit(ACTIONS.SESSION_DESCRIPTION, {
-      peerId: this.socket.id,
-      sessionDescription,
-    });
+  async #handleConnectTransport({ transportId, dtlsParameters }, callback) {
+    try {
+      const room = mediaSoupManager.getRoom(this.roomId);
+      const peer = room.getPeer(this.peerId);
+
+      await peer.connectTransport(transportId, dtlsParameters);
+      callback({});
+
+      console.log(
+        `🔗 Connected transport ${transportId} for peer ${this.peerId}`,
+      );
+    } catch (error) {
+      console.error("❌ Error connecting transport:", error);
+      callback({ error: error.message });
+    }
   }
 
-  #handleRelayIce({ peerId, iceCandidate }) {
-    this.io.to(peerId).emit(ACTIONS.ICE_CANDIDATE, {
-      peerId: this.socket.id,
-      iceCandidate,
-    });
+  async #handleProduce({ transportId, kind, rtpParameters }, callback) {
+    try {
+      const room = mediaSoupManager.getRoom(this.roomId);
+      const peer = room.getPeer(this.peerId);
+
+      const producer = await peer.produce(transportId, rtpParameters, kind);
+      callback({ id: producer.id });
+
+      // Notify other peers about new producer
+      this.socket.to(this.roomId).emit(ACTIONS.NEW_PRODUCER, {
+        peerId: this.peerId,
+        producerId: producer.id,
+        kind,
+      });
+
+      console.log(`📡 Created producer ${producer.id} for peer ${this.peerId}`);
+    } catch (error) {
+      console.error("❌ Error producing:", error);
+      callback({ error: error.message });
+    }
   }
 
-  #isUserJoined(joinedRooms, roomId) {
-    return Array.from(joinedRooms).includes(roomId);
+  async #handleConsume({ transportId, producerId, rtpCapabilities }, callback) {
+    try {
+      const room = mediaSoupManager.getRoom(this.roomId);
+      const peer = room.getPeer(this.peerId);
+
+      const consumer = await peer.consume(
+        transportId,
+        producerId,
+        rtpCapabilities,
+      );
+
+      callback({
+        params: {
+          producerId,
+          id: consumer.id,
+          kind: consumer.kind,
+          rtpParameters: consumer.rtpParameters,
+        },
+      });
+
+      console.log(`📺 Created consumer ${consumer.id} for peer ${this.peerId}`);
+    } catch (error) {
+      console.error("❌ Error consuming:", error);
+      callback({ error: error.message });
+    }
+  }
+
+  async #handleConsumerResume({ consumerId }, callback) {
+    try {
+      const room = mediaSoupManager.getRoom(this.roomId);
+      const peer = room.getPeer(this.peerId);
+      const consumer = peer.consumers.get(consumerId);
+
+      if (consumer) {
+        await consumer.resume();
+        callback({});
+        console.log(
+          `▶️ Resumed consumer ${consumerId} for peer ${this.peerId}`,
+        );
+      }
+    } catch (error) {
+      console.error("❌ Error resuming consumer:", error);
+      callback({ error: error.message });
+    }
   }
 }
