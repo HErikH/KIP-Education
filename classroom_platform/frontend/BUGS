@@ -1,0 +1,4 @@
+BUGS
+
+fix: after disable/enable video not produced again for other tabs
+fix: share screen not working

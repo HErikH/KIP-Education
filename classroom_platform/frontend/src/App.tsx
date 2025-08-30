@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import "./App.scss";
-import Rooms from "@/components/rooms/Rooms";
+import { Rooms } from "@/components/rooms/Rooms";
 import { onSocketConnection, socket } from "./socket/socketServer";
 
 function App() {

@@ -1,10 +1,10 @@
-import RoomJoiner from "../roomJoiner/RoomJoiner";
-import Room from "../room/Room";
-import { useRoomsData, useSelectedRoomId } from "@/store/rooms/selectors";
+import { RoomJoiner } from "../roomJoiner/RoomJoiner";
+import { Room } from "../room/Room";
+import { useRoomsData, useRoomId } from "@/store/rooms/selectors";
 
-function Rooms() {
+export function Rooms() {
   const rooms = useRoomsData();
-  const selectedRoomId = useSelectedRoomId();
+  const selectedRoomId = useRoomId();
 
   return !selectedRoomId ? (
     <div className="rooms">
@@ -19,5 +19,3 @@ function Rooms() {
     <Room />
   );
 }
-
-export default Rooms;

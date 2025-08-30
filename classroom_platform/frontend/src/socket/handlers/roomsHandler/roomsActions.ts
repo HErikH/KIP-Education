@@ -2,4 +2,23 @@ export const ROOMS_HANDLER_ACTIONS = {
   JOIN_ROOM: "room:join",
   LEAVE_ROOM: "room:leave",
   SHARE_ROOMS: "rooms:share",
+  ADD_PEER: "peer:add",
+  REMOVE_PEER: "peer:remove",
+  RELAY_SDP: "sdp:relay",
+  RELAY_ICE: "ice:relay",
+  ICE_CANDIDATE: "ice:candidate",
+  SESSION_DESCRIPTION: "session:description",
+  DISCONNECTING: "room:disconnecting",
+
+  // MediaSoup specific actions
+  GET_RTP_CAPABILITIES: "rtp:capabilities",
+  CREATE_TRANSPORT: "transport:create",
+  CONNECT_TRANSPORT: "transport:connect",
+  PRODUCE: "produce",
+  CONSUME: "consume",
+  CONSUMER_RESUME: "consumer:resume",
+  CONSUMER_PAUSE: "consumer:pause",
+  NEW_PRODUCER: "producer:new",
+  PRODUCER_PAUSE: "producer:pause",
+  PRODUCER_RESUME: "producer:resume",
 } as const;

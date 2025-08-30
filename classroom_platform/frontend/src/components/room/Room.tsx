@@ -1,63 +1,40 @@
-import { useWebRTC } from "@/hooks/useWebRTC";
-import { socket } from "@/socket/socketServer";
-import { useSetSelectedRoomId } from "@/store/rooms/actions";
-import { useSelectedRoomId } from "@/store/rooms/selectors";
-import { useEffect } from "react";
-import { useLocalMediaStream } from "@/store/webRTC/selectors";
 import { VideoFrame } from "../videoFrame/VideoFrame";
+import { PeerVideo } from "../peerVideo/PeerVideo";
+import { useEffect, useRef } from "react";
+import { useRoom } from "@/hooks/useRooms";
+import ToolBar from "../ui/toolBar/ToolBar";
+import "./style.scss";
 
-function Room() {
-  const selectedRoomId = useSelectedRoomId();
-  const { clients, provideMediaRef } = useWebRTC(selectedRoomId);
-  const setSelectedRoomId = useSetSelectedRoomId();
-  const localMediaStream = useLocalMediaStream();
+export function Room() {
+  const { isConnected, roomId, peers, localStream } = useRoom();
 
-  console.log(clients);
+  const localVideoRef = useRef<HTMLVideoElement>(null);
 
+  // Set local video stream
   useEffect(() => {
-    // const connect = () => {
-    //   console.log("Current transport:", socket.io.engine.transport.name);
-    // };
-
-    const onUserJoined = ({ userId, role }: any) => {
-      console.log(`User ${userId} (${role}) joined the room.`);
-    };
-
-    const onJoinedRoom = ({ roomId, userId, role }: any) => {
-      console.log(`Successfully joined room ${roomId} as ${role}`);
-    };
-
-    // socket.emit("room:join", { roomId, userId, role });
-
-    // socket.on("connect", connect);
-
-    socket.on("user-joined", onUserJoined);
-
-    socket.on("joined-room", onJoinedRoom);
-
-    return () => {
-      // socket.off("connect", connect);
-      socket.off("user-joined", onUserJoined);
-      socket.off("joined-room", onJoinedRoom);
-    };
-  }, [localMediaStream]);
+    if (localVideoRef.current && localStream) {
+      localVideoRef.current.srcObject = localStream;
+    }
+  }, [localStream]);
 
   return (
-    <div>
-      {clients.map((clientId) => {
-        return (
-          <div key={clientId}>
-            <VideoFrame
-              ref={(node) => provideMediaRef(clientId, node)}
-              clientId={clientId}
-            />
-          </div>
-        );
-      })}
+    <div className="video-call">
+      <div className="video-call__videos">
+        <div className="video-call__local-video">
+          <VideoFrame ref={localVideoRef} />
+          <p>You</p>
+        </div>
 
-      <div onClick={() => setSelectedRoomId(null)}>Leave The Room</div>
+        {Array.from(peers.entries()).map(([peerId, peer]) => (
+          <PeerVideo key={peerId} peerId={peerId} peer={peer} />
+        ))}
+      </div>
+
+      <div className="status">
+        Status: {isConnected ? `Connected to ${roomId}` : "Disconnected"}
+      </div>
+
+      <ToolBar />
     </div>
   );
 }
-
-export default Room;
