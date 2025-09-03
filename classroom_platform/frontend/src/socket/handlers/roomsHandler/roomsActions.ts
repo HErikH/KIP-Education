@@ -8,7 +8,7 @@ export const ROOMS_HANDLER_ACTIONS = {
   RELAY_ICE: "ice:relay",
   ICE_CANDIDATE: "ice:candidate",
   SESSION_DESCRIPTION: "session:description",
-  DISCONNECTING: "room:disconnecting",
+  DISCONNECT: "disconnect",
 
   // MediaSoup specific actions
   GET_RTP_CAPABILITIES: "rtp:capabilities",
@@ -21,4 +21,5 @@ export const ROOMS_HANDLER_ACTIONS = {
   NEW_PRODUCER: "producer:new",
   PRODUCER_PAUSE: "producer:pause",
   PRODUCER_RESUME: "producer:resume",
+  PRODUCER_CLOSED: "producer:closed",
 } as const;

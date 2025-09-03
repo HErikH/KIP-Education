@@ -3,26 +3,54 @@ import { PeerVideo } from "../peerVideo/PeerVideo";
 import { useEffect, useRef } from "react";
 import { useRoom } from "@/hooks/useRooms";
 import ToolBar from "../ui/toolBar/ToolBar";
+import { clsx } from "clsx";
+import { attachStream } from "@/helpers/functions/utils";
 import "./style.scss";
 
 export function Room() {
-  const { isConnected, roomId, peers, localStream } = useRoom();
+  const { isConnected, roomId, peers, localStream, localScreenStream } =
+    useRoom();
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
+  const localScreenRef = useRef<HTMLVideoElement>(null);
 
   // Set local video stream
   useEffect(() => {
-    if (localVideoRef.current && localStream) {
-      localVideoRef.current.srcObject = localStream;
-    }
+    attachStream(localVideoRef, localStream)
   }, [localStream]);
+
+  // Set local screen share stream
+  useEffect(() => {
+    attachStream(localScreenRef, localScreenStream)
+  }, [localScreenStream]);
 
   return (
     <div className="video-call">
       <div className="video-call__videos">
-        <div className="video-call__local-video">
-          <VideoFrame ref={localVideoRef} />
+        <div className="video-call__video-wrapper">
+          <VideoFrame
+            className={clsx(
+              "video-call__video media-video",
+              !localStream && "blur",
+            )}
+            ref={localVideoRef}
+            muted={true}
+          />
           <p>You</p>
+        </div>
+
+        <div
+          className={clsx(
+            "video-call__screen-wrapper",
+            !localScreenStream && "hide",
+          )}
+        >
+          <VideoFrame
+            className="video-call__screen media-video"
+            ref={localScreenRef}
+            muted={true}
+          />
+          <p>Screen Share</p>
         </div>
 
         {Array.from(peers.entries()).map(([peerId, peer]) => (

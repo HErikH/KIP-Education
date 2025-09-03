@@ -4,6 +4,7 @@ import type {
   Producer,
   Consumer,
   RtpCapabilities,
+  AppData,
 } from "mediasoup-client/types";
 
 export type T_RoomsState = {
@@ -50,7 +51,9 @@ export type T_RoomsActions = {
     peerId: string,
     consumer: Consumer,
     kind: string,
+    appData?: AppData,
   ) => void;
+  removePeerConsumer: (peerId: string, consumerId: string) => void
   updateLocalMediaState: (state: Partial<T_MediaState>) => void;
   setSendTransport: (transport: Transport | null) => void;
   setRecvTransport: (transport: Transport | null) => void;

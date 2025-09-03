@@ -1,4 +1,24 @@
 BUGS
 
-fix: after disable/enable video not produced again for other tabs
-fix: share screen not working
+; fix: media sound not listened in the remote tab
+; fix: when enabled screen share and video and click disable video it disable both
+; fix: start stop share of screen gives problem
+; fix: when enable screen share in the one room and then disable, it still stays in the backend peers and then when in the remote tab rejoin it shows the empty share tab
+; fix: if screen already shared and the user connect to the room it see the share screen but it worked as a video not a screen because there is no app data
+; fix: share screen show in the remote after making change in the code which cause hot reload
+; fix: after disable the vide/screen the picture stays frizzed in the other tab (black square in the local tab)
+; fix: after disable/enable video not produced again for other tabs
+; fix: share screen not working
+; style: if camera not enabled show some default image
+; style: add icons in the toolbar/roomJoiner maybe text will be deleted and showed as a tooltip on hover
+; style: add white color for icons
+; style: handle enable/disable icons (have to be different)
+; fix: after leave can not reconnect
+; fix: after disable/enable video not produced again for other tabs
+; fix: after leave/close tab/reload the room stays in the backend rooms MAP (remove it after leave and other leave actions)
+
+TODO
+
+feat: hand rise
+feat: selecting devices for video/audio
+core: add specific prefix to rooms names in the php admin panel room creator for avoiding including tabs as a rooms

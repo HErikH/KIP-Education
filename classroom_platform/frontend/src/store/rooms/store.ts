@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import type { T_RoomsStore } from "./types";
+import type { T_PeerData, T_RoomsStore } from "./types";
 import { ROOMS_STORE_INITIAL_STATE } from "./constants";
 import { devtools } from "zustand/middleware";
 
@@ -17,12 +17,14 @@ export const useRoomsStore = create<T_RoomsStore>()(
         set(
           (state) => {
             const newPeers = new Map(state.peers);
+
             if (!newPeers.has(peerId)) {
               newPeers.set(peerId, {
                 id: peerId,
                 consumers: new Map(),
               });
             }
+
             return { peers: newPeers };
           },
           false,
@@ -34,31 +36,61 @@ export const useRoomsStore = create<T_RoomsStore>()(
           (state) => {
             const newPeers = new Map(state.peers);
             const peer = newPeers.get(peerId);
+
             if (peer) {
               // Close all consumers
               peer.consumers.forEach((consumer) => consumer.close());
               newPeers.delete(peerId);
             }
+
             return { peers: newPeers };
           },
           false,
           "removePeer",
         ),
 
-      updatePeerConsumer: (peerId, consumer) =>
+      updatePeerConsumer: (peerId, consumer, _, appData) =>
         set(
           (state) => {
             const newPeers = new Map(state.peers);
             const peer = newPeers.get(peerId);
+
             if (peer) {
-              const newConsumers = new Map(peer.consumers);
+              const newConsumers: T_PeerData["consumers"] = new Map(
+                peer.consumers,
+              );
+
+              if (appData) {
+                consumer.appData = { ...consumer.appData, ...appData };
+              }
+
               newConsumers.set(consumer.id, consumer);
               newPeers.set(peerId, { ...peer, consumers: newConsumers });
             }
+
             return { peers: newPeers };
           },
           false,
           "updatePeerConsumer",
+        ),
+
+      removePeerConsumer: (peerId, consumerId) =>
+        set(
+          (state) => {
+            const newPeers = new Map(state.peers);
+            const peer = newPeers.get(peerId);
+
+            if (peer) {
+              const newConsumers = new Map(peer.consumers);
+
+              newConsumers.delete(consumerId);
+              newPeers.set(peerId, { ...peer, consumers: newConsumers });
+            }
+
+            return { peers: newPeers };
+          },
+          false,
+          "removePeerConsumer",
         ),
 
       updateLocalMediaState: (state) =>
@@ -80,7 +112,9 @@ export const useRoomsStore = create<T_RoomsStore>()(
         set(
           (state) => {
             const newProducers = new Map(state.producers);
+
             newProducers.set(id, producer);
+
             return { producers: newProducers };
           },
           false,
@@ -92,10 +126,12 @@ export const useRoomsStore = create<T_RoomsStore>()(
           (state) => {
             const newProducers = new Map(state.producers);
             const producer = newProducers.get(id);
+
             if (producer) {
               producer.close();
               newProducers.delete(id);
             }
+
             return { producers: newProducers };
           },
           false,
@@ -125,6 +161,7 @@ export const useRoomsStore = create<T_RoomsStore>()(
             if (state.localStream) {
               state.localStream.getTracks().forEach((track) => track.stop());
             }
+
             if (state.localScreenStream) {
               state.localScreenStream
                 .getTracks()

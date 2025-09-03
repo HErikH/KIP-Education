@@ -1,6 +1,7 @@
 import { RoomJoiner } from "../roomJoiner/RoomJoiner";
 import { Room } from "../room/Room";
 import { useRoomsData, useRoomId } from "@/store/rooms/selectors";
+import "./style.scss";
 
 export function Rooms() {
   const rooms = useRoomsData();

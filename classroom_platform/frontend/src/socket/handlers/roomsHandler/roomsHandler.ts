@@ -3,6 +3,7 @@ import { ROOMS_HANDLER_ACTIONS as ACTIONS } from "./roomsActions";
 import { useRoomsStore } from "@/store";
 import { Device } from "mediasoup-client";
 import { mediaService } from "@/services/mediaService";
+import type { AppData } from "mediasoup-client/types";
 
 export class RoomsHandler {
   private socket: Socket;
@@ -14,16 +15,19 @@ export class RoomsHandler {
   }
 
   registerHandlers() {
-    this.socket.on(ACTIONS.ADD_PEER, (data) => this.#handleAddPeer(data));
-    this.socket.on(ACTIONS.REMOVE_PEER, (data) => this.#handleRemovePeer(data));
+    this.socket.on(ACTIONS.ADD_PEER, (data) => this.handleAddPeer(data));
+    this.socket.on(ACTIONS.REMOVE_PEER, (data) => this.handleRemovePeer(data));
     this.socket.on(ACTIONS.NEW_PRODUCER, (data) =>
-      this.#handleNewProducer(data),
+      this.handleNewProducer(data),
     );
-    this.socket.on(ACTIONS.DISCONNECTING, () => this.#handleDisconnect());
+    this.socket.on(ACTIONS.DISCONNECT, () => this.handleDisconnect());
+    this.socket.on(ACTIONS.PRODUCER_CLOSED, (data) =>
+      this.handleProducerClosed(data),
+    );
   }
 
   // * Listeners
-  #handleAddPeer({
+  private handleAddPeer({
     peerId,
     peers,
   }: {
@@ -43,19 +47,21 @@ export class RoomsHandler {
     }
   }
 
-  #handleRemovePeer({ peerId }: { peerId: string }): void {
+  private handleRemovePeer({ peerId }: { peerId: string }): void {
     useRoomsStore.getState().removePeer(peerId);
     console.log(`👋 Peer ${peerId} removed`);
   }
 
-  async #handleNewProducer({
+  private async handleNewProducer({
     peerId,
     producerId,
     kind,
+    appData = undefined,
   }: {
     peerId: string;
     producerId: string;
     kind: string;
+    appData?: AppData;
   }): Promise<void> {
     try {
       const { recvTransport, rtpCapabilities } = useRoomsStore.getState();
@@ -73,15 +79,15 @@ export class RoomsHandler {
 
       const consumer = await recvTransport.consume(params);
 
-      console.log(consumer, "Consumer handler")
-
       // Resume consumer
       await this.emitWithCallback(ACTIONS.CONSUMER_RESUME, {
         consumerId: consumer.id,
       });
 
       // Update store
-      useRoomsStore.getState().updatePeerConsumer(peerId, consumer, kind);
+      useRoomsStore
+        .getState()
+        .updatePeerConsumer(peerId, consumer, kind, appData);
 
       console.log(`📺 Created consumer for peer ${peerId}, kind: ${kind}`);
     } catch (error) {
@@ -89,9 +95,48 @@ export class RoomsHandler {
     }
   }
 
-  #handleDisconnect(): void {
+  private handleDisconnect(): void {
     console.log("🔌 Socket disconnected");
     useRoomsStore.getState().setConnected(false);
+  }
+
+  private handleProducerClosed({
+    peerId,
+    kind,
+    appData,
+  }: {
+    peerId: string;
+    kind: string;
+    appData?: AppData | null;
+  }) {
+    // 🔧 CLEAN UP existing consumer for the same kind
+    const { peers } = useRoomsStore.getState();
+    const peer = peers.get(peerId);
+
+    if (peer) {
+      // Find and close existing consumer of the same kind
+      const existingConsumer = Array.from(peer.consumers.values()).find(
+        (consumer) => {
+          return (
+            consumer.kind === kind &&
+            // Covers both undefined and null because ( == )
+            (appData == null || consumer.appData?.screen === appData?.screen)
+          );
+        },
+      );
+
+      if (existingConsumer) {
+        console.log(
+          `🧹 Closing existing ${kind} consumer ${existingConsumer.id} for peer ${peerId}`,
+        );
+        existingConsumer.close();
+
+        // Update store to remove the old consumer
+        useRoomsStore
+          .getState()
+          .removePeerConsumer(peerId, existingConsumer.id);
+      }
+    }
   }
 
   // * Emitters
@@ -118,6 +163,8 @@ export class RoomsHandler {
 
       console.log(`👤 Joining room: ${roomId}`);
 
+      this.device = new Device();
+
       // Get RTP capabilities
       const { rtpCapabilities } = await this.emitWithCallback(
         ACTIONS.GET_RTP_CAPABILITIES,
@@ -134,9 +181,9 @@ export class RoomsHandler {
       // Join room
       this.socket.emit(ACTIONS.JOIN_ROOM, { roomId });
 
-      // Create transports 
-      await this.#createSendTransport();
-      await this.#createRecvTransport();
+      // Create transports
+      await this.createSendTransport();
+      await this.createRecvTransport();
 
       useRoomsStore.getState().setConnected(true);
       console.log("✅ Successfully joined room");
@@ -149,6 +196,7 @@ export class RoomsHandler {
   async leaveRoom(): Promise<void> {
     try {
       const { roomId } = useRoomsStore.getState();
+
       if (roomId) {
         this.socket.emit(ACTIONS.LEAVE_ROOM, { roomId });
       }
@@ -168,7 +216,7 @@ export class RoomsHandler {
 
       // Get user media
       const stream = await mediaService.getUserMedia({
-        video: { width: 640, height: 480, frameRate: 30 },
+        video: { width: 1280, height: 720, frameRate: 30 },
         audio: true,
       });
 
@@ -209,7 +257,17 @@ export class RoomsHandler {
 
       // Close video/audio producers
       producers.forEach((producer) => {
-        if (producer.kind === "video" || producer.kind === "audio") {
+        if (
+          (producer.kind === "video" && !producer.appData?.screen) ||
+          producer.kind === "audio"
+        ) {
+          this.socket.emit(ACTIONS.PRODUCER_CLOSED, {
+            producerId: producer.id,
+            kind: producer.kind,
+            appData: producer.appData,
+          });
+
+          producer.close();
           useRoomsStore.getState().removeProducer(producer.id);
         }
       });
@@ -242,6 +300,7 @@ export class RoomsHandler {
       if (videoTrack) {
         const screenProducer = await sendTransport.produce({
           track: videoTrack,
+          appData: { screen: true },
         });
 
         useRoomsStore.getState().addProducer(screenProducer.id, screenProducer);
@@ -267,6 +326,13 @@ export class RoomsHandler {
       // Find and close screen producer
       producers.forEach((producer) => {
         if (producer.kind === "video" && producer.appData.screen) {
+          this.socket.emit(ACTIONS.PRODUCER_CLOSED, {
+            producerId: producer.id,
+            kind: producer.kind,
+            appData: producer.appData,
+          });
+
+          producer.close();
           useRoomsStore.getState().removeProducer(producer.id);
         }
       });
@@ -282,8 +348,7 @@ export class RoomsHandler {
     }
   }
 
-  // Private methods
-  async #createSendTransport(): Promise<void> {
+  private async createSendTransport(): Promise<void> {
     try {
       const { params } = await this.emitWithCallback(ACTIONS.CREATE_TRANSPORT, {
         direction: "send",
@@ -312,6 +377,7 @@ export class RoomsHandler {
             transportId: sendTransport.id,
             kind: parameters.kind,
             rtpParameters: parameters.rtpParameters,
+            appData: parameters.appData,
           });
           callback({ id });
         } catch (error: any) {
@@ -327,7 +393,7 @@ export class RoomsHandler {
     }
   }
 
-  async #createRecvTransport(): Promise<void> {
+  private async createRecvTransport(): Promise<void> {
     try {
       const { params } = await this.emitWithCallback(ACTIONS.CREATE_TRANSPORT, {
         direction: "recv",
