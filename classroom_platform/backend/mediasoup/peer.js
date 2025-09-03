@@ -45,7 +45,7 @@ export class Peer {
     await transport.connect({ dtlsParameters });
   }
 
-  async produce(transportId, rtpParameters, kind) {
+  async produce(transportId, rtpParameters, kind, appData) {
     const transport = this.transports.get(transportId);
 
     if (!transport) {
@@ -55,12 +55,18 @@ export class Peer {
     const producer = await transport.produce({
       kind,
       rtpParameters,
+      appData: appData || undefined,
     });
 
     producer.on("transportclose", () => {
       console.log("🚫 Producer transport closed");
 
       producer.close();
+    });
+
+    producer.on("close", () => {
+      console.log(`🚫 Producer ${producer.id} closed, removing from map`);
+      this.producers.delete(producer.id);
     });
 
     this.producers.set(producer.id, producer);
@@ -88,7 +94,7 @@ export class Peer {
       producerId,
       rtpCapabilities,
     });
- 
+
     consumer.on("transportclose", () => {
       console.log("🚫 Consumer transport closed");
 
@@ -112,7 +118,7 @@ export class Peer {
     for (const transport of this.transports.values()) {
       transport.close();
     }
-    
+
     this.transports.clear();
     this.producers.clear();
     this.consumers.clear();

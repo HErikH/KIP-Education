@@ -18,9 +18,7 @@ export class RoomsHandler {
   registerHandlers() {
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
     this.socket.on(ACTIONS.LEAVE_ROOM, (data) => this.#handleLeaveRoom(data));
-    this.socket.on(ACTIONS.DISCONNECTING, (data) =>
-      this.#handleLeaveRoom(data),
-    );
+    this.socket.on(ACTIONS.DISCONNECT, (data) => this.#handleLeaveRoom(data));
 
     // MediaSoup handlers
     this.socket.on(ACTIONS.GET_RTP_CAPABILITIES, (data, callback) =>
@@ -40,6 +38,9 @@ export class RoomsHandler {
     );
     this.socket.on(ACTIONS.CONSUMER_RESUME, (data, callback) =>
       this.#handleConsumerResume(data, callback),
+    );
+    this.socket.on(ACTIONS.PRODUCER_CLOSED, (data) =>
+      this.#handleProducerClosed(data),
     );
   }
 
@@ -86,6 +87,11 @@ export class RoomsHandler {
             // Check if peer still exists (in case they left)
             if (existingPeer) {
               for (const producer of existingPeer.producers.values()) {
+                if (producer.closed) {
+                  console.log(`Skipping closed producer ${producer.id}`);
+                  continue;
+                }
+
                 console.log(
                   `📡 Notifying peer ${this.peerId} about producer ${producer.id} from ${existingPeerId}`,
                 );
@@ -94,6 +100,7 @@ export class RoomsHandler {
                   peerId: existingPeerId,
                   producerId: producer.id,
                   kind: producer.kind,
+                  appData: producer.appData || undefined,
                 });
               }
             }
@@ -196,12 +203,20 @@ export class RoomsHandler {
     }
   }
 
-  async #handleProduce({ transportId, kind, rtpParameters }, callback) {
+  async #handleProduce(
+    { transportId, kind, rtpParameters, appData },
+    callback,
+  ) {
     try {
       const room = mediaSoupManager.getRoom(this.roomId);
       const peer = room.getPeer(this.peerId);
 
-      const producer = await peer.produce(transportId, rtpParameters, kind);
+      const producer = await peer.produce(
+        transportId,
+        rtpParameters,
+        kind,
+        appData,
+      );
       callback({ id: producer.id });
 
       // Notify other peers about new producer
@@ -209,6 +224,7 @@ export class RoomsHandler {
         peerId: this.peerId,
         producerId: producer.id,
         kind,
+        appData: appData || undefined,
       });
 
       console.log(`📡 Created producer ${producer.id} for peer ${this.peerId}`);
@@ -216,6 +232,33 @@ export class RoomsHandler {
       console.error("❌ Error producing:", error);
       callback({ error: error.message });
     }
+  }
+
+  #handleProducerClosed({ producerId, kind, appData }) {
+    console.log(
+      `🗑️ Handling producer close: ${producerId} from peer ${this.peerId}`,
+    );
+
+    const room = mediaSoupManager.getRoom(this.roomId);
+
+    if (room) {
+      const peer = room.getPeer(this.peerId);
+
+      if (peer) {
+        const removed = peer.producers.delete(producerId);
+        console.log(
+          `Removed producer ${producerId} from peer ${this.peerId}: ${removed}`,
+        );
+      }
+    }
+
+    // Notify all other peers that this producer is closed
+    this.socket.to(this.roomId).emit(ACTIONS.PRODUCER_CLOSED, {
+      peerId: this.peerId,
+      producerId,
+      kind,
+      appData,
+    });
   }
 
   async #handleConsume({ transportId, producerId, rtpCapabilities }, callback) {
