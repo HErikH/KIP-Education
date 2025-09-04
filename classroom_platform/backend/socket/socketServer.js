@@ -1,5 +1,5 @@
 import { Server } from "socket.io";
-import { RoomsHandler } from "../socket/handlers/roomsHandler.js";
+import { RoomsHandler } from "../socket/handlers/roomsHandler/roomsHandler.js";
 
 export function socketServer(server) {
   return new Server(server, {

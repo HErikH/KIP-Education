@@ -3,9 +3,10 @@ import { PORT } from "./config/envConfig.js";
 import { createServer } from "http";
 import { socketServer, onSocketConnection } from "./socket/socketServer.js";
 import { indexRouter } from "./routes/index.js";
-import { RoomsHandler } from "./socket/handlers/roomsHandler.js";
+import { RoomsHandler } from "./socket/handlers/roomsHandler/roomsHandler.js";
 import helmet from "helmet";
 import cors from "cors";
+import { redisManager } from "./config/redisConfig.js";
 
 const app = express();
 const server = createServer(app);
@@ -25,8 +26,13 @@ app.use(express.urlencoded({ extended: true }));
 // * Connect apis
 app.use("/", indexRouter);
 
-// * Connect socket
+// *Connect to Redis
+await redisManager.connect();
+
+// *Initialize mediaSoup
 await RoomsHandler.initMediaSoup();
+
+// * Connect socket
 io.on("connection", onSocketConnection(io));
 
 app.all("*", (req, res) => {
@@ -37,6 +43,13 @@ app.use(function (error, req, res, next) {
   res.status(error.status || 500);
 
   return res.json({ error });
+});
+
+process.on("SIGINT", async () => {
+  console.log("🛑 Shutting down server...");
+
+  await redisManager.disconnect();
+  process.exit(0);
 });
 
 server.listen(PORT, () => {

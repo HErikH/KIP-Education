@@ -1,8 +1,10 @@
-import { ACTIONS } from "../socketActions.js";
+import { ROOMS_HANDLER_ACTIONS as ACTIONS } from "./roomsActions.js";
 import { version, validate } from "uuid";
-import { MediaSoupManager } from "../../mediasoup/mediaSoupManager.js";
+import { MediaSoupManager } from "../../../mediasoup/mediaSoupManager.js";
+import { ChatHandler } from "../chatHandler/chatHandler.js";
 
 const mediaSoupManager = new MediaSoupManager();
+
 export class RoomsHandler {
   constructor(io, socket) {
     this.io = io;
@@ -16,6 +18,11 @@ export class RoomsHandler {
   }
 
   registerHandlers() {
+    // Register Chat handlers
+    this.chatHandler = new ChatHandler(this.io, this.socket);
+    this.chatHandler.registerHandlers();
+
+    // Register own handlers
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
     this.socket.on(ACTIONS.LEAVE_ROOM, (data) => this.#handleLeaveRoom(data));
     this.socket.on(ACTIONS.DISCONNECT, (data) => this.#handleLeaveRoom(data));
@@ -108,6 +115,8 @@ export class RoomsHandler {
         }, 1000); // 1 second delay - adjust as needed
       }
 
+      await this.chatHandler.handleJoinRoom(roomId);
+
       console.log(`✅ Peer ${this.peerId} joined room ${roomId}`);
     } catch (error) {
       console.error("❌ Error joining room:", error);
@@ -115,13 +124,14 @@ export class RoomsHandler {
     }
   }
 
-  #handleLeaveRoom() {
+  async #handleLeaveRoom() {
     if (!this.roomId) return;
 
     try {
       console.log(`👋 Peer ${this.peerId} leaving room ${this.roomId}`);
 
       const room = mediaSoupManager.getRoom(this.roomId);
+
       if (room) {
         // Remove peer from room
         room.removePeer(this.peerId);
@@ -136,6 +146,8 @@ export class RoomsHandler {
           mediaSoupManager.deleteRoom(this.roomId);
         }
       }
+
+      await this.chatHandler.handleLeaveRoom();
 
       this.socket.leave(this.roomId);
       this.roomId = null;
