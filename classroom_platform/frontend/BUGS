@@ -1,5 +1,7 @@
 BUGS
 
+fix: determine user id and if he already exist in the room do not produce again
+; fix: when user disable video and enable again it does not produce again
 ; fix: media sound not listened in the remote tab
 ; fix: when enabled screen share and video and click disable video it disable both
 ; fix: start stop share of screen gives problem
@@ -19,6 +21,12 @@ BUGS
 
 TODO
 
+style: chat name also will contain role aka teacher/student 
+; feat: add global chat 
+; style: add icon for send button too
+feat: add react router delete directly handling page navigation
 feat: hand rise
 feat: selecting devices for video/audio
-core: add specific prefix to rooms names in the php admin panel room creator for avoiding including tabs as a rooms
+core: add specific prefix to rooms names (after prefix the name will be always unique id generated because if the id will repeated then the chat message will be mixed) 
+in the php admin panel room creator for avoiding including tabs as a rooms
+plus we need to set the expiration for the chat data depending on the room settings (for example if the room is 1 hour long then the chat data will be deleted after 1 hour too)
