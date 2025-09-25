@@ -16,36 +16,39 @@ require_once 'helpers.php';
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'admin.php') ? 'active' : ''; ?>" href="admin.php">Dashboard</a>
+                    <a class="nav-link <?php echo ($current_page == 'admin.php') ? 'active' : ''; ?>" href="/admin.php">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'users.php') ? 'active' : ''; ?>" href="users.php">Users</a>
+                    <a class="nav-link <?php echo ($current_page == 'users.php') ? 'active' : ''; ?>" href="/users.php">Users</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>" href="reports.php">Reports</a>
+                    <a class="nav-link <?php echo ($current_page == 'rooms.php') ? 'active' : ''; ?>" href="/roomsDashboard/rooms_dashboard.php">Rooms</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'lessons.php') ? 'active' : ''; ?>" href="lessons.php">Lessons</a>
+                    <a class="nav-link <?php echo ($current_page == 'reports.php') ? 'active' : ''; ?>" href="/reports.php">Reports</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'programmsadmin.php') ? 'active' : ''; ?>" href="programmsadmin.php">Programms</a>
+                    <a class="nav-link <?php echo ($current_page == 'lessons.php') ? 'active' : ''; ?>" href="/lessons.php">Lessons</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'quizzesadmin.php') ? 'active' : ''; ?>" href="quizzesadmin.php">Quizzes</a>
+                    <a class="nav-link <?php echo ($current_page == 'programmsadmin.php') ? 'active' : ''; ?>" href="/programmsadmin.php">Programms</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'blogadmin.php') ? 'active' : ''; ?>" href="blogadmin.php">Blog</a>
+                    <a class="nav-link <?php echo ($current_page == 'quizzesadmin.php') ? 'active' : ''; ?>" href="/quizzesadmin.php">Quizzes</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'settings.php') ? 'active' : ''; ?>" href="settings.php">Settings</a>
+                    <a class="nav-link <?php echo ($current_page == 'blogadmin.php') ? 'active' : ''; ?>" href="/blogadmin.php">Blog</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link <?php echo ($current_page == 'settings.php') ? 'active' : ''; ?>" href="/settings.php">Settings</a>
                 </li>
                 <!-- New menu item for Child Admin -->
                 <li class="nav-item">
-                    <a class="nav-link <?php echo ($current_page == 'childadmin.php') ? 'active' : ''; ?>" href="childadmin.php">Child Admin</a>
+                    <a class="nav-link <?php echo ($current_page == 'childadmin.php') ? 'active' : ''; ?>" href="/childadmin.php">Child Admin</a>
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link" href="logout.php">Logout</a>
+                    <a class="nav-link" href="/logout.php">Logout</a>
                 </li>
             </ul>
         </div>
