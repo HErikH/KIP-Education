@@ -27,13 +27,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 
 // *Connect to Redis
-await redisManager.connect();
+// await redisManager.connect();
 
 // *Initialize mediaSoup
-await RoomsHandler.initMediaSoup();
+// await RoomsHandler.initMediaSoup();
 
 // * Connect socket
-io.on("connection", onSocketConnection(io));
+// io.on("connection", onSocketConnection(io));
 
 app.all("*", (req, res) => {
   return res.status(404).json({ message: "Not Found" });
