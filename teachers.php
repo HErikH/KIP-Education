@@ -73,6 +73,7 @@ $grouped_programs = [];
 foreach ($lessons as $lesson) {
     $program = $lesson['program_name'] ?? 'Unknown';
 
+    // TODO: Add other logic which will create the array depending on the DB tag's data
     if (!isset($grouped_programs[$program])) {
         $grouped_programs[$program] = [
             "Grammar" => [],
@@ -88,6 +89,8 @@ foreach ($lessons as $lesson) {
             "Review_Lessons" => [],
             "Special_Lessons" => [],
             "Letter_Worksheets" => [],
+            "Nature" => [],
+            "Emotional_Intelligence" => [],
         ];
     }
 
@@ -1184,17 +1187,19 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
                     <?php endif; ?>
                     </div>
 
+                <!-- FIXME: Change handling of Characteristics with loop not fixed conditional -->
                 <!-- Children's Educational Characteristics for Teachers Section inside the container -->
+                <? $fileName = $programName == "TA1_A0" ? "/resource/For%20teacher/Kids%20characteristics_English.docx" : "/resource/For%20teacher/Kids%20characteristics_English.docx" ?>
                 <div class="file-item text-left" onclick="toggleSection('<?= $programName; ?>kidsEnglishCharacteristics')">
                     <i class="fas fa-folder" style="color: #7668D1"></i>
-                    Children's Educational Characteristics Aged 3-6
+                    Children's Educational Characteristics <?= $programName == "TA1_A0" ? "Aged 11-17" : " Aged 3-6" ?>
                 </div>
 
                 <div id="<?= $programName; ?>kidsEnglishCharacteristics" style="display: none; padding-left: 20px; text-align: left;">
                     <div class="file-item word"
-                        onclick="loadFile('/resource/For%20teacher/Kids%20characteristics_English.docx')">
+                        onclick="loadFile()">
                         <i class="fas fa-file-word"></i>
-                        Children's Educational Characteristics Aged 3-6.docx
+                        Children's Educational Characteristics  <?= $programName == "TA1_A0" ? "Aged 11-17" : " Aged 3-6" ?>.docx
                     </div>
                 </div>
             </div>
