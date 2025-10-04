@@ -4,22 +4,26 @@ import "./style.scss";
 
 type T_Props = {} & T_RoomInfo;
 
-export const RoomJoiner = ({ roomId, userId, role }: T_Props) => {
+export const RoomJoiner = ({ class_id, user_id, room_name, role }: T_Props) => {
   const { isConnected, joinRoom } = useRoom();
 
   const handleJoinRoom = () => {
-    joinRoom(roomId);
+    joinRoom(class_id);
   };
 
   return (
-    <li key={roomId} className="rooms__item">
+    <li className="rooms__item">
       <div className="rooms__info">
-        <span className="rooms__label">Room ID:</span>
-        <span className="rooms__value">{roomId}</span>
+        <span className="rooms__label">Room Name:</span>
+        <span className="rooms__value">{room_name}</span>
       </div>
+      {/* <div className="rooms__info">
+        <span className="rooms__label">Room ID:</span>
+        <span className="rooms__value">{class_id}</span>
+      </div> */}
       <div className="rooms__info">
         <span className="rooms__label">User ID:</span>
-        <span className="rooms__value">{userId}</span>
+        <span className="rooms__value">{user_id}</span>
       </div>
       <div className="rooms__info">
         <span className="rooms__label">Role:</span>

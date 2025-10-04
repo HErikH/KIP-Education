@@ -13,7 +13,7 @@ export function Rooms() {
       <h1 className="rooms__title">Available Rooms</h1>
       <ul className="rooms__list">
         {rooms.map((item) => {
-          return <RoomJoiner key={item.roomId} {...item} />;
+          return <RoomJoiner key={item.class_id} {...item} />;
         })}
       </ul>
     </div>

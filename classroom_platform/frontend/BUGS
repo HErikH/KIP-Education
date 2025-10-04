@@ -21,6 +21,9 @@ fix: determine user id and if he already exist in the room do not produce again
 
 TODO
 
+feat: add real time room limit update in the rooms page with each room like 1/5 etc..
+also add  add limitation check for room at the room join process
+
 style: chat name also will contain role aka teacher/student 
 ; feat: add global chat 
 ; style: add icon for send button too

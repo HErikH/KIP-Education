@@ -2,11 +2,25 @@ import { create } from "zustand";
 import type { T_PeerData, T_RoomsStore } from "./types";
 import { ROOMS_STORE_INITIAL_STATE } from "./constants";
 import { devtools } from "zustand/middleware";
+import axios, { type AxiosResponse } from "axios";
+import type { T_RoomInfo } from "@/helpers/types/rooms";
 
 export const useRoomsStore = create<T_RoomsStore>()(
   devtools(
     (set) => ({
       ...ROOMS_STORE_INITIAL_STATE,
+
+      fetchRooms: async (userId) => {
+        try {
+          const result: AxiosResponse<T_RoomInfo[]> = await axios.get(
+            `${import.meta.env.VITE_BACK_END_PORT}/rooms/get/${userId}`,
+          );
+
+          set({ rooms: result.data }, false, "fetchRooms");
+        } catch (error) {
+          console.error("Error fetching rooms:", error);
+        }
+      },
 
       setConnected: (connected) =>
         set({ isConnected: connected }, false, "setConnected"),

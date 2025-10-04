@@ -43,6 +43,7 @@ export type T_TransportOptions = {
 };
 
 export type T_RoomsActions = {
+  fetchRooms: (userId: number) => void; 
   setConnected: (connected: boolean) => void;
   setRoomId: (roomId: string | null) => void;
   addPeer: (peerId: string) => void;
