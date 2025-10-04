@@ -14,18 +14,31 @@ export class RoomEnrollmentsModel extends Model {
     });
   }
 
-  static async findByStudent(studentId) {
-    return await RoomEnrollmentsModel.findAll({
+  static async findByStudent(studentId, role) {
+    const rooms = await RoomEnrollmentsModel.findAll({
       where: { student_id: studentId },
       include: [
         {
           model: RoomsModel,
           as: "room",
-          include: [{ model: UsersModel, as: "teacher" }],
+          // include: [{ model: UsersModel, as: "teacher" }],
+          attributes: [],
         },
-        { model: UsersModel, as: "student" },
+        // { model: UsersModel, as: "student" },
       ],
+      attributes: [
+        "room_id",
+        ["student_id", "user_id"],
+        "room.class_id",
+        "room.room_name"
+      ],
+      raw: true,
     });
+
+    return rooms.map((room) => ({
+      ...room,
+      role,
+    }));
   }
 }
 

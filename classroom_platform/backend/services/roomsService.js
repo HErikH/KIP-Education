@@ -12,12 +12,12 @@ export class RoomsService {
 
     if (user.role === "teacher") {
       // Teacher → fetch rooms where teacherId = userId
-      return await RoomsModel.findByTeacher(userId);
+      return await RoomsModel.findByTeacher(userId, user.role);
     }
 
     if (user.role === "student") {
       // Student → fetch rooms via enrollments
-      return await RoomEnrollmentsModel.findByStudent(userId);
+      return await RoomEnrollmentsModel.findByStudent(userId, user.role);
     }
 
     return [];

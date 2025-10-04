@@ -13,11 +13,22 @@ export class RoomsModel extends Model {
     });
   }
 
-  static async findByTeacher(teacherId) {
-    return await RoomsModel.findAll({
+  static async findByTeacher(teacherId, role) {
+    const rooms = await RoomsModel.findAll({
       where: { teacher_id: teacherId },
-      include: [{ model: UsersModel, as: "teacher" }],
+      // include: [{ model: UsersModel, as: "teacher" }],
+      attributes: [
+        "room_id",
+        ["teacher_id", "user_id"],
+        "class_id",
+        "room_name",
+      ],
     });
+
+    return rooms.map((room) => ({
+      ...room.get({ plain: true }),
+      role,
+    }));
   }
 }
 
