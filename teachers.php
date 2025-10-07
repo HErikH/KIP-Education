@@ -1189,7 +1189,7 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
 
                 <!-- FIXME: Change handling of Characteristics with loop not fixed conditional -->
                 <!-- Children's Educational Characteristics for Teachers Section inside the container -->
-                <? $fileName = $programName == "TA1_A0" ? "/resource/For%20teacher/Kids%20characteristics_English.docx" : "/resource/For%20teacher/Kids%20characteristics_English.docx" ?>
+                <!-- <? $fileName = $programName == "TA1_A0" ? "/resource/For%20teacher/Kids%20characteristics_English.docx" : "/resource/For%20teacher/Kids%20characteristics_English.docx" ?> -->
                 <div class="file-item text-left" onclick="toggleSection('<?= $programName; ?>kidsEnglishCharacteristics')">
                     <i class="fas fa-folder" style="color: #7668D1"></i>
                     Children's Educational Characteristics <?= $programName == "TA1_A0" ? "Aged 11-17" : " Aged 3-6" ?>
@@ -1197,7 +1197,7 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
 
                 <div id="<?= $programName; ?>kidsEnglishCharacteristics" style="display: none; padding-left: 20px; text-align: left;">
                     <div class="file-item word"
-                        onclick="loadFile()">
+                        onclick="loadFile('/resource/For%20teacher/Kids%20characteristics_English.docx')">
                         <i class="fas fa-file-word"></i>
                         Children's Educational Characteristics  <?= $programName == "TA1_A0" ? "Aged 11-17" : " Aged 3-6" ?>.docx
                     </div>
@@ -1292,6 +1292,7 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
 
             // Fix problem with the docx load on the mobile devices
             const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+            console.log(fileSrc)
             const isDocX = fileSrc.endsWith('.docx');
 
             if (isMobile && isDocX) {
