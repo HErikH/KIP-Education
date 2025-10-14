@@ -12,9 +12,11 @@ export function Rooms() {
     <div className="rooms">
       <h1 className="rooms__title">Available Rooms</h1>
       <ul className="rooms__list">
-        {rooms.map((item) => {
-          return <RoomJoiner key={item.class_id} {...item} />;
-        })}
+        {rooms.length
+          ? rooms.map((item) => {
+              return <RoomJoiner key={item.class_id} {...item} />;
+            })
+          : "No rooms found !"}
       </ul>
     </div>
   ) : (
