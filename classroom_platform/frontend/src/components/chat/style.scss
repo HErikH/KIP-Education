@@ -11,6 +11,7 @@
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   transform: translateX(-20%);
   transition: flex-basis 0.5s ease, opacity 0.5s ease;
+  z-index: 1000;
 
   &--hidden {
     flex-basis: 0;
@@ -153,6 +154,7 @@
   outline: none;
   background: transparent;
   cursor: pointer;
+  z-index: 1000;
   &:hover {
     background-color: #ffffff26;
   }

@@ -6,6 +6,7 @@ import ToolBar from "../ui/toolBar/ToolBar";
 import { clsx } from "clsx";
 import { attachStream } from "@/helpers/functions/utils";
 import "./style.scss";
+import { Whiteboard } from "../whiteboard/Whiteboard";
 
 export function Room() {
   const { isConnected, roomId, peers, localStream, localScreenStream } =
@@ -16,12 +17,12 @@ export function Room() {
 
   // Set local video stream
   useEffect(() => {
-    attachStream(localVideoRef, localStream)
+    attachStream(localVideoRef, localStream);
   }, [localStream]);
 
   // Set local screen share stream
   useEffect(() => {
-    attachStream(localScreenRef, localScreenStream)
+    attachStream(localScreenRef, localScreenStream);
   }, [localScreenStream]);
 
   return (
@@ -58,11 +59,13 @@ export function Room() {
         ))}
       </div>
 
-      <div className="status">
+      {/* <div className="status">
         Status: {isConnected ? `Connected to ${roomId}` : "Disconnected"}
-      </div>
+      </div> */}
 
       <ToolBar />
+
+      <Whiteboard />
     </div>
   );
 }

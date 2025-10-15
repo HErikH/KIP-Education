@@ -14,7 +14,7 @@ export function Rooms() {
       <ul className="rooms__list">
         {rooms.length
           ? rooms.map((item) => {
-              return <RoomJoiner key={item.class_id} {...item} />;
+              return <RoomJoiner key={item.user_id} {...item} />;
             })
           : "No rooms found !"}
       </ul>

@@ -2,22 +2,22 @@ import type { T_RoomInfo } from "@/helpers/types/rooms";
 
 export const MOCK_DATA: T_RoomInfo[] = [
   {
-    room_id: "class-1",
+    room_id: "2",
     class_id: "classId-20250918-CMK89E",
     user_id: 1,
     room_name: "English A1",
     role: "student",
   },
   {
-    room_id: "class-2",
-    class_id: "classId-20250918-CMK39A",
+    room_id: "2",
+    class_id: "classId-20250918-CMK89E",
     user_id: 2,
-    room_name: "English A2",
+    room_name: "English A1",
     role: "student",
   },
   {
-    room_id: "class-3",
-    class_id: "classId-20250918-CMK54R",
+    room_id: "2",
+    class_id: "classId-20250918-CMK89E",
     user_id: 3,
     room_name: "English A3",
     role: "student",

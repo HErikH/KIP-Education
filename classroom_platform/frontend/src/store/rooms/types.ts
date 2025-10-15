@@ -11,6 +11,7 @@ export type T_RoomsState = {
   rooms: T_RoomInfo[];
   isConnected: boolean;
   roomId: string | null;
+  userId: number | null;
   peers: Map<string, T_PeerData>;
   localMediaState: T_MediaState;
   sendTransport: Transport | null;
@@ -46,6 +47,7 @@ export type T_RoomsActions = {
   fetchRooms: (userId: number) => void; 
   setConnected: (connected: boolean) => void;
   setRoomId: (roomId: string | null) => void;
+  setUserId: (userId: number | null) => void;
   addPeer: (peerId: string) => void;
   removePeer: (peerId: string) => void;
   updatePeerConsumer: (

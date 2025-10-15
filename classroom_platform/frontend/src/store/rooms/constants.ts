@@ -5,6 +5,7 @@ export const ROOMS_STORE_INITIAL_STATE: T_RoomsState = {
   rooms: MOCK_DATA,
   isConnected: false,
   roomId: null,
+  userId: null,
   peers: new Map(),
   localMediaState: {
     localVideo: false,

@@ -6,7 +6,7 @@ import {
   useLocalStream,
   usePeers,
   useRoomId,
-  useLocalScreenStream
+  useLocalScreenStream,
 } from "@/store/rooms/selectors";
 
 export const useRoom = () => {
@@ -18,9 +18,15 @@ export const useRoom = () => {
   const localStream = useLocalStream();
   const localScreenStream = useLocalScreenStream();
 
-  const joinRoom = async (roomId: string) => {
+  const joinRoom = async ({
+    roomId,
+    userId,
+  }: {
+    roomId: string;
+    userId: number;
+  }) => {
     if (roomsHandlerRef.current) {
-      await roomsHandlerRef.current.joinRoom(roomId);
+      await roomsHandlerRef.current.joinRoom(roomId, userId);
     }
   };
 

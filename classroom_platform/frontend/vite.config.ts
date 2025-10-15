@@ -9,7 +9,7 @@ export default defineConfig({
       "@": "/src",
     },
   },
-  server: {
-    hmr: false,
-  },
+  // server: {
+  //   hmr: false,
+  // },
 });

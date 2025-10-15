@@ -4,11 +4,11 @@ import "./style.scss";
 
 type T_Props = {} & T_RoomInfo;
 
-export const RoomJoiner = ({ class_id, user_id, room_name, role }: T_Props) => {
+export const RoomJoiner = ({ room_id, user_id, room_name, role }: T_Props) => {
   const { isConnected, joinRoom } = useRoom();
 
   const handleJoinRoom = () => {
-    joinRoom(class_id);
+    joinRoom({roomId: room_id, userId: user_id});
   };
 
   return (

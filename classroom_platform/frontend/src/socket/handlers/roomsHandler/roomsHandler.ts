@@ -157,7 +157,7 @@ export class RoomsHandler {
     });
   }
 
-  async joinRoom(roomId: string): Promise<void> {
+  async joinRoom(roomId: string, userId: number): Promise<void> {
     try {
       if (!this.socket) throw new Error("Socket not connected");
 
@@ -177,9 +177,10 @@ export class RoomsHandler {
       // Update store
       useRoomsStore.getState().setRtpCapabilities(rtpCapabilities);
       useRoomsStore.getState().setRoomId(roomId);
+      useRoomsStore.getState().setUserId(userId);
 
       // Join room
-      this.socket.emit(ACTIONS.JOIN_ROOM, { roomId });
+      this.socket.emit(ACTIONS.JOIN_ROOM, { roomId, userId });
 
       // Create transports
       await this.createSendTransport();

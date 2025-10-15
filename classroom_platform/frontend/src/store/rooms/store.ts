@@ -27,6 +27,8 @@ export const useRoomsStore = create<T_RoomsStore>()(
 
       setRoomId: (roomId) => set({ roomId }, false, "setRoomId"),
 
+      setUserId: (userId) => set({ userId }, false, "setUserId"),
+
       addPeer: (peerId) =>
         set(
           (state) => {
