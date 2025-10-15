@@ -198,8 +198,10 @@ export function FileUpload() {
                   })
                 }
               >
-                <FiFile size={16} />
-                <span>{file.name}</span>
+                <div className="file-upload__current-info">
+                  <FiFile size={16} />
+                  <span>{file.name}</span>
+                </div>
                 <FaTrashAlt
                   className="file-upload__delete"
                   onClick={(e) => handleDelete(e, file.id)}

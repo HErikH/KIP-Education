@@ -93,14 +93,6 @@
     overflow: hidden;
   }
 
-  &__sidebar {
-    width: fit-content;
-    background-color: #ffffff;
-    border-left: 1px solid #dee2e6;
-    overflow-y: auto;
-    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.05);
-  }
-
   &__overlay {
     position: fixed;
     top: 0;

@@ -4,6 +4,7 @@ import { Rooms } from "@/components/rooms/Rooms";
 import { onSocketConnection, socket } from "./socket/socketServer";
 import { useFetchRooms } from "@/store/rooms/actions";
 import { Loader } from "./components/ui/loader/Loader";
+import 'react-responsive-modal/styles.css';
 
 function App() {
   const fetchRooms = useFetchRooms();

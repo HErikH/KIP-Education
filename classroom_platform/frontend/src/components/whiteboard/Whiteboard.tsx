@@ -10,6 +10,7 @@ import { RiCloseLine } from "react-icons/ri";
 import { FaFolderOpen } from "react-icons/fa";
 import clsx from "clsx";
 import { FileUpload } from "../fileUpload/FileUpload";
+import { Modal } from "react-responsive-modal";
 import "./style.scss";
 
 export function Whiteboard() {
@@ -40,7 +41,7 @@ export function Whiteboard() {
       window.confirm(
         "Are you sure you want to clear the canvas? This action cannot be undone.",
       ) &&
-      whiteboardHandlerRef.current && 
+      whiteboardHandlerRef.current &&
       roomId &&
       userId
     ) {
@@ -85,11 +86,18 @@ export function Whiteboard() {
         <div className="whiteboard__content">
           <WhiteboardCanvas />
 
-          {showFileUpload && (
-            <div className="whiteboard__sidebar">
-              <FileUpload />
-            </div>
-          )}
+          <Modal
+            open={showFileUpload}
+            onClose={() => setShowFileUpload(false)}
+            styles={{
+              modal: {
+                borderRadius: "0.8rem",
+              },
+            }}
+            center
+          >
+            <FileUpload />
+          </Modal>
         </div>
       </div>
 
