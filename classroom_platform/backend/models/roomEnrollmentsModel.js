@@ -4,18 +4,18 @@ import { RoomsModel, UsersModel } from "./index.js";
 
 export class RoomEnrollmentsModel extends Model {
   static associate(models) {
-    RoomEnrollmentsModel.belongsTo(models.RoomsModel, {
+    this.belongsTo(models.RoomsModel, {
       foreignKey: "room_id",
       as: "room",
     });
-    RoomEnrollmentsModel.belongsTo(models.UsersModel, {
+    this.belongsTo(models.UsersModel, {
       foreignKey: "student_id",
       as: "student",
     });
   }
 
   static async findByStudent(studentId, role) {
-    const rooms = await RoomEnrollmentsModel.findAll({
+    const rooms = await this.findAll({
       where: { student_id: studentId },
       include: [
         {

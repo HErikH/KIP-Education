@@ -7,6 +7,8 @@ import { RoomsHandler } from "./socket/handlers/roomsHandler/roomsHandler.js";
 import helmet from "helmet";
 import cors from "cors";
 import { redisManager } from "./config/redisConfig.js";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express();
 const server = createServer(app);
@@ -14,26 +16,36 @@ const io = socketServer(server);
 
 app.use(
   cors({
-    // ! Change to the Prod origin
+    // ! Change to the Prod origin get from the .env
     origin: "*",
     credentials: true,
   }),
 );
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  }),
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const rootDir = path.resolve(__dirname, "../../");
+
+app.use("/uploads", express.static(path.join(rootDir, "uploads")));
 
 // * Connect apis
 app.use("/", indexRouter);
 
 // *Connect to Redis
-// await redisManager.connect();
+await redisManager.connect();
 
 // *Initialize mediaSoup
-// await RoomsHandler.initMediaSoup();
+await RoomsHandler.initMediaSoup();
 
 // * Connect socket
-// io.on("connection", onSocketConnection(io));
+io.on("connection", onSocketConnection(io));
 
 app.all("*", (req, res) => {
   return res.status(404).json({ message: "Not Found" });

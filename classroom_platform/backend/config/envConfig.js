@@ -15,4 +15,6 @@ export const {
   DB_USERNAME,
   DB_PASSWORD,
   DB_NAME,
+  MEDIA_BASE_URL,
+  UPLOAD_DIR,
 } = process.env;

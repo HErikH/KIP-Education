@@ -2,8 +2,9 @@
 import { RoomsModel } from "./roomsModel.js";
 import { UsersModel } from "./usersModel.js";
 import { RoomEnrollmentsModel } from "./roomEnrollmentsModel.js";
+import { WhiteboardFileModel } from "./whiteboardFilesModel.js";
 
-const models = { RoomsModel, UsersModel, RoomEnrollmentsModel };
+const models = { RoomsModel, UsersModel, RoomEnrollmentsModel, WhiteboardFileModel };
 
 // Associate all models once
 Object.values(models).forEach((model) => {

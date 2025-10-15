@@ -7,14 +7,14 @@ import { UsersModel } from "./index.js";
 
 export class RoomsModel extends Model {
   static associate(models) {
-    RoomsModel.belongsTo(models.UsersModel, {
+    this.belongsTo(models.UsersModel, {
       foreignKey: "teacher_id",
       as: "teacher",
     });
   }
 
   static async findByTeacher(teacherId, role) {
-    const rooms = await RoomsModel.findAll({
+    const rooms = await this.findAll({
       where: { teacher_id: teacherId },
       // include: [{ model: UsersModel, as: "teacher" }],
       attributes: [

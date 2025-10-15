@@ -2,6 +2,7 @@ import { ROOMS_HANDLER_ACTIONS as ACTIONS } from "./roomsActions.js";
 import { version, validate } from "uuid";
 import { MediaSoupManager } from "../../../mediasoup/mediaSoupManager.js";
 import { ChatHandler } from "../chatHandler/chatHandler.js";
+import whiteboardHandler, { WhiteboardHandler } from "../whiteboardHandler/whiteboardHandler.js";
 
 const mediaSoupManager = new MediaSoupManager();
 
@@ -10,6 +11,7 @@ export class RoomsHandler {
     this.io = io;
     this.socket = socket;
     this.roomId = null;
+    this.userId = null;
     this.peerId = socket.id;
   }
 
@@ -21,6 +23,10 @@ export class RoomsHandler {
     // Register Chat handlers
     this.chatHandler = new ChatHandler(this.io, this.socket);
     this.chatHandler.registerHandlers();
+
+    // * Register Whiteboard handlers it is a one instance for saving draw data locally
+    this.whiteboardHandler = whiteboardHandler;
+    this.whiteboardHandler.registerHandlers(this.io, this.socket);
 
     // Register own handlers
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
@@ -52,11 +58,12 @@ export class RoomsHandler {
   }
 
   // * Listeners
-  async #handleJoinRoom({ roomId }) {
+  async #handleJoinRoom({ roomId, userId }) {
     try {
       console.log(`👤 Peer ${this.peerId} joining room ${roomId}`);
 
       this.roomId = roomId;
+      this.userId = userId;
       this.socket.join(roomId);
 
       // Create or get room
@@ -148,6 +155,7 @@ export class RoomsHandler {
       }
 
       await this.chatHandler.handleLeaveRoom();
+      await this.whiteboardHandler.handleLeaveRoom({roomId: this.roomId, userId: this.userId});
 
       this.socket.leave(this.roomId);
       this.roomId = null;
