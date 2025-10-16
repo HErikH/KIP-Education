@@ -1,13 +1,10 @@
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
-import { fileURLToPath } from "url";
 import { WhiteboardFileModel } from "../models/whiteboardFilesModel.js";
 import { UPLOAD_DIR } from "../config/envConfig.js";
 import { FILE_TYPES } from "../helpers/constants/whiteboard.js"
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+import { ROOT_DIR } from "../config/rootDir.js";
 
 export class WhiteboardFilesService {
   static async uploadFile(room_id, file, uploaded_by) {
@@ -54,8 +51,7 @@ export class WhiteboardFilesService {
 
     if (!file) throw new Error("File not found");
 
-    const rootDir = path.resolve(__dirname, "../../../");
-    const filePath = path.join(rootDir, file.url);
+    const filePath = path.join(ROOT_DIR, file.url);
 
     if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
 

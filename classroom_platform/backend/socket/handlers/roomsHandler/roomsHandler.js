@@ -2,9 +2,12 @@ import { ROOMS_HANDLER_ACTIONS as ACTIONS } from "./roomsActions.js";
 import { version, validate } from "uuid";
 import { MediaSoupManager } from "../../../mediasoup/mediaSoupManager.js";
 import { ChatHandler } from "../chatHandler/chatHandler.js";
-import whiteboardHandler, { WhiteboardHandler } from "../whiteboardHandler/whiteboardHandler.js";
+import whiteboardHandler, {
+  WhiteboardHandler,
+} from "../whiteboardHandler/whiteboardHandler.js";
 
 const mediaSoupManager = new MediaSoupManager();
+const userRoomMap = new Map();
 
 export class RoomsHandler {
   constructor(io, socket) {
@@ -29,6 +32,9 @@ export class RoomsHandler {
     this.whiteboardHandler.registerHandlers(this.io, this.socket);
 
     // Register own handlers
+    this.socket.on(ACTIONS.CHECK_ROOM_STATUS, (data) =>
+      this.#handleRoomStatus(data),
+    );
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
     this.socket.on(ACTIONS.LEAVE_ROOM, (data) => this.#handleLeaveRoom(data));
     this.socket.on(ACTIONS.DISCONNECT, (data) => this.#handleLeaveRoom(data));
@@ -58,6 +64,16 @@ export class RoomsHandler {
   }
 
   // * Listeners
+  async #handleRoomStatus({ userId, roomId }) {
+    const existingRoom = userRoomMap.get(userId);
+
+    this.socket.emit(ACTIONS.CHECK_ROOM_STATUS, {
+      userId,
+      roomId,
+      alreadyInRoom: existingRoom === roomId,
+    });
+  }
+
   async #handleJoinRoom({ roomId, userId }) {
     try {
       console.log(`👤 Peer ${this.peerId} joining room ${roomId}`);
@@ -65,6 +81,7 @@ export class RoomsHandler {
       this.roomId = roomId;
       this.userId = userId;
       this.socket.join(roomId);
+      userRoomMap.set(userId, roomId);
 
       // Create or get room
       const room = mediaSoupManager.createRoom(roomId);
@@ -155,8 +172,12 @@ export class RoomsHandler {
       }
 
       await this.chatHandler.handleLeaveRoom();
-      await this.whiteboardHandler.handleLeaveRoom({roomId: this.roomId, userId: this.userId});
+      await this.whiteboardHandler.handleLeaveRoom({
+        roomId: this.roomId,
+        userId: this.userId,
+      });
 
+      userRoomMap.delete(this.userId);
       this.socket.leave(this.roomId);
       this.roomId = null;
     } catch (error) {

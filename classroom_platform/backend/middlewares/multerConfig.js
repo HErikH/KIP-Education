@@ -1,13 +1,9 @@
 import multer from "multer";
 import path from "path";
 import { v4 as uuidv4 } from "uuid";
-import fs from "fs";
-import { fileURLToPath } from "url";
+import { ROOT_DIR } from "../config/rootDir.js";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-const uploadPath = path.resolve(__dirname, "../../../uploads/whiteboard");
+const uploadPath = path.join(ROOT_DIR, "/uploads/whiteboard");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, uploadPath),

@@ -15,7 +15,7 @@ export class WhiteboardFileModel extends Model {
     return await this.findAll({
       where: { room_id },
       order: [["created_at", "DESC"]],
-      raw: true
+      raw: true,
     });
   };
 
@@ -23,6 +23,9 @@ export class WhiteboardFileModel extends Model {
 
   static deleteFileById = async (fileId) =>
     await this.destroy({ where: { id: fileId } });
+
+  static destroyTable = async () =>
+    await this.destroy({ where: {}, truncate: true });
 }
 
 WhiteboardFileModel.init(

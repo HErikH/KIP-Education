@@ -8,7 +8,7 @@ import helmet from "helmet";
 import cors from "cors";
 import { redisManager } from "./config/redisConfig.js";
 import path from "path";
-import { fileURLToPath } from "url";
+import { ROOT_DIR } from "./config/rootDir.js";
 
 const app = express();
 const server = createServer(app);
@@ -29,11 +29,7 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, "../../");
-
-app.use("/uploads", express.static(path.join(rootDir, "uploads")));
+app.use("/uploads", express.static(path.join(ROOT_DIR, "/uploads")));
 
 // * Connect apis
 app.use("/", indexRouter);

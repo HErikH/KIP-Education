@@ -1,5 +1,6 @@
 export const ROOMS_HANDLER_ACTIONS = {
   JOIN_ROOM: "room:join",
+  CHECK_ROOM_STATUS: "room:check-room-status",
   LEAVE_ROOM: "room:leave",
   SHARE_ROOMS: "rooms:share",
   ADD_PEER: "peer:add",

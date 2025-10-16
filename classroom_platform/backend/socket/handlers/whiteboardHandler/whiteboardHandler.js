@@ -2,6 +2,10 @@ import { WhiteboardFileModel } from "../../../models/whiteboardFilesModel.js";
 import { WHITEBOARD_ACTIONS as ACTIONS } from "./whiteboardActions.js";
 import { MEDIA_BASE_URL } from "../../../config/envConfig.js";
 import { WhiteboardFilesService } from "../../../services/whiteboardFilesService.js";
+import fsExtra from "fs-extra";
+import { ROOT_DIR } from "../../../config/rootDir.js";
+import path from "path";
+import { redisManager } from "../../../config/redisConfig.js";
 
 export class WhiteboardHandler {
   constructor() {
@@ -37,7 +41,9 @@ export class WhiteboardHandler {
 
     this.socket.on(ACTIONS.REMOVE_FILE, (data) => this.#handleRemoveFile(data));
 
-    this.socket.on(ACTIONS.SET_CURRENT_FILE, (data) => this.#handleSetCurrentFile(data));
+    this.socket.on(ACTIONS.SET_CURRENT_FILE, (data) =>
+      this.#handleSetCurrentFile(data),
+    );
 
     this.socket.on(ACTIONS.REQUEST_SYNC, (data) =>
       this.#handleRequestSync(data),
@@ -103,7 +109,7 @@ export class WhiteboardHandler {
     }
   }
 
-  handleLeaveRoom({ roomId, userId }) {
+  async handleLeaveRoom({ roomId, userId }) {
     const room = this.rooms.get(roomId);
 
     if (!room) return;
@@ -124,6 +130,10 @@ export class WhiteboardHandler {
     // Clean up empty rooms
     if (room.users.size === 0) {
       this.rooms.delete(roomId);
+      await fsExtra.emptyDirSync(path.join(ROOT_DIR, "/uploads/whiteboard"));
+      await WhiteboardFileModel.destroyTable();
+      await redisManager.getClient().flushAll();
+
       console.log(`🗑️ Cleaned up empty room ${roomId}`);
     }
   }
