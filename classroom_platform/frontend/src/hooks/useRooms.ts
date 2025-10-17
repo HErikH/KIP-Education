@@ -18,6 +18,18 @@ export const useRoom = () => {
   const localStream = useLocalStream();
   const localScreenStream = useLocalScreenStream();
 
+  const checkRoomStatus = async ({
+    roomId,
+    userId,
+  }: {
+    roomId: string;
+    userId: number;
+  }) => {
+    if (roomsHandlerRef.current) {
+      await roomsHandlerRef.current.checkRoomStatus(roomId, userId);
+    }
+  };
+
   const joinRoom = async ({
     roomId,
     userId,
@@ -26,7 +38,8 @@ export const useRoom = () => {
     userId: number;
   }) => {
     if (roomsHandlerRef.current) {
-      await roomsHandlerRef.current.joinRoom(roomId, userId);
+      await roomsHandlerRef.current.checkRoomStatus(roomId, userId);
+      // await roomsHandlerRef.current.joinRoom(roomId, userId);
     }
   };
 
@@ -70,6 +83,7 @@ export const useRoom = () => {
     localScreenStream,
 
     // Actions
+    checkRoomStatus,
     joinRoom,
     leaveRoom,
     enableWebcam,

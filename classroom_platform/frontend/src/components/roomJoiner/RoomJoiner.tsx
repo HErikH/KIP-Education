@@ -1,14 +1,19 @@
 import type { T_RoomInfo } from "@/helpers/types/rooms";
 import { useRoom } from "@/hooks/useRooms";
+import { useEffect } from "react";
 import "./style.scss";
 
 type T_Props = {} & T_RoomInfo;
 
 export const RoomJoiner = ({ room_id, user_id, room_name, role }: T_Props) => {
-  const { isConnected, joinRoom } = useRoom();
+  const { isConnected, joinRoom, checkRoomStatus } = useRoom();
+
+  // useEffect(() => {
+  //   checkRoomStatus({ roomId: room_id, userId: user_id });
+  // }, [room_id, user_id]);
 
   const handleJoinRoom = () => {
-    joinRoom({roomId: room_id, userId: user_id});
+    joinRoom({ roomId: room_id, userId: user_id });
   };
 
   return (

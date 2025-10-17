@@ -15,6 +15,9 @@ export class RoomsHandler {
   }
 
   registerHandlers() {
+    this.socket.on(ACTIONS.CHECK_ROOM_STATUS, (data) =>
+      this.handleRoomStatus(data),
+    );
     this.socket.on(ACTIONS.ADD_PEER, (data) => this.handleAddPeer(data));
     this.socket.on(ACTIONS.REMOVE_PEER, (data) => this.handleRemovePeer(data));
     this.socket.on(ACTIONS.NEW_PRODUCER, (data) =>
@@ -27,6 +30,23 @@ export class RoomsHandler {
   }
 
   // * Listeners
+  private async handleRoomStatus({
+    roomId,
+    userId,
+    alreadyInRoom,
+  }: {
+    roomId: string;
+    userId: number;
+    alreadyInRoom: boolean;
+  }): Promise<void> {
+    if (alreadyInRoom) {
+      console.log("⚠️ Already in the room!");
+    } else {
+      console.log(roomId, userId)
+      this.joinRoom(roomId, userId);
+    }
+  }
+
   private handleAddPeer({
     peerId,
     peers,
@@ -155,6 +175,12 @@ export class RoomsHandler {
         }
       });
     });
+  }
+
+  async checkRoomStatus(roomId: string, userId: number): Promise<void> {
+    if (roomId) {
+      this.socket.emit(ACTIONS.CHECK_ROOM_STATUS, { roomId, userId });
+    }
   }
 
   async joinRoom(roomId: string, userId: number): Promise<void> {
