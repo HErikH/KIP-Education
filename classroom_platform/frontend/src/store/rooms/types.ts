@@ -1,4 +1,4 @@
-import type { T_RoomInfo } from "@/helpers/types/rooms";
+import type { T_RaiseHand, T_RoomInfo } from "@/helpers/types/rooms";
 import type {
   Transport,
   Producer,
@@ -9,9 +9,11 @@ import type {
 
 export type T_RoomsState = {
   rooms: T_RoomInfo[];
+  raisedHands: T_RaiseHand[];
   isConnected: boolean;
   roomId: string | null;
   userId: number | null;
+  username: string | null;
   peers: Map<string, T_PeerData>;
   localMediaState: T_MediaState;
   sendTransport: Transport | null;
@@ -48,6 +50,9 @@ export type T_RoomsActions = {
   setConnected: (connected: boolean) => void;
   setRoomId: (roomId: string | null) => void;
   setUserId: (userId: number | null) => void;
+  setUsername: (username: string | null) => void;
+  setRaiseHand: (userId: number, raised: boolean) => void;
+  setRaisedHands: (raisedHands: T_RaiseHand[]) => void;
   addPeer: (peerId: string) => void;
   removePeer: (peerId: string) => void;
   updatePeerConsumer: (

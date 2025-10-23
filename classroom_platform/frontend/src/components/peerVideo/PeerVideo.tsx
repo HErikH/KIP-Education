@@ -3,16 +3,19 @@ import { VideoFrame } from "../videoFrame/VideoFrame";
 import type { T_PeerData } from "@/store/rooms/types";
 import clsx from "clsx";
 import { attachStream } from "@/helpers/functions/utils";
+import type { T_RaiseHand } from "@/helpers/types/rooms";
+import { HiMiniHandRaised } from "react-icons/hi2";
 
 type T_Props = {
   peerId: T_PeerData["id"];
   peer: T_PeerData;
+  isRaised: (userId: number) => T_RaiseHand | undefined;
 };
 
-export function PeerVideo({ peerId, peer }: T_Props) {
+export function PeerVideo({ peerId, peer, isRaised }: T_Props) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const screenRef = useRef<HTMLVideoElement>(null);
-  const audioRef = useRef<HTMLAudioElement>(null); // ⭐ SEPARATE AUDIO ELEMENT
+  const audioRef = useRef<HTMLAudioElement>(null);
 
   const [hasVideo, setHasVideo] = useState(false);
   const [hasScreen, setHasScreen] = useState(false);
@@ -84,6 +87,9 @@ export function PeerVideo({ peerId, peer }: T_Props) {
         style={{ display: "none" }}
       />
       <p>{peerId}</p>
+      {peerId && isRaised(Number(peerId)) && (
+        <HiMiniHandRaised className="video-call__hand-raise" />
+      )}
     </div>
   );
 }

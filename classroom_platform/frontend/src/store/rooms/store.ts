@@ -29,6 +29,28 @@ export const useRoomsStore = create<T_RoomsStore>()(
 
       setUserId: (userId) => set({ userId }, false, "setUserId"),
 
+      setUsername: (username) => set({ username }, false, "setUsername"),
+
+      setRaiseHand: (userId, raised) =>
+        set(
+          (state) => ({
+            raisedHands: state.raisedHands.map((item) => {
+              return item.userId === userId ? { ...item, raised } : item;
+            }),
+          }),
+          false,
+          "setRaiseHand",
+        ),
+
+      setRaisedHands: (raisedHands) =>
+        set(
+          (state) => {
+            return { raisedHands: [...state.raisedHands, ...raisedHands] };
+          },
+          false,
+          "setRaisedHands",
+        ),
+
       addPeer: (peerId) =>
         set(
           (state) => {

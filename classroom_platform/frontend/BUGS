@@ -25,7 +25,8 @@ fix: add <object> tag for support pdf, docx etc...
 
 TODO
 
-feat: hand rise
+feat: add a function to lower the hand of the student from the list on the teacher's side 
+<!-- feat: raise hand -->
 
 feat: add real time room limit update in the rooms page with each room like 1/5 etc..
 feat: add limitation check for room at the room join process

@@ -6,6 +6,7 @@ export const MOCK_DATA: T_RoomInfo[] = [
     class_id: "classId-20250918-CMK89E",
     user_id: 1,
     room_name: "English A1",
+    username: "Bsss",
     role: "student",
   },
   {
@@ -13,6 +14,8 @@ export const MOCK_DATA: T_RoomInfo[] = [
     class_id: "classId-20250918-CMK89E",
     user_id: 2,
     room_name: "English A1",
+    username: "Esas",
+
     role: "student",
   },
   {
@@ -20,6 +23,7 @@ export const MOCK_DATA: T_RoomInfo[] = [
     class_id: "classId-20250918-CMK89E",
     user_id: 3,
     room_name: "English A3",
+    username: "Vsasf",
     role: "student",
   },
   {
@@ -27,6 +31,7 @@ export const MOCK_DATA: T_RoomInfo[] = [
     class_id: "classId-20250918-CMK34T",
     user_id: 4,
     room_name: "English A4",
+    username: "Fss",
     role: "student",
   },
   {
@@ -34,6 +39,7 @@ export const MOCK_DATA: T_RoomInfo[] = [
     class_id: "classId-20250918-CMK23C",
     user_id: 5,
     room_name: "English A5",
+    username: "Rgesf",
     role: "student",
   },
 ];

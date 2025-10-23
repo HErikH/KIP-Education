@@ -5,7 +5,7 @@ import "./style.scss";
 
 type T_Props = {} & T_RoomInfo;
 
-export const RoomJoiner = ({ room_id, user_id, room_name, role }: T_Props) => {
+export const RoomJoiner = ({ room_id, user_id, room_name, role, username }: T_Props) => {
   const { isConnected, joinRoom, checkRoomStatus } = useRoom();
 
   // useEffect(() => {
@@ -13,7 +13,7 @@ export const RoomJoiner = ({ room_id, user_id, room_name, role }: T_Props) => {
   // }, [room_id, user_id]);
 
   const handleJoinRoom = () => {
-    joinRoom({ roomId: room_id, userId: user_id });
+    joinRoom({ roomId: room_id, userId: user_id, username });
   };
 
   return (

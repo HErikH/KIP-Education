@@ -3,15 +3,20 @@ import { clsx } from "clsx";
 import { FaPhoneSlash } from "react-icons/fa";
 import { BsCameraVideoFill, BsCameraVideoOffFill } from "react-icons/bs";
 import { MdFitScreen, MdStopCircle } from "react-icons/md";
+import { HiMiniHandRaised } from "react-icons/hi2";
 import Tooltip from "rc-tooltip";
 import "rc-tooltip/assets/bootstrap_white.css";
 import "./style.scss";
 
 function ToolBar() {
   const {
+    userId,
     isConnected,
     localMediaState,
     leaveRoom,
+    raiseHand,
+    lowerHand,
+    isRaised,
     enableWebcam,
     disableWebcam,
     enableScreenShare,
@@ -79,7 +84,7 @@ function ToolBar() {
         }}
         overlay={
           <p className="controls-toolbar__tooltip-overlay">
-            {(localMediaState.localScreen ? "Stop" : "Share") + " Screen"}
+            {localMediaState.localScreen ? "Stop" : "Share"} Screen
           </p>
         }
       >
@@ -98,6 +103,30 @@ function ToolBar() {
           ) : (
             <MdFitScreen className="controls-toolbar__icon" />
           )}
+        </button>
+      </Tooltip>
+
+      <Tooltip
+        placement="top"
+        showArrow={false}
+        align={{
+          offset: [0, -15],
+        }}
+        overlay={
+          <p className="controls-toolbar__tooltip-overlay">
+            {userId && isRaised(userId) ? "Lower" : "Raise"} Hand
+          </p>
+        }
+      >
+        <button
+          className="controls-toolbar__button"
+          onClick={userId && isRaised(userId) ? lowerHand : raiseHand}
+          disabled={!isConnected}
+        >
+          <HiMiniHandRaised
+            color={userId && isRaised(userId) ? "red" : "springgreen"}
+            className="controls-toolbar__icon"
+          />
         </button>
       </Tooltip>
     </div>

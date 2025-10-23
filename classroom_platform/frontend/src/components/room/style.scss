@@ -1,6 +1,6 @@
 .video-call {
   flex: 1;
-  
+
   &__videos {
     padding: 2rem;
     display: flex;
@@ -63,5 +63,13 @@
       text-align: center;
       color: white;
     }
+  }
+
+  &__hand-raise {
+    position: absolute;
+    right: 1rem;
+    bottom: 1rem;
+    color: springgreen;
+    font-size: 2rem;
   }
 }

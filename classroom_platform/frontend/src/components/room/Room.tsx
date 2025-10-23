@@ -5,12 +5,21 @@ import { useRoom } from "@/hooks/useRooms";
 import ToolBar from "../ui/toolBar/ToolBar";
 import { clsx } from "clsx";
 import { attachStream } from "@/helpers/functions/utils";
-import "./style.scss";
 import { Whiteboard } from "../whiteboard/Whiteboard";
+import { HiMiniHandRaised } from "react-icons/hi2";
+import "./style.scss";
 
 export function Room() {
-  const { isConnected, roomId, peers, localStream, localScreenStream } =
-    useRoom();
+  const {
+    isConnected,
+    roomId,
+    userId,
+    peers,
+    localStream,
+    localScreenStream,
+    raisedHands,
+    isRaised,
+  } = useRoom();
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
   const localScreenRef = useRef<HTMLVideoElement>(null);
@@ -38,6 +47,10 @@ export function Room() {
             muted={true}
           />
           <p>You</p>
+
+          {userId && isRaised(userId) && (
+            <HiMiniHandRaised className="video-call__hand-raise" />
+          )}
         </div>
 
         <div
@@ -55,7 +68,7 @@ export function Room() {
         </div>
 
         {Array.from(peers.entries()).map(([peerId, peer]) => (
-          <PeerVideo key={peerId} peerId={peerId} peer={peer} />
+          <PeerVideo key={peerId} peerId={peerId} peer={peer} isRaised={isRaised} />
         ))}
       </div>
 
