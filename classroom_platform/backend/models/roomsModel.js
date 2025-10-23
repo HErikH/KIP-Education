@@ -1,4 +1,4 @@
-import { DataTypes, Model } from "sequelize";
+import { DataTypes, Model, literal } from "sequelize";
 import { DB_CONNECT } from "../services/dbConnect.js";
 import { UsersModel } from "./index.js";
 
@@ -16,12 +16,19 @@ export class RoomsModel extends Model {
   static async findByTeacher(teacherId, role) {
     const rooms = await this.findAll({
       where: { teacher_id: teacherId },
-      // include: [{ model: UsersModel, as: "teacher" }],
+      include: [
+        {
+          model: UsersModel,
+          as: "teacher",
+          attributes: [],
+        },
+      ],
       attributes: [
         "room_id",
         ["teacher_id", "user_id"],
         "class_id",
         "room_name",
+        [literal("teacher.first_last_name"), "username"]
       ],
     });
 

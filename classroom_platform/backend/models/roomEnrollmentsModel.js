@@ -1,4 +1,4 @@
-import { DataTypes, Model, Sequelize } from "sequelize";
+import { DataTypes, Model, Sequelize, literal } from "sequelize";
 import { DB_CONNECT } from "../services/dbConnect.js";
 import { RoomsModel, UsersModel } from "./index.js";
 
@@ -24,13 +24,18 @@ export class RoomEnrollmentsModel extends Model {
           // include: [{ model: UsersModel, as: "teacher" }],
           attributes: [],
         },
-        // { model: UsersModel, as: "student" },
+        { 
+          model: UsersModel, 
+          as: "student", 
+          attributes: [] 
+        },
       ],
       attributes: [
         "room_id",
         ["student_id", "user_id"],
         "room.class_id",
-        "room.room_name"
+        "room.room_name",
+        [literal("student.first_last_name"), "username"]
       ],
       raw: true,
     });

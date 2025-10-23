@@ -15,7 +15,9 @@ export class RoomsHandler {
     this.socket = socket;
     this.roomId = null;
     this.userId = null;
-    this.peerId = socket.id;
+    // FIXME: Maybe will be changed back to socket.id 
+    // or maybe we will save userId separate in the peer object
+    this.peerId = null;
   }
 
   static async initMediaSoup() {
@@ -35,6 +37,8 @@ export class RoomsHandler {
     this.socket.on(ACTIONS.CHECK_ROOM_STATUS, (data) =>
       this.#handleRoomStatus(data),
     );
+    this.socket.on(ACTIONS.RAISE_HAND, (data) => this.#handleRaiseHand(data));
+    this.socket.on(ACTIONS.LOWER_HAND, (data) => this.#handleLowerHand(data));
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
     this.socket.on(ACTIONS.LEAVE_ROOM, (data) => this.#handleLeaveRoom(data));
     this.socket.on(ACTIONS.DISCONNECT, (data) => this.#handleLeaveRoom(data));
@@ -63,25 +67,62 @@ export class RoomsHandler {
     );
   }
 
+  // * Helpers
+  #getUsersByRoomId(roomId) {
+    const result = [];
+
+    userRoomMap.forEach((value, userId) => {
+      if (value.roomId === roomId) {
+        result.push({ userId, ...value });
+      }
+    });
+
+    return result;
+  }
+
   // * Listeners
-  async #handleRoomStatus({ userId, roomId }) {
+  async #handleRoomStatus({ userId, roomId, username }) {
+    // FIXME: Maybe in the future it will only check if existingRoom exists
+    // not (existingRoom.roomId === roomId) then don't allow connect
+    // because when the student will be assigned to the few rooms
+    // we need to stop him to be able to connect to the different one at the same time
+
     const existingRoom = userRoomMap.get(userId);
 
     this.socket.emit(ACTIONS.CHECK_ROOM_STATUS, {
       userId,
       roomId,
-      alreadyInRoom: existingRoom === roomId,
+      alreadyInRoom: existingRoom?.roomId === roomId,
+      username,
     });
   }
 
-  async #handleJoinRoom({ roomId, userId }) {
-    try {
-      console.log(`👤 Peer ${this.peerId} joining room ${roomId}`);
+  async #handleRaiseHand({ roomId, userId, username }) {
+    if (userRoomMap.has(userId) && userRoomMap.get(userId).roomId === roomId) {
+      userRoomMap.set(userId, { roomId, username, raised: true });
+      this.io.to(roomId).emit(ACTIONS.RAISE_HAND, { roomId, userId, username });
+    }
+  }
 
+  async #handleLowerHand({ roomId, userId, username }) {
+    if (userRoomMap.has(userId) && userRoomMap.get(userId).roomId === roomId) {
+      userRoomMap.set(userId, { roomId, username, raised: false });
+      this.io.to(roomId).emit(ACTIONS.LOWER_HAND, { roomId, userId, username });
+    }
+  }
+
+  async #handleJoinRoom({ roomId, userId, username }) {
+    try {
       this.roomId = roomId;
       this.userId = userId;
+      this.peerId = userId;
       this.socket.join(roomId);
-      userRoomMap.set(userId, roomId);
+
+      console.log(`👤 Peer ${this.peerId} joining room ${roomId}`);
+
+      userRoomMap.set(userId, { roomId, username, raised: false });
+
+      const usersInRoom = this.#getUsersByRoomId(roomId);
 
       // Create or get room
       const room = mediaSoupManager.createRoom(roomId);
@@ -102,6 +143,10 @@ export class RoomsHandler {
       // Send existing peers to new peer
       await this.socket.emit(ACTIONS.ADD_PEER, {
         peers: existingPeers,
+      });
+
+      await this.io.to(roomId).emit(ACTIONS.HANDS_STATE, {
+        usersInRoom,
       });
 
       // 🔧 NEW: Notify new peer about ALL existing producers
