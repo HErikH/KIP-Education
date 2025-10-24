@@ -2,6 +2,7 @@ import { RoomJoiner } from "../roomJoiner/RoomJoiner";
 import { Room } from "../room/Room";
 import { Chat } from "../chat/Chat";
 import { useRoomsData, useRoomId } from "@/store/rooms/selectors";
+import { ParticipantsList } from "../participantsList/ParticipantsList";
 import "./style.scss";
 
 export function Rooms() {
@@ -23,6 +24,7 @@ export function Rooms() {
     <div className="video-chat-container">
       <Room />
       <Chat />
+      <ParticipantsList />
     </div>
   );
 }

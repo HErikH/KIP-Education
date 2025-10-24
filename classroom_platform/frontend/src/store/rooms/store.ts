@@ -31,6 +31,8 @@ export const useRoomsStore = create<T_RoomsStore>()(
 
       setUsername: (username) => set({ username }, false, "setUsername"),
 
+      setUserRole: (role) => set({ role }, false, "setUserRole"),
+
       setRaiseHand: (userId, raised) =>
         set(
           (state) => ({

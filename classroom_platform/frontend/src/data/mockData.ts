@@ -6,8 +6,8 @@ export const MOCK_DATA: T_RoomInfo[] = [
     class_id: "classId-20250918-CMK89E",
     user_id: 1,
     room_name: "English A1",
-    username: "Bsss",
-    role: "student",
+    username: "Erik",
+    role: "teacher",
   },
   {
     room_id: "2",
@@ -15,7 +15,6 @@ export const MOCK_DATA: T_RoomInfo[] = [
     user_id: 2,
     room_name: "English A1",
     username: "Esas",
-
     role: "student",
   },
   {

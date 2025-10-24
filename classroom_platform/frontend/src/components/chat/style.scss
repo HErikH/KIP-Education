@@ -137,25 +137,3 @@
 .chat__messages::-webkit-scrollbar-thumb:hover {
   background: #bbb;
 }
-
-.collapse-chat {
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  right: 0.5rem;
-  bottom: 0.5rem;
-  width: 50px;
-  height: 50px;
-  font-size: 1.5rem;
-  border: none;
-  border-radius: 50%;
-  color: white;
-  outline: none;
-  background: transparent;
-  cursor: pointer;
-  z-index: 1000;
-  &:hover {
-    background-color: #ffffff26;
-  }
-}

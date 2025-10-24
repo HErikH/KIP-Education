@@ -120,7 +120,9 @@ function ToolBar() {
       >
         <button
           className="controls-toolbar__button"
-          onClick={userId && isRaised(userId) ? lowerHand : raiseHand}
+          onClick={() =>
+            userId && isRaised(userId) ? lowerHand() : raiseHand()
+          }
           disabled={!isConnected}
         >
           <HiMiniHandRaised

@@ -10,7 +10,12 @@ import {
   useUserId,
   useUsername,
   useRaisedHands,
+  useUserRole,
 } from "@/store/rooms/selectors";
+import type { T_RoomInfo } from "@/helpers/types/rooms";
+
+// FIXME: Maybe will be refactored and deleted from export changing store states
+//  and will only remain actions
 
 export const useRoom = () => {
   const roomsHandlerRef = useRef<typeof roomsHandler | null>(roomsHandler);
@@ -18,6 +23,7 @@ export const useRoom = () => {
   const roomId = useRoomId();
   const userId = useUserId();
   const username = useUsername();
+  const userRole = useUserRole();
   const raisedHands = useRaisedHands();
   const peers = usePeers();
   const localMediaState = useLocalMediaState();
@@ -43,13 +49,20 @@ export const useRoom = () => {
     roomId,
     userId,
     username,
+    role,
   }: {
-    roomId: string;
-    userId: number;
-    username: string;
+    roomId: T_RoomInfo["room_id"];
+    userId: T_RoomInfo["user_id"];
+    username: T_RoomInfo["username"];
+    role: T_RoomInfo["role"];
   }) => {
     if (roomsHandlerRef.current) {
-      await roomsHandlerRef.current.checkRoomStatus(roomId, userId, username);
+      await roomsHandlerRef.current.checkRoomStatus(
+        roomId,
+        userId,
+        username,
+        role,
+      );
       // await roomsHandlerRef.current.joinRoom(roomId, userId);
     }
   };
@@ -61,21 +74,27 @@ export const useRoom = () => {
     }
   };
 
-  const raiseHand = async () => {
-    if (roomsHandlerRef.current && roomId && userId && username) {
-      await roomsHandlerRef.current.raiseHand(roomId, userId, username);
+  const raiseHand = async (
+    user_id = userId,
+    user_name = username,
+  ) => {
+    if (roomsHandlerRef.current && roomId && user_id && user_name) {
+      await roomsHandlerRef.current.raiseHand(roomId, user_id, user_name);
     }
   };
 
-  const lowerHand = async () => {
-    if (roomsHandlerRef.current && roomId && userId && username) {
-      await roomsHandlerRef.current.lowerHand(roomId, userId, username);
+  const lowerHand = async (
+    user_id = userId,
+    user_name = username,
+  ) => {
+    if (roomsHandlerRef.current && roomId && user_id && user_name) {
+      await roomsHandlerRef.current.lowerHand(roomId, user_id, user_name);
     }
   };
 
-  const isRaised = (userId: number) => {
+  const isRaised = (userId: T_RoomInfo["user_id"]) => {
     return raisedHands?.find((user) => user.userId === userId && user.raised);
-  }
+  };
 
   const enableWebcam = async () => {
     if (roomsHandlerRef.current) {
@@ -106,6 +125,7 @@ export const useRoom = () => {
     isConnected,
     userId,
     roomId,
+    userRole,
     peers,
     raisedHands,
     localMediaState,

@@ -4,7 +4,7 @@ import { useRoomsStore } from "@/store";
 import { Device } from "mediasoup-client";
 import { mediaService } from "@/services/mediaService";
 import type { AppData } from "mediasoup-client/types";
-import type { T_RaiseHand } from "@/helpers/types/rooms";
+import type { T_RaiseHand, T_RoomInfo } from "@/helpers/types/rooms";
 
 export class RoomsHandler {
   private socket: Socket;
@@ -39,26 +39,28 @@ export class RoomsHandler {
     userId,
     alreadyInRoom,
     username,
+    role,
   }: {
-    roomId: string;
-    userId: number;
+    roomId: T_RoomInfo["room_id"];
+    userId: T_RoomInfo["user_id"];
     alreadyInRoom: boolean;
-    username: string;
+    username: T_RoomInfo["username"];
+    role: T_RoomInfo["role"];
   }): Promise<void> {
     if (alreadyInRoom) {
       console.log("⚠️ Already in the room!");
     } else {
       console.log(roomId, userId);
-      this.joinRoom(roomId, userId, username);
+      this.joinRoom(roomId, userId, username, role);
     }
   }
 
   private async handleRaiseHand({
     userId,
   }: {
-    roomId: string;
-    userId: number;
-    username: string;
+    roomId: T_RoomInfo["room_id"];
+    userId: T_RoomInfo["user_id"];
+    username: T_RoomInfo["username"];
   }): Promise<void> {
     useRoomsStore.getState().setRaiseHand(userId, true);
   }
@@ -66,9 +68,9 @@ export class RoomsHandler {
   private async handleLowerHand({
     userId,
   }: {
-    roomId: string;
-    userId: number;
-    username: string;
+    roomId: T_RoomInfo["room_id"];
+    userId: T_RoomInfo["user_id"];
+    username: T_RoomInfo["username"];
   }): Promise<void> {
     useRoomsStore.getState().setRaiseHand(userId, false);
   }
@@ -212,33 +214,40 @@ export class RoomsHandler {
   }
 
   async checkRoomStatus(
-    roomId: string,
-    userId: number,
-    username: string,
+    roomId: T_RoomInfo["room_id"],
+    userId: T_RoomInfo["user_id"],
+    username: T_RoomInfo["username"],
+    role: T_RoomInfo["role"],
   ): Promise<void> {
-    this.socket.emit(ACTIONS.CHECK_ROOM_STATUS, { roomId, userId, username });
+    this.socket.emit(ACTIONS.CHECK_ROOM_STATUS, {
+      roomId,
+      userId,
+      username,
+      role,
+    });
   }
 
   async raiseHand(
-    roomId: string,
-    userId: number,
-    username: string,
+    roomId: T_RoomInfo["room_id"],
+    userId: T_RoomInfo["user_id"],
+    username: T_RoomInfo["username"],
   ): Promise<void> {
     this.socket.emit(ACTIONS.RAISE_HAND, { roomId, userId, username });
   }
 
   async lowerHand(
-    roomId: string,
-    userId: number,
-    username: string,
+    roomId: T_RoomInfo["room_id"],
+    userId: T_RoomInfo["user_id"],
+    username: T_RoomInfo["username"],
   ): Promise<void> {
     this.socket.emit(ACTIONS.LOWER_HAND, { roomId, userId, username });
   }
 
   async joinRoom(
-    roomId: string,
-    userId: number,
-    username: string,
+    roomId: T_RoomInfo["room_id"],
+    userId: T_RoomInfo["user_id"],
+    username: T_RoomInfo["username"],
+    role: T_RoomInfo["role"],
   ): Promise<void> {
     try {
       if (!this.socket) throw new Error("Socket not connected");
@@ -261,9 +270,10 @@ export class RoomsHandler {
       useRoomsStore.getState().setRoomId(roomId);
       useRoomsStore.getState().setUserId(userId);
       useRoomsStore.getState().setUsername(username);
+      useRoomsStore.getState().setUserRole(role);
 
       // Join room
-      this.socket.emit(ACTIONS.JOIN_ROOM, { roomId, userId, username });
+      this.socket.emit(ACTIONS.JOIN_ROOM, { roomId, userId, username, role });
 
       // Create transports
       await this.createSendTransport();

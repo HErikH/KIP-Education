@@ -11,9 +11,10 @@ export type T_RoomsState = {
   rooms: T_RoomInfo[];
   raisedHands: T_RaiseHand[];
   isConnected: boolean;
-  roomId: string | null;
-  userId: number | null;
-  username: string | null;
+  roomId: T_RoomInfo["room_id"] | null;
+  userId: T_RoomInfo["user_id"] | null;
+  username: T_RoomInfo["username"] | null;
+  role: T_RoomInfo["role"] | null;
   peers: Map<string, T_PeerData>;
   localMediaState: T_MediaState;
   sendTransport: Transport | null;
@@ -48,9 +49,10 @@ export type T_TransportOptions = {
 export type T_RoomsActions = {
   fetchRooms: (userId: number) => void; 
   setConnected: (connected: boolean) => void;
-  setRoomId: (roomId: string | null) => void;
-  setUserId: (userId: number | null) => void;
-  setUsername: (username: string | null) => void;
+  setRoomId: (roomId: T_RoomInfo["room_id"] | null) => void;
+  setUserId: (userId: T_RoomInfo["user_id"] | null) => void;
+  setUsername: (username: T_RoomInfo["username"] | null) => void;
+  setUserRole: (role: T_RoomInfo["role"] | null) => void;
   setRaiseHand: (userId: number, raised: boolean) => void;
   setRaisedHands: (raisedHands: T_RaiseHand[]) => void;
   addPeer: (peerId: string) => void;

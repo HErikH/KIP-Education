@@ -12,4 +12,5 @@ export type T_RaiseHand = {
   userId: number;
   username: string;
   raised: boolean;
+  role: "teacher" | "student";
 };

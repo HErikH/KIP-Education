@@ -1,0 +1,29 @@
+#controllers-aside {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.2rem;
+
+  .controllers-aside__item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    outline: none;
+    background: transparent;
+    cursor: pointer;
+    z-index: 1000;
+    &:hover {
+      background-color: #ffffff26;
+    }
+  }
+}

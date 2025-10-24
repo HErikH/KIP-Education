@@ -8,6 +8,7 @@ export const ROOMS_STORE_INITIAL_STATE: T_RoomsState = {
   roomId: null,
   userId: null,
   username: null,
+  role: null,
   peers: new Map(),
   localMediaState: {
     localVideo: false,

@@ -13,7 +13,7 @@ export const RoomJoiner = ({ room_id, user_id, room_name, role, username }: T_Pr
   // }, [room_id, user_id]);
 
   const handleJoinRoom = () => {
-    joinRoom({ roomId: room_id, userId: user_id, username });
+    joinRoom({ roomId: room_id, userId: user_id, username, role });
   };
 
   return (

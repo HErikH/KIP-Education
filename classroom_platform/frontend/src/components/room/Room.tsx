@@ -17,7 +17,6 @@ export function Room() {
     peers,
     localStream,
     localScreenStream,
-    raisedHands,
     isRaised,
   } = useRoom();
 

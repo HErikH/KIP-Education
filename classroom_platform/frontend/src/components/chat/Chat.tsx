@@ -12,6 +12,7 @@ import { setChatError } from "@/store/chat/actions";
 import clsx from "clsx";
 import { MdOutlineChat } from "react-icons/md";
 import { PiChatSlashFill } from "react-icons/pi";
+import { createPortal } from "react-dom";
 import "./style.scss";
 
 export function Chat() {
@@ -104,13 +105,16 @@ export function Chat() {
         />
       </div>
 
-      <button
-        className="collapse-chat"
-        type="button"
-        onClick={() => setIsVisible(!isVisible)}
-      >
-        {isVisible ? <PiChatSlashFill /> : <MdOutlineChat />}
-      </button>
+      {createPortal(
+        <button
+          className="collapse-chat controllers-aside__item"
+          type="button"
+          onClick={() => setIsVisible(!isVisible)}
+        >
+          {isVisible ? <PiChatSlashFill /> : <MdOutlineChat />}
+        </button>,
+        document.getElementById("controllers-aside")!,
+      )}
     </>
   );
 }

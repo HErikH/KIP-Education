@@ -4,6 +4,7 @@ import { Rooms } from "@/components/rooms/Rooms";
 import { onSocketConnection, socket } from "./socket/socketServer";
 import { useFetchRooms } from "@/store/rooms/actions";
 import { Loader } from "./components/ui/loader/Loader";
+import { ControllersSidebar } from "./components/sidebar/ControllersSidebar";
 import 'react-responsive-modal/styles.css';
 
 function App() {
@@ -39,6 +40,7 @@ function App() {
   ) : (
     <>
       <Rooms />
+      <ControllersSidebar />
     </>
   );
 }

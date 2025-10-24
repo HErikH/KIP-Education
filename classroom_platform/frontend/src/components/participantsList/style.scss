@@ -1,0 +1,12 @@
+.participants-list {
+  min-width: 15rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  &__tooltip-overlay {
+    color: white;
+  }
+  &__no-users {
+    color: #ea4335;
+  }
+}

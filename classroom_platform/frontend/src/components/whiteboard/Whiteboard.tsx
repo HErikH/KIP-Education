@@ -12,6 +12,7 @@ import clsx from "clsx";
 import { FileUpload } from "../fileUpload/FileUpload";
 import { Modal } from "react-responsive-modal";
 import "./style.scss";
+import { createPortal } from "react-dom";
 
 export function Whiteboard() {
   const [isVisible, setIsVisible] = useState(false);
@@ -101,13 +102,16 @@ export function Whiteboard() {
         </div>
       </div>
 
-      <button
-        className="collapse-whiteboard"
-        type="button"
-        onClick={() => setIsVisible(!isVisible)}
-      >
-        {isVisible ? <RiCloseLine /> : <FaPenToSquare />}
-      </button>
+      {createPortal(
+        <button
+          className="collapse-whiteboard controllers-aside__item"
+          type="button"
+          onClick={() => setIsVisible(!isVisible)}
+        >
+          {isVisible ? <RiCloseLine /> : <FaPenToSquare />}
+        </button>,
+        document.getElementById("controllers-aside")!,
+      )}
     </>
   );
 }
