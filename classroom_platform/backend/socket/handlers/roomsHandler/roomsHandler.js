@@ -81,7 +81,7 @@ export class RoomsHandler {
   }
 
   // * Listeners
-  async #handleRoomStatus({ userId, roomId, username }) {
+  async #handleRoomStatus({ userId, roomId, username, role }) {
     // FIXME: Maybe in the future it will only check if existingRoom exists
     // not (existingRoom.roomId === roomId) then don't allow connect
     // because when the student will be assigned to the few rooms
@@ -94,6 +94,7 @@ export class RoomsHandler {
       roomId,
       alreadyInRoom: existingRoom?.roomId === roomId,
       username,
+      role
     });
   }
 
@@ -111,7 +112,7 @@ export class RoomsHandler {
     }
   }
 
-  async #handleJoinRoom({ roomId, userId, username }) {
+  async #handleJoinRoom({ roomId, userId, username, role }) {
     try {
       this.roomId = roomId;
       this.userId = userId;
@@ -120,7 +121,7 @@ export class RoomsHandler {
 
       console.log(`👤 Peer ${this.peerId} joining room ${roomId}`);
 
-      userRoomMap.set(userId, { roomId, username, raised: false });
+      userRoomMap.set(userId, { roomId, username, raised: false, role: role });
 
       const usersInRoom = this.#getUsersByRoomId(roomId);
 
