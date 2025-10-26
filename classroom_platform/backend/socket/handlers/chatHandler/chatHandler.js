@@ -87,7 +87,7 @@ export class ChatHandler {
         return;
       }
 
-      const { content } = data;
+      const { content, senderRole } = data;
 
       // Validate message content
       const validation = validateMessage(content);
@@ -98,6 +98,9 @@ export class ChatHandler {
         });
         return;
       }
+
+      // Set sender role
+      this.userRole = senderRole;
 
       // Create message object
       const message = this.chatService.createMessage(
