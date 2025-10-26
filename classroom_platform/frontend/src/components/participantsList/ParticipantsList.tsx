@@ -64,7 +64,7 @@ export function ParticipantsList() {
           })
         ) : (
           <p className="participants-list__no-users">
-            There are no users in the room !
+            There are no students in the room !
           </p>
         )}
       </Modal>

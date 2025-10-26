@@ -9,6 +9,8 @@ type T_MessageProps = {
 };
 
 export function Message({ message, isOwn }: T_MessageProps) {
+  console.log(message)
+  
   return (
     <div
       className={clsx("message", {

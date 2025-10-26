@@ -1,6 +1,7 @@
 import React, { useState, type KeyboardEvent } from "react";
 import { chatHandler } from "@/socket/socketServer";
 import { IoIosSend } from "react-icons/io";
+import { useUserRole } from "@/store/rooms/selectors";
 import "./style.scss";
 
 type T_ChatInputProps = {
@@ -13,11 +14,12 @@ export function ChatInput({
   placeholder = "Type a message...",
 }: T_ChatInputProps) {
   const [message, setMessage] = useState("");
+  const senderRole = useUserRole();
 
   const handleSend = () => {
     const trimmedMessage = message.trim();
     if (trimmedMessage && !disabled) {
-      chatHandler.sendMessage(trimmedMessage);
+      chatHandler.sendMessage(trimmedMessage, senderRole);
       setMessage("");
     }
   };

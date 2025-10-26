@@ -1,7 +1,9 @@
+import type { T_RoomInfo } from "@/helpers/types/rooms";
+
 export type T_Message = {
   messageId: string;
   senderId: string;
-  senderRole: string | null;
+  senderRole: T_RoomInfo["role"] | null;
   content: string;
   timestamp: string;
   roomId: string;
@@ -19,6 +21,7 @@ export type T_ChatState = {
 
 export type T_SendMessageData = {
   content: string;
+  senderRole: T_Message["senderRole"];
 }
 
 export type T_ChatHistoryData = {

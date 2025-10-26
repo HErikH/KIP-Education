@@ -25,8 +25,8 @@ fix: add <object> tag for support pdf, docx etc...
 
 TODO
 
-style: chat name also will contain role aka teacher/student 
 feat: add limitation check for room at the room join process
+<!-- style: chat name also will contain role aka teacher/student  -->
 <!-- feat: add a function to lower the hand of the student from the list on the teacher's side  -->
 <!-- feat: raise hand -->
 

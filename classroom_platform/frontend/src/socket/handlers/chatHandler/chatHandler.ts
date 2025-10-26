@@ -50,10 +50,10 @@ export class ChatHandler {
   };
 
   // * Emitters
-  sendMessage = (content: T_SendMessageData["content"]) => {
+  sendMessage = (content: T_SendMessageData["content"], senderRole: T_SendMessageData["senderRole"]) => {
     if (!this.socket || !content.trim()) return;
 
-    const messageData: T_SendMessageData = { content: content.trim() };
+    const messageData: T_SendMessageData = { content: content.trim(), senderRole };
 
     this.socket.emit(ACTIONS.SEND_MESSAGE, messageData);
   };
