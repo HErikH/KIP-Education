@@ -3,7 +3,7 @@ import path from "path";
 import fs from "fs";
 import { WhiteboardFileModel } from "../models/whiteboardFilesModel.js";
 import { UPLOAD_DIR } from "../config/envConfig.js";
-import { FILE_TYPES } from "../helpers/constants/whiteboard.js"
+import { FILE_TYPES } from "../helpers/constants/whiteboard.js";
 import { ROOT_DIR } from "../config/rootDir.js";
 
 export class WhiteboardFilesService {
@@ -21,12 +21,13 @@ export class WhiteboardFilesService {
       fileType = "pdf";
       width = 800;
       height = 1000;
-    } else if (
-      file.mimetype ===
-      FILE_TYPES.doc
-    ) {
+    } else if (file.mimetype === FILE_TYPES.doc) {
       fileType = "docx";
-      width = 800; 
+      width = 800;
+      height = 1000;
+    } else if (file.mimetype === FILE_TYPES.pptx) {
+      fileType = "pptx";
+      width = 800;
       height = 1000;
     }
 
