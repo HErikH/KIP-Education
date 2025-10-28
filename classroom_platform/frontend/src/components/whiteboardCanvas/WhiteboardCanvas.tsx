@@ -81,6 +81,7 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
       // Redraw all paths
       redrawAllPaths();
     };
+    
     img.src = currentFile.url;
   }, [currentFile, width, height]);
 
