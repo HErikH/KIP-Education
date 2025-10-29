@@ -22,4 +22,8 @@ export class RoomsService {
 
     return [];
   }
+
+  static async getRoomMaxUsers(roomId) {
+    return await RoomsModel.findMaxUserByRoomId(roomId);
+  }
 }

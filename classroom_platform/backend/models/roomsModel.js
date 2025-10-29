@@ -2,7 +2,7 @@ import { DataTypes, Model, literal } from "sequelize";
 import { DB_CONNECT } from "../services/dbConnect.js";
 import { UsersModel } from "./index.js";
 
-// * Command for getting models fro db
+// * Command for getting models for db
 // * sequelize-auto -h localhost -d admin12345_school -u root -x root -p 3306 --dialect mysql -o ./models/roomsModel.js -t rooms
 
 export class RoomsModel extends Model {
@@ -28,7 +28,7 @@ export class RoomsModel extends Model {
         ["teacher_id", "user_id"],
         "class_id",
         "room_name",
-        [literal("teacher.first_last_name"), "username"]
+        [literal("teacher.first_last_name"), "username"],
       ],
     });
 
@@ -36,6 +36,13 @@ export class RoomsModel extends Model {
       ...room.get({ plain: true }),
       role,
     }));
+  }
+
+  static async findMaxUserByRoomId(roomId) {
+    return await this.findOne({
+      where: { room_id: roomId },
+      attributes: ["max_students"],
+    });
   }
 }
 

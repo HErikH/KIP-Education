@@ -25,6 +25,12 @@ export const useRoomsStore = create<T_RoomsStore>()(
       setConnected: (connected) =>
         set({ isConnected: connected }, false, "setConnected"),
 
+      setUsersInRoomCount: (usersInRoomCount) =>
+        set({ usersInRoomCount }, false, "setUsersInRoomCount"),
+
+      setMaxUsersInRoom: (maxUsersInRoom) =>
+        set({ maxUsersInRoom }, false, "setMaxUsersInRoom"),
+
       setRoomId: (roomId) => set({ roomId }, false, "setRoomId"),
 
       setUserId: (userId) => set({ userId }, false, "setUserId"),

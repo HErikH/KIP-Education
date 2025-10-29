@@ -1,6 +1,26 @@
 .video-call {
   flex: 1;
 
+  .room-users-in-room-count-badge {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: system-ui, sans-serif;
+    font-size: 1rem;
+    color: white;
+
+    .badge {
+      background: #2563eb;
+      color: white;
+      padding: 4px 10px;
+      border-radius: 100px;
+      font-weight: 600;
+    }
+  }
+
   &__videos {
     padding: 2rem;
     display: flex;

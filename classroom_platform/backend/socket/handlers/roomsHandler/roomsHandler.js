@@ -2,9 +2,8 @@ import { ROOMS_HANDLER_ACTIONS as ACTIONS } from "./roomsActions.js";
 import { version, validate } from "uuid";
 import { MediaSoupManager } from "../../../mediasoup/mediaSoupManager.js";
 import { ChatHandler } from "../chatHandler/chatHandler.js";
-import whiteboardHandler, {
-  WhiteboardHandler,
-} from "../whiteboardHandler/whiteboardHandler.js";
+import whiteboardHandler from "../whiteboardHandler/whiteboardHandler.js";
+import { RoomsService } from "../../../services/roomsService.js";
 
 const mediaSoupManager = new MediaSoupManager();
 const userRoomMap = new Map();
@@ -15,7 +14,7 @@ export class RoomsHandler {
     this.socket = socket;
     this.roomId = null;
     this.userId = null;
-    // FIXME: Maybe will be changed back to socket.id 
+    // FIXME: Maybe will be changed back to socket.id
     // or maybe we will save userId separate in the peer object
     this.peerId = null;
   }
@@ -40,8 +39,8 @@ export class RoomsHandler {
     this.socket.on(ACTIONS.RAISE_HAND, (data) => this.#handleRaiseHand(data));
     this.socket.on(ACTIONS.LOWER_HAND, (data) => this.#handleLowerHand(data));
     this.socket.on(ACTIONS.JOIN_ROOM, (data) => this.#handleJoinRoom(data));
-    this.socket.on(ACTIONS.LEAVE_ROOM, (data) => this.#handleLeaveRoom(data));
-    this.socket.on(ACTIONS.DISCONNECT, (data) => this.#handleLeaveRoom(data));
+    this.socket.on(ACTIONS.LEAVE_ROOM, () => this.#handleLeaveRoom());
+    this.socket.on(ACTIONS.DISCONNECT, () => this.#handleLeaveRoom());
 
     // MediaSoup handlers
     this.socket.on(ACTIONS.GET_RTP_CAPABILITIES, (data, callback) =>
@@ -87,14 +86,17 @@ export class RoomsHandler {
     // because when the student will be assigned to the few rooms
     // we need to stop him to be able to connect to the different one at the same time
 
+    const maxUsers = await RoomsService.getRoomMaxUsers(roomId);
+    const usersInRoom = this.#getUsersByRoomId(roomId);
     const existingRoom = userRoomMap.get(userId);
 
     this.socket.emit(ACTIONS.CHECK_ROOM_STATUS, {
       userId,
       roomId,
-      alreadyInRoom: existingRoom?.roomId === roomId,
+      alreadyInRoom:
+        existingRoom?.roomId === roomId || usersInRoom.length >= maxUsers,
       username,
-      role
+      role,
     });
   }
 
@@ -148,6 +150,13 @@ export class RoomsHandler {
 
       await this.io.to(roomId).emit(ACTIONS.HANDS_STATE, {
         usersInRoom,
+      });
+
+      const { max_students: maxUsersInRoom } = await RoomsService.getRoomMaxUsers(roomId);
+
+      await this.io.to(roomId).emit(ACTIONS.USER_COUNT, {
+        usersInRoomCount: usersInRoom.length,
+        maxUsersInRoom
       });
 
       // 🔧 NEW: Notify new peer about ALL existing producers
@@ -224,6 +233,16 @@ export class RoomsHandler {
       });
 
       userRoomMap.delete(this.userId);
+
+      const usersInRoom = this.#getUsersByRoomId(this.roomId);
+
+      const { max_students: maxUsersInRoom } = await RoomsService.getRoomMaxUsers(this.roomId);
+
+      await this.io.to(this.roomId).emit(ACTIONS.USER_COUNT, {
+        usersInRoomCount: usersInRoom.length,
+        maxUsersInRoom
+      });
+
       this.socket.leave(this.roomId);
       this.roomId = null;
     } catch (error) {

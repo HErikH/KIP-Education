@@ -2,6 +2,8 @@ import { useRoomsStore } from "./store";
 
 export const useRoomsData = () => useRoomsStore((store) => store.rooms);
 export const useIsConnected = () => useRoomsStore((store) => store.isConnected);
+export const useUsersInRoomCount = () => useRoomsStore((store) => store.usersInRoomCount);
+export const useMaxUsersInRoom = () => useRoomsStore((store) => store.maxUsersInRoom);
 export const useRoomId = () => useRoomsStore((store) => store.roomId);
 export const useUserId = () => useRoomsStore((store) => store.userId);
 export const useUsername = () => useRoomsStore((store) => store.username);

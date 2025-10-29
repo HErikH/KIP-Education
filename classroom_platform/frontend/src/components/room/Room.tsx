@@ -18,6 +18,8 @@ export function Room() {
     localStream,
     localScreenStream,
     isRaised,
+    usersInRoomCount,
+    maxUsersInRoom,
   } = useRoom();
 
   const localVideoRef = useRef<HTMLVideoElement>(null);
@@ -35,6 +37,13 @@ export function Room() {
 
   return (
     <div className="video-call">
+      <div className="room-users-in-room-count-badge">
+        <span>Users:</span>
+        <span className="badge">
+          {usersInRoomCount} / {maxUsersInRoom}
+        </span>
+      </div>
+
       <div className="video-call__videos">
         <div className="video-call__video-wrapper">
           <VideoFrame
@@ -67,7 +76,12 @@ export function Room() {
         </div>
 
         {Array.from(peers.entries()).map(([peerId, peer]) => (
-          <PeerVideo key={peerId} peerId={peerId} peer={peer} isRaised={isRaised} />
+          <PeerVideo
+            key={peerId}
+            peerId={peerId}
+            peer={peer}
+            isRaised={isRaised}
+          />
         ))}
       </div>
 

@@ -10,6 +10,8 @@ import type {
 export type T_RoomsState = {
   rooms: T_RoomInfo[];
   raisedHands: T_RaiseHand[];
+  usersInRoomCount: number | null;
+  maxUsersInRoom: number | null;
   isConnected: boolean;
   roomId: T_RoomInfo["room_id"] | null;
   userId: T_RoomInfo["user_id"] | null;
@@ -49,6 +51,8 @@ export type T_TransportOptions = {
 export type T_RoomsActions = {
   fetchRooms: (userId: number) => void; 
   setConnected: (connected: boolean) => void;
+  setUsersInRoomCount: (roomId: T_RoomsState["usersInRoomCount"] | null) => void;
+  setMaxUsersInRoom: (maxUsersInRoom: T_RoomsState["maxUsersInRoom"] | null) => void;
   setRoomId: (roomId: T_RoomInfo["room_id"] | null) => void;
   setUserId: (userId: T_RoomInfo["user_id"] | null) => void;
   setUsername: (username: T_RoomInfo["username"] | null) => void;

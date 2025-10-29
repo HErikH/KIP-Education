@@ -19,6 +19,7 @@ export class RoomsHandler {
     this.socket.on(ACTIONS.CHECK_ROOM_STATUS, (data) =>
       this.handleRoomStatus(data),
     );
+    this.socket.on(ACTIONS.USER_COUNT, (data) => this.handleUserCount(data));
     this.socket.on(ACTIONS.HANDS_STATE, (data) => this.handleHandState(data));
     this.socket.on(ACTIONS.RAISE_HAND, (data) => this.handleRaiseHand(data));
     this.socket.on(ACTIONS.LOWER_HAND, (data) => this.handleLowerHand(data));
@@ -53,6 +54,19 @@ export class RoomsHandler {
       console.log(roomId, userId);
       this.joinRoom(roomId, userId, username, role);
     }
+  }
+
+  // TODO: Maybe it will be separate for each room id not global one 
+  // currently this only will work inside the room but not outside when we see all rooms list
+  private async handleUserCount({
+    usersInRoomCount,
+    maxUsersInRoom
+  }: {
+    usersInRoomCount: number;
+    maxUsersInRoom: number;
+  }): Promise<void> {
+    useRoomsStore.getState().setUsersInRoomCount(usersInRoomCount);
+    useRoomsStore.getState().setMaxUsersInRoom(maxUsersInRoom);
   }
 
   private async handleRaiseHand({

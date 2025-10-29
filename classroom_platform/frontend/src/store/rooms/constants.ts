@@ -4,6 +4,8 @@ import type { T_RoomsState } from "./types";
 export const ROOMS_STORE_INITIAL_STATE: T_RoomsState = {
   rooms: MOCK_DATA,
   raisedHands: [],
+  usersInRoomCount: null,
+  maxUsersInRoom: null,
   isConnected: false,
   roomId: null,
   userId: null,

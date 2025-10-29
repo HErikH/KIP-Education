@@ -11,6 +11,8 @@ import {
   useUsername,
   useRaisedHands,
   useUserRole,
+  useUsersInRoomCount,
+  useMaxUsersInRoom,
 } from "@/store/rooms/selectors";
 import type { T_RoomInfo } from "@/helpers/types/rooms";
 
@@ -29,6 +31,8 @@ export const useRoom = () => {
   const localMediaState = useLocalMediaState();
   const localStream = useLocalStream();
   const localScreenStream = useLocalScreenStream();
+  const usersInRoomCount = useUsersInRoomCount();
+  const maxUsersInRoom = useMaxUsersInRoom();
 
   // Actions that get roomId, userId etc... before join room so there is why they get them as attributes
   const checkRoomStatus = async (
@@ -131,6 +135,8 @@ export const useRoom = () => {
     localMediaState,
     localStream,
     localScreenStream,
+    usersInRoomCount,
+    maxUsersInRoom,
 
     // Actions
     checkRoomStatus,
