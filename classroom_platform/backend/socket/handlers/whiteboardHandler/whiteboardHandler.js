@@ -1,4 +1,4 @@
-import { WhiteboardFileModel } from "../../../models/whiteboardFilesModel.js";
+import { WhiteboardFileModel } from "../../../models/index.js";
 import { WHITEBOARD_ACTIONS as ACTIONS } from "./whiteboardActions.js";
 import { MEDIA_BASE_URL } from "../../../config/envConfig.js";
 import { WhiteboardFilesService } from "../../../services/whiteboardFilesService.js";

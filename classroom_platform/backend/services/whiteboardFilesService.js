@@ -1,7 +1,7 @@
 import sharp from "sharp";
 import path from "path";
 import fs from "fs";
-import { WhiteboardFileModel } from "../models/whiteboardFilesModel.js";
+import { WhiteboardFileModel } from "../models/index.js";
 import { UPLOAD_DIR } from "../config/envConfig.js";
 import { FILE_TYPES } from "../helpers/constants/whiteboard.js";
 import { ROOT_DIR } from "../config/rootDir.js";
