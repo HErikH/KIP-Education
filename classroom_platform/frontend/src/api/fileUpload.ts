@@ -1,4 +1,5 @@
 import { whiteboardHandler } from "@/socket/socketServer";
+import axios from "axios";
 
 export async function handleFileUpload(
   file: File,
@@ -11,19 +12,16 @@ export async function handleFileUpload(
     formData.append("file", file);
     formData.append("uploadedBy", String(userId));
 
-    const response = await fetch(
+    const response = await axios.post(
       `${import.meta.env.VITE_BACK_END_PORT}/rooms/${roomId}/upload`,
-      {
-        method: "POST",
-        body: formData,
-      },
+      formData
     );
 
-    if (!response.ok || !roomId) {
+    if (response.status === 500 || !roomId) {
       throw new Error("Upload failed");
     }
 
-    const data = await response.json();
+    const data = response.data;
 
     // Emit file uploaded event via socket
     whiteboardHandler.emitFileUploaded(roomId, data);

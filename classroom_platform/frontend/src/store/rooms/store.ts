@@ -4,6 +4,7 @@ import { ROOMS_STORE_INITIAL_STATE } from "./constants";
 import { devtools } from "zustand/middleware";
 import axios, { type AxiosResponse } from "axios";
 import type { T_RoomInfo } from "@/helpers/types/rooms";
+import type { T_LessonsGroup } from "@/helpers/types/lessons";
 
 export const useRoomsStore = create<T_RoomsStore>()(
   devtools(
@@ -19,6 +20,18 @@ export const useRoomsStore = create<T_RoomsStore>()(
           set({ rooms: result.data }, false, "fetchRooms");
         } catch (error) {
           console.error("Error fetching rooms:", error);
+        }
+      },
+
+      fetchLessons: async () => {
+        try {
+          const result: AxiosResponse<T_LessonsGroup[]> = await axios.get(
+            `${import.meta.env.VITE_BACK_END_PORT}/lessons/get/`,
+          );
+
+          set({ lessons: result.data }, false, "fetchLessons");
+        } catch (error) {
+          console.error("Error fetching lessons:", error);
         }
       },
 

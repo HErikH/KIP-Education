@@ -1,6 +1,7 @@
 import { useRoomsStore } from "./store";
 
 export const useRoomsData = () => useRoomsStore((store) => store.rooms);
+export const useLessonsData = () => useRoomsStore((store) => store.lessons);
 export const useIsConnected = () => useRoomsStore((store) => store.isConnected);
 export const useUsersInRoomCount = () => useRoomsStore((store) => store.usersInRoomCount);
 export const useMaxUsersInRoom = () => useRoomsStore((store) => store.maxUsersInRoom);

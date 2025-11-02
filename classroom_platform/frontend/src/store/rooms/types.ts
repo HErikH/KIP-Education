@@ -1,3 +1,4 @@
+import type { T_LessonsGroup } from "@/helpers/types/lessons";
 import type { T_RaiseHand, T_RoomInfo } from "@/helpers/types/rooms";
 import type {
   Transport,
@@ -9,6 +10,7 @@ import type {
 
 export type T_RoomsState = {
   rooms: T_RoomInfo[];
+  lessons: T_LessonsGroup[];
   raisedHands: T_RaiseHand[];
   usersInRoomCount: number | null;
   maxUsersInRoom: number | null;
@@ -50,6 +52,7 @@ export type T_TransportOptions = {
 
 export type T_RoomsActions = {
   fetchRooms: (userId: number) => void; 
+  fetchLessons: () => void;
   setConnected: (connected: boolean) => void;
   setUsersInRoomCount: (roomId: T_RoomsState["usersInRoomCount"] | null) => void;
   setMaxUsersInRoom: (maxUsersInRoom: T_RoomsState["maxUsersInRoom"] | null) => void;
