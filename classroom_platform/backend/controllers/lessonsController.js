@@ -5,7 +5,7 @@ export class LessonsController {
     try {
       const structure = await LessonsService.getLessonsStructure();
       
-      res.json({ tags: structure });
+      res.json(structure);
     } catch (err) {
       console.error(err);
       res.status(500).json({ error: "Failed to fetch lessons" });
