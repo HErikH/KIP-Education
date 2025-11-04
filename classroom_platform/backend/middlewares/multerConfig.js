@@ -27,7 +27,7 @@ const fileFilter = (req, file, cb) => {
   else
     cb(
       new Error(
-        "Only images (JPEG, PNG, GIF) and (PDF, DOCX) files are allowed",
+        "Only images (JPEG, PNG ) and (PDF) files are allowed",
       ),
     );
 };
