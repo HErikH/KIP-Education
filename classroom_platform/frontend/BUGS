@@ -1,6 +1,8 @@
 BUGS
 
-fix: add <object> tag for support pdf, docx etc...
+<!-- fix: whiteboard cursor change class depending which tool selected -->
+
+<!-- fix: add <object> tag for support pdf, docx etc... -->
 <!-- fix: determine user id and if he already exist in the room do not produce again -->
 <!-- fix: clean up all images from uploads/whiteboard and DB after the last user will leave the room -->
 <!-- fix: clean up all chat from redis after the last user will leave the room -->
@@ -26,6 +28,8 @@ fix: add <object> tag for support pdf, docx etc...
 TODO
 
 feat: add list for upload with the grouped by programs for existing lessons files (endpoint for get lessons) -> give scheme to the claude and tell to create model service controller with the retrieving lessons and rendering on the react side with the folder structure
+
+<!-- style: open whiteboard in the modal not in the main page -->
 
 feat: add react inside php frame and test pass all url params with the PHP
 also understand compatibility with the react router 

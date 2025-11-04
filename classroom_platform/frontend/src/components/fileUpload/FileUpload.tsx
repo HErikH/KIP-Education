@@ -12,6 +12,7 @@ import { ACCEPT_FILES_TYPES } from "@/helpers/constants/whiteboard";
 import { FaTrashAlt } from "react-icons/fa";
 import { whiteboardHandler } from "@/socket/socketServer";
 import "./style.scss";
+import { FolderTree } from "../folderTree/FolderTree";
 
 export function FileUpload() {
   const [isDragging, setIsDragging] = useState(false);
@@ -213,6 +214,8 @@ export function FileUpload() {
           </div>
         </div>
       )}
+
+      <FolderTree />
     </div>
   );
 }

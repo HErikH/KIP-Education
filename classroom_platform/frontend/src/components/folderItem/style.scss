@@ -7,7 +7,7 @@
     gap: 6px;
     cursor: default;
     user-select: none;
-    padding: 3px 4px;
+    padding: 3px 7px;
     border-radius: 4px;
     transition: background-color 0.2s ease;
 
@@ -18,7 +18,7 @@
         background-color: #f5f5f5;
 
         .folder-label {
-          color: black;
+          color: silver;
         }
       }
     }
@@ -45,7 +45,7 @@
 
     .folder-label {
       font-size: 14px;
-      color: white;
+      color: black;
       font-weight: 500;
     }
   }

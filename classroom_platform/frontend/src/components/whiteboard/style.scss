@@ -1,5 +1,4 @@
 .whiteboard {
-  position: absolute;
   display: flex;
   flex-direction: column;
   height: 100vh;
@@ -8,11 +7,6 @@
     height 0.5s ease,
     opacity 0.5s ease;
   // background-color: #f8f9fa;
-
-  &--hidden {
-    height: 0;
-    opacity: 0;
-  }
 
   &__header {
     display: flex;

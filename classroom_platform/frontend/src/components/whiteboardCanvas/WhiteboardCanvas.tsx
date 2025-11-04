@@ -13,6 +13,7 @@ import {
   useStopDrawing,
 } from "@/store/whiteboard/actions";
 import { useRedrawAllPaths } from "@/hooks/useWhiteboard";
+import clsx from "clsx";
 
 interface WhiteboardCanvasProps {
   width?: number;
@@ -35,7 +36,7 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
   const addPoint = useAddPoint();
   const stopDrawing = useStopDrawing();
 
-  const { redrawAllPaths } = useRedrawAllPaths({
+  const { redrawAllPaths, drawingTool } = useRedrawAllPaths({
     canvasRef,
     contextRef,
     width,
@@ -81,7 +82,7 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
       // Redraw all paths
       redrawAllPaths();
     };
-    
+
     img.src = currentFile.url;
   }, [currentFile, width, height]);
 
@@ -130,7 +131,11 @@ export const WhiteboardCanvas: React.FC<WhiteboardCanvasProps> = ({
     <div className="whiteboard-canvas">
       <canvas
         ref={canvasRef}
-        className="whiteboard-canvas__canvas"
+        className={clsx(
+          "whiteboard-canvas__canvas",
+          drawingTool &&
+            `whiteboard-canvas__canvas--${drawingTool.toLowerCase()}`,
+        )}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

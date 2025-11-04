@@ -90,7 +90,7 @@ export function useRedrawAllPaths({
     height,
   ]);
 
-  return { redrawAllPaths };
+  return { redrawAllPaths, drawingTool };
 }
 
 export function handleJoinWhiteboard() {
