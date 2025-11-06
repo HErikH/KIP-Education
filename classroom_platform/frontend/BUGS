@@ -1,6 +1,6 @@
 BUGS
 
-fix: delete all words connected with the docx, pptx also delete from constants and reject from uploading
+<!-- fix: delete all words connected with the docx, pptx also delete from constants and reject from uploading -->
 
 <!-- fix: whiteboard cursor change class depending which tool selected -->
 
