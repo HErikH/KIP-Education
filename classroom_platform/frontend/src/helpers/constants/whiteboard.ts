@@ -1,8 +1,6 @@
 export const FILE_TYPES = [
-  "application/pdf",
-  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-  "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  "application/pdf"
 ];
 
 export const ACCEPT_FILES_TYPES =
-  "image/*,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.presentationml.presentation";
+  "image/*,application/pdf";

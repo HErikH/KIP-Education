@@ -1,5 +1,7 @@
 BUGS
 
+fix: delete all words connected with the docx, pptx also delete from constants and reject from uploading
+
 <!-- fix: whiteboard cursor change class depending which tool selected -->
 
 <!-- fix: add <object> tag for support pdf, docx etc... -->
@@ -28,6 +30,8 @@ BUGS
 TODO
 
 feat: add list for upload with the grouped by programs for existing lessons files (endpoint for get lessons) -> give scheme to the claude and tell to create model service controller with the retrieving lessons and rendering on the react side with the folder structure
+
+feat: add supporting multi pages pdf's drawing
 
 <!-- style: open whiteboard in the modal not in the main page -->
 
