@@ -1,7 +1,7 @@
 <?php // Base URL for accessing all medias from sub domain
 define("MEDIA_BASE_URL", "https://media.kipeducationid.com"); ?>
 <?php // All names of programs be sure that you add new program name here be sure also that it match to the corresponding product group field
-define("ALL_PROGRAM_NAMES", ["K1", "K1_SUMMER_SCHOOL", "K2", "TA1_A0"]); ?>
+define("ALL_PROGRAM_NAMES", ["K1", "K1_SUMMER_SCHOOL", "K2", "TA1_A0", "TA1_A1"]); ?>
 <?php if (strpos($_SERVER["HTTP_HOST"], "localhost") !== false) {
   // Physical path for moving uploaded files
   define("UPLOAD_DIR", ""); 
