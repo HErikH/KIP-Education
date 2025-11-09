@@ -18,3 +18,13 @@ export function attachStream(
     }
   }
 }
+
+export async function fetchUrlAsFile(fileUrl: string, fileName: string) {
+  const res = await fetch(import.meta.env.VITE_MEDIA_BASE_URL + fileUrl);
+  const blob = await res.blob();
+
+  const mime =
+    blob.type || (fileUrl.endsWith(".pdf") ? "application/pdf" : "image/png");
+    
+  return new File([blob], fileName, { type: mime });
+}

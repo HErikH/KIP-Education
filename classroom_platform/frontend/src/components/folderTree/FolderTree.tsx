@@ -3,11 +3,22 @@ import { FolderItem } from "../folderItem/FolderItem";
 import { useFetchLessons } from "@/store/rooms/actions";
 import { useLessonsData } from "@/store/rooms/selectors";
 import "./style.scss";
+import { fetchUrlAsFile } from "@/helpers/functions/utils";
+
+type T_Props = {
+  uploadFile: (file: File) => Promise<void>;
+};
 
 // FIXME: Also maybe access will be closed for students only role teacher as in the ParticipantsList
-export function FolderTree() {
+export function FolderTree({ uploadFile }: T_Props) {
   const data = useLessonsData();
   const fetchLessons = useFetchLessons();
+
+  async function uploadUrlsAsFile(fileUrl: string, fileTitle: string) {
+    const file = await fetchUrlAsFile(fileUrl, fileTitle);
+
+    uploadFile(file);
+  }
 
   useEffect(() => {
     (async () => {
@@ -30,15 +41,14 @@ export function FolderTree() {
               {tag.lessons.map((lesson) => (
                 <FolderItem key={lesson.title} label={lesson.title}>
                   {lesson.files.map((file) => (
-                    <div key={file.file}>
-                      <a
-                        href={file.file}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        {file.title}
-                      </a>
-                    </div>
+                    // TODO: Just load directly inside canvas (save in the redux)
+                    // and then pass through socket io
+                    <button
+                      key={file.file}
+                      onClick={() => uploadUrlsAsFile(file.file, file.title)}
+                    >
+                      {file.title}
+                    </button>
                   ))}
                 </FolderItem>
               ))}

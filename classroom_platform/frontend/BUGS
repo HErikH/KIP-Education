@@ -29,15 +29,16 @@ BUGS
 
 TODO
 
-feat: add list for upload with the grouped by programs for existing lessons files (endpoint for get lessons) -> give scheme to the claude and tell to create model service controller with the retrieving lessons and rendering on the react side with the folder structure
-
-feat: add supporting multi pages pdf's drawing
-
-<!-- style: open whiteboard in the modal not in the main page -->
-
 feat: add react inside php frame and test pass all url params with the PHP
 also understand compatibility with the react router 
 feat: add handling of expires room
+
+feat: add supporting multi pages pdf's drawing
+
+<!-- feat: add list for upload with the grouped by programs for existing lessons files (endpoint for get lessons) -->
+
+<!-- style: open whiteboard in the modal not in the main page -->
+
 <!-- style: chat name also will contain role aka teacher/student  -->
 <!-- feat: add a function to lower the hand of the student from the list on the teacher's side  -->
 <!-- feat: raise hand -->

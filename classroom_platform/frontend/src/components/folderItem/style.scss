@@ -55,5 +55,21 @@
     padding-left: 8px;
     border-left: 1px solid #ddd;
     transition: all 0.2s ease-in-out;
+
+    button {
+      width: 100%;
+      display: block;
+      border: none;
+      outline: none;
+      background: transparent;
+      text-align: left;
+      text-decoration: underline;
+      margin-block: 0.5rem;
+      cursor: pointer;
+
+      &:hover {
+        color: silver;
+      }
+    }
   }
 }

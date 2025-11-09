@@ -146,7 +146,7 @@ export function FileUpload() {
               : "Click to upload or drag and drop"}
           </span>
           <span className="file-upload__hint">
-            Supports: Images (PNG, JPG, GIF) and PDF files
+            Supports: Images (PNG, JPG) and PDF files
           </span>
         </label>
 
@@ -215,7 +215,7 @@ export function FileUpload() {
         </div>
       )}
 
-      <FolderTree />
+      <FolderTree uploadFile={uploadFile} />
     </div>
   );
 }
