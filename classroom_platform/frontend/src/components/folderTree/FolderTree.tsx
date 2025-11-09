@@ -41,8 +41,6 @@ export function FolderTree({ uploadFile }: T_Props) {
               {tag.lessons.map((lesson) => (
                 <FolderItem key={lesson.title} label={lesson.title}>
                   {lesson.files.map((file) => (
-                    // TODO: Just load directly inside canvas (save in the redux)
-                    // and then pass through socket io
                     <button
                       key={file.file}
                       onClick={() => uploadUrlsAsFile(file.file, file.title)}
