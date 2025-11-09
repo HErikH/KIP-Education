@@ -1,6 +1,6 @@
 import path from "path";
 
-const skipFileTypes = ["mp3", "wav", "mp4", "mov", "avi"];
+const skipFileTypes = ["mp3", "wav", "mp4", "mov", "avi", "docx", "pptx"];
 
 export function filterFiles(files) {
   return files.filter((f) => {
