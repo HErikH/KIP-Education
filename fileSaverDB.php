@@ -3,9 +3,11 @@ include "db_connect.php";
 
 // === CONFIG ===
 // Local folder to scan
-$mediaDir = "../../../Downloads/TA1_A1/1. Grammar/10. Question Words";
-$prefixNum = "274";
+$mediaDir =
+  "../../../Downloads/TA1_A2/7. Emotional Intelligence/5. Setting Personal Goals";
+$prefixNum = "337";
 $dbPathPrefix = "/uploads/lessons/$prefixNum"; // path to save in DB
+$destDir = "../uploads/lessons" . DIRECTORY_SEPARATOR . $prefixNum;
 
 $fullPath = realpath($mediaDir);
 if (!$fullPath || !is_dir($fullPath)) {
@@ -105,6 +107,22 @@ $stmt->bind_param(
 );
 $stmt->execute();
 $stmt->close();
+
+// === MOVE FILES ===
+$allFiles = scandir($fullPath);
+
+foreach ($allFiles as $file) {
+  if ($file === "." || $file === ".." || $file === $prefixNum) {
+    continue;
+  }
+
+  $sourcePath = $fullPath . DIRECTORY_SEPARATOR . $file;
+  $destPath = $destDir . DIRECTORY_SEPARATOR . $file;
+
+  if (is_file($sourcePath)) {
+    rename($sourcePath, $destPath); // CUT + MOVE
+  }
+}
 
 echo "✅ Inserted path: \"$prefixNum\" lesson \"$title\" successfully for program \"$program_name\".";
 

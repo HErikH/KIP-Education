@@ -23,8 +23,8 @@ function createFolders($start, $end, $path)
 }
 
 // Example usage
-$start = 213; // Start number
-$end = 273; // End number
+$start = 274; // Start number
+$end = 337; // End number
 $path = "../uploads/lessons"; // Folder where to create the subfolders
 
 // Call the function
