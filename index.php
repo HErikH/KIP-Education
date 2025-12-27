@@ -5,24 +5,27 @@ require_once 'helpers.php';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KIP Education - Lessons</title>
     <link rel="icon" href="<?= addMediaBaseUrl('resource/img/favicon.png') ?>" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"> <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <!-- Font Awesome Icons -->
     <style>
         html {
             position: relative;
             overflow-x: hidden;
         }
+
         /* Body styling */
         body {
             background: linear-gradient(90deg, #4b6cb7 0%, #182848 100%);
             color: white;
             display: flex;
-            flex-direction: column; 
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
@@ -85,19 +88,24 @@ require_once 'helpers.php';
         }
 
         /* Right-side boy image positioned absolutely */
-.right-image {
-    position: absolute;
-    right: -230px; /* Նախկինում -160px էր, ավելի ձախ բերենք */
-    bottom: 0;
-    height: 90%; /* Նույն չափ */
-    width: auto;
-    z-index: 1; /* Պահում ենք նկարը մյուսների վրայից */
-}
+        .right-image {
+            position: absolute;
+            right: -230px;
+            /* Նախկինում -160px էր, ավելի ձախ բերենք */
+            bottom: 0;
+            height: 90%;
+            /* Նույն չափ */
+            width: auto;
+            z-index: 1;
+            /* Պահում ենք նկարը մյուսների վրայից */
+        }
 
 
         /* Hide images on devices with a width of 1024px or less */
         @media (max-width: 1024px) {
-            .left-image, .right-image {
+
+            .left-image,
+            .right-image {
                 display: none;
             }
         }
@@ -165,6 +173,7 @@ require_once 'helpers.php';
         }
     </style>
 </head>
+
 <body>
 
     <?php include "header.php"; ?>
@@ -179,7 +188,8 @@ require_once 'helpers.php';
     </div>
 
     <img src="<?= addMediaBaseUrl('resource/img/girl.webp') ?>" alt="Girl Image" class="left-image">
-    <img src="<?= addMediaBaseUrl('resource/img/boy.webp') ?>" alt="Boy Image" class="right-image"> <!-- Boy image added here -->
+    <img src="<?= addMediaBaseUrl('resource/img/boy.webp') ?>" alt="Boy Image" class="right-image">
+    <!-- Boy image added here -->
 
     <?php include "footer.php"; ?>
 
@@ -200,5 +210,23 @@ require_once 'helpers.php';
         };
     </script>
 
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/JQuery-Snowfall/1.7.4/snowfall.jquery.min.js"
+        integrity="sha512-2lnPnqNBAOffMBUQuPtK4BdPQ44edvBmuJK6fzj/EuAtX/VSW6xkuMrngwyuNkF36IQ+jkllOqLNlZu9PMXh0Q=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+        $(document).ready(function () {
+            const currentDate = new Date();
+            
+            const currentMonth = currentDate.getMonth();
+
+            if (currentMonth === 11 || currentMonth === 0 || currentMonth === 1) {
+                $(document).snowfall({ round: true, maxSpeed: 1, minSize: 5, maxSize: 10 });
+            }
+        });
+    </script>
 </body>
+
 </html>
