@@ -1,5 +1,5 @@
 import { CHAT_HANDLER_ACTIONS as ACTIONS } from "./chatActions.js";
-import { ChatService } from "../../../services/ChatService.js";
+import { ChatService } from "../../../services/chatService.js";
 import { validateMessage } from "../../../helpers/functions/messageValidator.js";
 
 export class ChatHandler {
