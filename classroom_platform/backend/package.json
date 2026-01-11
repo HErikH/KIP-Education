@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "start": "node app.js",
-    "dev": "nodemon app.js"
+    "dev": "nodemon app.js",
+    "prod": "NODE_ENV=production node app.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
