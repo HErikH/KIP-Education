@@ -22,7 +22,7 @@ let DB_CONNECT;
 
     console.log("✅ Database connected");
   } catch (err) {
-    console.error("❌ Connection failed:", error);
+    console.error("❌ Connection failed:", err);
     throw err;
   }
 })();
