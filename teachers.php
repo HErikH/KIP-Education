@@ -82,7 +82,7 @@ foreach ($lessons as $lesson) {
             "Culture" => [],
             "Logic_Math" => [],
             "Art" => [],
-            "Book" => [], // Գրքերի բաժինը նույնպես տեղադրված է, սակայն այն կթաքցնենք
+            "Book" => [],
             "Additional" => [], 
             "Resources_For_Teachers" => [],
             "Performance_Theme" => [],
@@ -922,6 +922,13 @@ $skippedCategories = ['Book', 'Additional', 'Resources_For_Teachers', 'Performan
                     'depth' => 2,
                     'iconColor' => '#B36D6D',
                 ],
+                [
+                    'key' => 'book',
+                    'label' => 'Book',
+                    'data' => $grouped_lessons['Book'][0] ?? [],
+                    'depth' => 2,
+                    'iconColor' => '#7cb070',
+                ]
             ];
             ?>
             <?php
